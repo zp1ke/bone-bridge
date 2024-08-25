@@ -3,28 +3,51 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:bone_bridge/main.dart';
 
+import 'page/home.dart';
+
 void main() {
-  testWidgets('PageA shows on small device width size',
+  testWidgets('Home small shows on small device width size',
       (WidgetTester tester) async {
     tester.view.physicalSize = const Size(400, 200);
     tester.view.devicePixelRatio = 1.0;
 
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const App());
+    // Build app and trigger a frame.
+    await tester.pumpWidget(const App(
+      home: HomeTestPage(),
+    ));
 
-    expect(find.text('PAGE A'), findsOneWidget);
-    expect(find.text('PAGE B'), findsNothing);
+    expect(find.text(HomeTestPage.smallText), findsOneWidget);
+    expect(find.text(HomeTestPage.mediumText), findsNothing);
+    expect(find.text(HomeTestPage.largeText), findsNothing);
   });
 
-  testWidgets('PageB shows on medium device width size',
+  testWidgets('Home medium shows on medium device width size',
       (WidgetTester tester) async {
     tester.view.physicalSize = const Size(800, 200);
     tester.view.devicePixelRatio = 1.0;
 
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const App());
+    // Build app and trigger a frame.
+    await tester.pumpWidget(const App(
+      home: HomeTestPage(),
+    ));
 
-    expect(find.text('PAGE B'), findsOneWidget);
-    expect(find.text('PAGE A'), findsNothing);
+    expect(find.text(HomeTestPage.smallText), findsNothing);
+    expect(find.text(HomeTestPage.mediumText), findsOneWidget);
+    expect(find.text(HomeTestPage.largeText), findsNothing);
+  });
+
+  testWidgets('Home large shows on large device width size',
+      (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(1024, 200);
+    tester.view.devicePixelRatio = 1.0;
+
+    // Build app and trigger a frame.
+    await tester.pumpWidget(const App(
+      home: HomeTestPage(),
+    ));
+
+    expect(find.text(HomeTestPage.smallText), findsNothing);
+    expect(find.text(HomeTestPage.mediumText), findsNothing);
+    expect(find.text(HomeTestPage.largeText), findsOneWidget);
   });
 }
