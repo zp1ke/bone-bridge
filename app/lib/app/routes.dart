@@ -6,6 +6,11 @@ import '../ui/page/page_a/page_a.dart';
 import '../ui/page/page_b/page_b.dart';
 import 'router.dart';
 
+final appRoutes = <AppRoute>[
+  pageRoutePageA,
+  pageRoutePageB
+];
+
 final pageRoutePageA = AppRoute(
   iconData: const IconData(0xf05b1, fontFamily: 'MaterialIcons'),
   path: '/a',

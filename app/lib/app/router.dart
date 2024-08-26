@@ -5,17 +5,12 @@ import '../ui/component/layout.dart';
 import '../ui/page/index.dart';
 import 'routes.dart';
 
-final _routes = <AppRoute>[
-  pageRoutePageA,
-  pageRoutePageB,
-];
-
 // https://pub.dev/documentation/go_router/latest/topics/Configuration-topic.html
 final appRouter = GoRouter(
   routes: [
     ShellRoute(
       builder: (context, state, child) {
-        return AppLayout(routes: _routes, child: child);
+        return AppLayout(routes: appRoutes, child: child);
       },
       routes: [
         GoRoute(
@@ -23,7 +18,7 @@ final appRouter = GoRouter(
           builder: (context, state) {
             return const HomePage();
           },
-          routes: _routes.map((appPage) {
+          routes: appRoutes.map((appPage) {
             final path = appPage.path.startsWith('/')
                 ? appPage.path.substring(1)
                 : appPage.path;
