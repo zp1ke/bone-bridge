@@ -1,10 +1,10 @@
 typedef SelectorBuilder<T, C> = T Function(C context);
 
-class SelectorProvider<T, C, V> {
+class BuilderSelector<T, C, V> {
   final Map<V, SelectorBuilder<T, C>> valuesMap;
   final Comparator<V> comparator;
 
-  SelectorProvider({
+  BuilderSelector({
     required this.valuesMap,
     required this.comparator,
   }) : assert(valuesMap.isNotEmpty);

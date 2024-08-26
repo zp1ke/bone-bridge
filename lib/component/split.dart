@@ -16,11 +16,13 @@ class SplitWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SizedBox(
+        AnimatedContainer(
           width: leftWidth,
+          duration: const Duration(milliseconds: 0),
+          curve: Curves.fastOutSlowIn,
           child: left,
         ),
-        VerticalDivider(width: 1.0, color: Theme.of(context).dividerColor),
+        const VerticalDivider(width: 1.0),
         Expanded(child: center),
       ],
     );

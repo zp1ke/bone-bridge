@@ -1,4 +1,4 @@
-import 'package:bone_bridge/common/selector_provider.dart';
+import 'package:bone_bridge/common/builder_selector.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 typedef StringBuilder = String Function(String context);
@@ -10,7 +10,7 @@ void main() {
     const largeKey = 'LARGE';
     const extraLargeKey = 'EXTRA_LARGE';
 
-    final selectorProvider = SelectorProvider<String, String, double>(
+    final builderSelector = BuilderSelector<String, String, double>(
       valuesMap: <double, StringBuilder>{
         10: (_) => smallKey,
         20: (_) => mediumKey,
@@ -27,7 +27,7 @@ void main() {
       31: extraLargeKey,
     };
     valuesMap.forEach((key, value) {
-      final builder = selectorProvider.builderFor(key);
+      final builder = builderSelector.builderFor(key);
       expect(builder(''), equals(value));
     });
   });
@@ -36,7 +36,7 @@ void main() {
     const smallKey = 'SMALL';
     const largeKey = 'LARGE';
 
-    final selectorProvider = SelectorProvider<String, String, double>(
+    final builderSelector = BuilderSelector<String, String, double>(
       valuesMap: <double, StringBuilder>{
         10: (_) => smallKey,
         30: (_) => largeKey,
@@ -51,7 +51,7 @@ void main() {
       31: largeKey,
     };
     valuesMap.forEach((key, value) {
-      final builder = selectorProvider.builderFor(key);
+      final builder = builderSelector.builderFor(key);
       expect(builder(''), equals(value));
     });
   });
