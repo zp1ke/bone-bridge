@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'app/router.dart';
+import 'app/theme.dart';
 import 'platform/common.dart'
     if (dart.library.html) 'platform/web.dart'
     if (dart.library.io) 'platform/common.dart';
@@ -21,16 +22,13 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const title = 'TODO';
-    final theme = ThemeData(
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
-      useMaterial3: true,
-    );
 
     if (home != null) {
       debugPrint('Using static home');
       return MaterialApp(
         title: title,
-        theme: theme,
+        theme: appTheme.light,
+        darkTheme: appTheme.dark,
         home: home,
       );
     }
@@ -38,7 +36,8 @@ class App extends StatelessWidget {
     debugPrint('Using router');
     return MaterialApp.router(
       title: title,
-      theme: theme,
+      theme: appTheme.light,
+      darkTheme: appTheme.dark,
       routerConfig: appRouter,
     );
   }
