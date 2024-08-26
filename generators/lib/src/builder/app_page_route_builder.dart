@@ -39,14 +39,7 @@ class AppPageRouteBuilder extends Builder {
 
     // ignore: prefer_single_quotes
     return """
-/* GENERATED CODE. DO NOT MODIFY */
-
-// ignore: prefer_relative_imports
-import 'package:app/app/router.dart';
-import 'package:flutter/material.dart';
-
-import '${path.basename(filePath)}';
-
+import '../${filePath.replaceFirst('lib/', '')}';
 final pageRoute$elementName = AppRoute(
   iconData: const IconData(${appPageRoute.iconCode}, fontFamily: 'MaterialIcons'),
   path: '${appPageRoute.path}',

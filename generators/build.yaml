@@ -5,4 +5,13 @@ builders:
     builder_factories: ['appPageRouteBuilder']
     build_extensions: { '.dart': ['.page_route.dart'] }
     auto_apply: dependents
+    build_to: cache
+  app_routes_builder:
+    target: ':app_routes_builder'
+    import: 'package:generators/builder.dart'
+    builder_factories: ['appRoutesBuilder']
+    build_extensions: { $lib$': ['app/routes.dart'] }
+    auto_apply: dependents
     build_to: source
+    required_inputs: ['.page_route.dart']
+    applies_builders: ['generators:app_page_route_builder']

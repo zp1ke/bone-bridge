@@ -15,6 +15,7 @@ dependencies:
   build: any
   source_gen: any
   path: ^1.9.0
+  glob: ^2.1.2
 
 dev_dependencies:
   flutter_test:
