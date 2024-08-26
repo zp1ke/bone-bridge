@@ -37,18 +37,12 @@ Map<double, WidgetBuilder> _buildersMap(
   WidgetBuilder? large,
   WidgetBuilder? extraLarge,
 ) {
-  final buildersMap = <double, WidgetBuilder>{};
-  if (small != null) {
-    buildersMap[smallDeviceMaxWidth] = small;
-  }
-  if (medium != null) {
-    buildersMap[mediumDeviceMaxWidth] = medium;
-  }
-  if (large != null) {
-    buildersMap[largeDeviceMaxWidth] = large;
-  }
-  if (extraLarge != null) {
-    buildersMap[double.maxFinite] = extraLarge;
-  }
-  return buildersMap;
+  final map = <double, WidgetBuilder?>{
+    smallDeviceMaxWidth: small,
+    mediumDeviceMaxWidth: medium,
+    largeDeviceMaxWidth: large,
+    double.maxFinite: extraLarge,
+  };
+  map.removeWhere((_, builder) => builder == null);
+  return map.cast();
 }

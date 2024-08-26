@@ -1,8 +1,9 @@
-import 'package:bone_bridge/component/responsive.dart';
-import 'package:bone_bridge/component/split.dart';
 import 'package:flutter/material.dart';
 
-import '../page/router.dart';
+import '../app/router.dart';
+import 'nav_menu.dart';
+import 'responsive.dart';
+import 'split.dart';
 
 class AppLayout extends StatefulWidget {
   final List<AppRoute> routes;
@@ -32,27 +33,21 @@ class _AppLayoutState extends State<AppLayout> {
   }
 
   Widget body(BuildContext context, {bool withDrawer = false}) {
-    var body = widget.child;
-    if (!withDrawer) {
-      body = SplitWidget(
-        left: menu(menuExpanded),
-        center: body,
-        leftWidth: menuExpanded ? 240 : 52,
-      );
-    }
+    final body = withDrawer
+        ? widget.child
+        : SplitWidget(
+            left: menu(menuExpanded),
+            center: widget.child,
+            leftWidth: menuExpanded ? 240 : 52,
+          );
 
     return Scaffold(
       key: key,
       appBar: AppBar(
         title: const Text('TODO'),
-        elevation: 1,
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: onToggleMenu,
-            );
-          },
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: onToggleMenu,
         ),
       ),
       body: SafeArea(child: body),
@@ -71,67 +66,15 @@ class _AppLayoutState extends State<AppLayout> {
   }
 
   Widget menu(bool expanded) {
-    final selectedPath = context.activeNavPath;
-    debugPrint('Active route: $selectedPath');
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        DrawerHeader(
-          child:
-              expanded ? const Text('Drawer Header') : const Icon(Icons.people),
-        ),
-        menuItem(
-          expanded: expanded,
-          label: 'Home',
-          icon: Icons.home_sharp,
-          path: '/',
-          selected: selectedPath == null || selectedPath == '/',
-          onNavigation: onNavigation,
-        ),
-        const Divider(),
-        ...widget.routes.map((route) {
-          return menuItem(
-            expanded: expanded,
-            label: route.label,
-            icon: route.iconData,
-            path: route.path,
-            selected:
-                selectedPath != null && selectedPath.startsWith(route.path),
-            onNavigation: onNavigation,
-          );
-        }),
-      ],
-    );
-  }
-
-  void onNavigation(String path) {
-    if (key.currentState!.hasDrawer) {
-      key.currentState!.closeDrawer();
-    }
-    context.navTo(path);
-  }
-
-  Widget menuItem({
-    required bool expanded,
-    required String label,
-    required IconData icon,
-    required String path,
-    required bool selected,
-    required Function(String) onNavigation,
-  }) {
-    return Tooltip(
-      message: label,
-      waitDuration: Duration(milliseconds: selected ? 1000 : 600),
-      child: ListTile(
-        selected: selected,
-        leading: expanded ? Icon(icon) : null,
-        title: expanded ? Text(label) : Icon(icon),
-        onTap: !selected
-            ? () {
-                onNavigation(path);
-              }
-            : null,
-      ),
+    return NavMenu(
+      expanded: expanded,
+      routes: widget.routes,
+      onNavigation: (path) {
+        if (key.currentState!.hasDrawer) {
+          key.currentState!.closeDrawer();
+        }
+        context.navTo(path);
+      },
     );
   }
 }

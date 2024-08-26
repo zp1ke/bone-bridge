@@ -1,3 +1,3 @@
-# bone_bridge
+# Bone Bridge
 
 Flutter layout app.

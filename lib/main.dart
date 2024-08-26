@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'page/router.dart';
+import 'app/router.dart';
 import 'platform/common.dart'
     if (dart.library.html) 'platform/web.dart'
     if (dart.library.io) 'platform/common.dart';

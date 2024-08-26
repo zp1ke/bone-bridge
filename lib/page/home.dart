@@ -1,6 +1,7 @@
-import 'package:bone_bridge/component/responsive.dart';
-import 'package:bone_bridge/page/router.dart';
 import 'package:flutter/material.dart';
+
+import '../app/router.dart';
+import '../component/responsive.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

@@ -4,5 +4,6 @@ include: package:flutter_lints/flutter.yaml
 linter:
   # https://dart.dev/lints.
   rules:
-    avoid_print: false
+    avoid_print: true
     prefer_single_quotes: true
+    prefer_relative_imports: true
