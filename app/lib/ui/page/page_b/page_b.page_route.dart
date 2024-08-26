@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'page_b.dart';
 
 final pageRoutePageB = AppRoute(
-  iconData: const IconData(0xf05b1, fontFamily: 'MaterialIcons'),
+  iconData: const IconData(0xe73b, fontFamily: 'MaterialIcons'),
   path: '/b',
   label: 'Page B',
   routeBuilder: (context, state) => const PageB(),

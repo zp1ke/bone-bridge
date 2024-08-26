@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 
 import '../ui/component/layout.dart';
 import '../ui/page/index.dart';
-import '../ui/page/page_a.page_route.dart';
-import '../ui/page/page_b.page_route.dart';
+import '../ui/page/page_a/page_a.page_route.dart';
+import '../ui/page/page_b/page_b.page_route.dart';
 
 // https://pedromarquez.dev/blog/2022/9/flutter-code-gen-2
 final _routes = <AppRoute>[
