@@ -5,8 +5,18 @@ import 'package:go_router/go_router.dart';
 import '../component/layout.dart';
 
 final _routes = <AppRoute>[
-  AppRoute(path: PageA.path, routeBuilder: (context, state) => const PageA()),
-  AppRoute(path: PageB.path, routeBuilder: (context, state) => const PageB()),
+  AppRoute(
+    iconData: Icons.pages_sharp,
+    path: PageA.path,
+    label: 'Page A',
+    routeBuilder: (context, state) => const PageA(),
+  ),
+  AppRoute(
+    iconData: Icons.adb_sharp,
+    path: PageB.path,
+    label: 'Page B',
+    routeBuilder: (context, state) => const PageB(),
+  ),
 ];
 
 // https://pub.dev/documentation/go_router/latest/topics/Configuration-topic.html
@@ -14,7 +24,7 @@ final appRouter = GoRouter(
   routes: [
     ShellRoute(
       builder: (context, state, child) {
-        return AppLayout(child: child);
+        return AppLayout(routes: _routes, child: child);
       },
       routes: [
         GoRoute(
@@ -42,11 +52,22 @@ extension GoRouterHelper on BuildContext {
   void navTo(String location, {Object? extra}) {
     GoRouter.of(this).go(location, extra: extra);
   }
+
+  String? get activeNavPath {
+    return GoRouterState.of(this).fullPath;
+  }
 }
 
 class AppRoute {
+  final IconData iconData;
   final String path;
+  final String label;
   final GoRouterWidgetBuilder routeBuilder;
 
-  AppRoute({required this.path, required this.routeBuilder});
+  AppRoute({
+    required this.iconData,
+    required this.path,
+    required this.label,
+    required this.routeBuilder,
+  });
 }
