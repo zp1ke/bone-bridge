@@ -11,6 +11,7 @@ void main() {
   runApp(const App());
 }
 
+// TODO: https://docs.flutter.dev/ui/accessibility-and-internationalization/internationalization
 class App extends StatelessWidget {
   const App({
     super.key,

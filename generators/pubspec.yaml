@@ -1,0 +1,25 @@
+name: generators
+description: 'Generators project.'
+version: 0.0.1
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.4.4 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  annotations:
+    path: ../annotations/
+  analyzer: ^6.4.1
+  build: any
+  source_gen: any
+  path: ^1.9.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: any
+  flutter_lints: ^4.0.0
+
+flutter:

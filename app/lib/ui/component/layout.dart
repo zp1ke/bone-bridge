@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../app/router.dart';
+import '../../app/router.dart';
 import 'nav_menu.dart';
 import 'responsive.dart';
 import 'split.dart';

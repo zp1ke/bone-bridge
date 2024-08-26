@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../component/layout.dart';
-import '../page/index.dart';
+import '../ui/component/layout.dart';
+import '../ui/page/index.dart';
+import '../ui/page/page_a.page_route.dart';
+import '../ui/page/page_b.page_route.dart';
 
+// https://pedromarquez.dev/blog/2022/9/flutter-code-gen-2
 final _routes = <AppRoute>[
-  AppRoute(
-    iconData: Icons.pages_sharp,
-    path: PageA.path,
-    label: 'Page A',
-    routeBuilder: (context, state) => const PageA(),
-  ),
-  AppRoute(
-    iconData: Icons.adb_sharp,
-    path: PageB.path,
-    label: 'Page B',
-    routeBuilder: (context, state) => const PageB(),
-  ),
+  pageRoutePageA,
+  pageRoutePageB,
 ];
 
 // https://pub.dev/documentation/go_router/latest/topics/Configuration-topic.html

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:bone_bridge/main.dart';
+import 'package:app/main.dart';
 
-import 'page/home.dart';
+import 'ui/page/home.dart';
 
 void main() {
   testWidgets('Home small shows on small device width size',

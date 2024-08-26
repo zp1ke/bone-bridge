@@ -1,4 +1,4 @@
-import 'package:bone_bridge/common/builder_selector.dart';
+import 'package:app/common/builder_selector.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 typedef StringBuilder = String Function(String context);

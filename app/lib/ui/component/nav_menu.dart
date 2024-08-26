@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../app/router.dart';
+import '../../app/router.dart';
 
 class NavMenu extends StatelessWidget {
   final bool expanded;

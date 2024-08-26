@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../common/builder_selector.dart';
+import '../../common/builder_selector.dart';
 
 const smallDeviceMaxWidth = 640.0;
 const mediumDeviceMaxWidth = 992.0;

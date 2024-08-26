@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../app/router.dart';
+import '../../app/router.dart';
 import '../component/responsive.dart';
 
 class HomePage extends StatelessWidget {
@@ -25,9 +25,12 @@ class HomePage extends StatelessWidget {
 
   Widget _large(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('HOME PAGE LARGE!'),
-        const Divider(),
+        const Padding(
+          padding: EdgeInsets.only(bottom: 10.0),
+          child: Text('HOME PAGE LARGE!'),
+        ),
         TextButton(
             onPressed: () {
               context.navTo('/a');

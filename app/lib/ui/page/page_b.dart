@@ -1,8 +1,8 @@
+import 'package:annotations/annotations.dart';
 import 'package:flutter/widgets.dart';
 
+@AppPageRoute(path: '/b', label: 'Page B', iconCode: '0xe73b')
 class PageB extends StatelessWidget {
-  static const path = '/b';
-
   const PageB({super.key});
 
   @override
