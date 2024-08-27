@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/l10n.dart';
 
 import 'app/router.dart';
 import 'app/theme.dart';
@@ -11,7 +12,6 @@ void main() {
   runApp(const App());
 }
 
-// TODO: https://docs.flutter.dev/ui/accessibility-and-internationalization/internationalization
 class App extends StatelessWidget {
   const App({
     super.key,
@@ -22,23 +22,27 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const title = 'TODO';
+    title(context) => L10n.of(context).appTitle;
 
     if (home != null) {
       debugPrint('Using static home');
       return MaterialApp(
-        title: title,
+        onGenerateTitle: title,
         theme: appTheme.light,
         darkTheme: appTheme.dark,
+        localizationsDelegates: L10n.localizationsDelegates,
+        supportedLocales: L10n.supportedLocales,
         home: home,
       );
     }
 
     debugPrint('Using router');
     return MaterialApp.router(
-      title: title,
+      onGenerateTitle: title,
       theme: appTheme.light,
       darkTheme: appTheme.dark,
+      localizationsDelegates: L10n.localizationsDelegates,
+      supportedLocales: L10n.supportedLocales,
       routerConfig: appRouter,
     );
   }

@@ -10,22 +10,26 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   flutter_web_plugins:
     sdk: flutter
   annotations:
     path: ../annotations/
   cupertino_icons: ^1.0.8
-  go_router: ^14.2.7
   flex_color_scheme: ^7.3.1
+  go_router: ^14.2.7
+  intl: any
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner:
+  build_runner: any
   flutter_lints: ^4.0.0
   generators:
     path: ../generators/
   test: any
 
 flutter:
+  generate: true
   uses-material-design: true
