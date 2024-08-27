@@ -1,7 +1,6 @@
+import 'package:app/app/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:app/main.dart';
 
 import 'ui/page/home.dart';
 

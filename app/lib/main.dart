@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:provider/provider.dart';
 
-import 'app/router.dart';
-import 'app/theme.dart';
+import 'app/app.dart';
+import 'common/impl/dummy_json_service.dart';
 import 'model/auth.dart';
 import 'platform/common.dart'
     if (dart.library.html) 'platform/web.dart'
@@ -11,48 +10,18 @@ import 'platform/common.dart'
 
 void main() {
   setupPlatform();
+  final dummyJsonService = DummyJsonService();
+
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => AuthState(null)),
+        ChangeNotifierProvider(
+          create: (context) => AuthState(
+            authService: dummyJsonService,
+          ),
+        ),
       ],
       child: const App(),
     ),
   );
-}
-
-class App extends StatelessWidget {
-  const App({
-    super.key,
-    this.home,
-  });
-
-  final Widget? home;
-
-  @override
-  Widget build(BuildContext context) {
-    title(context) => L10n.of(context).appTitle;
-
-    if (home != null) {
-      debugPrint('Using static home');
-      return MaterialApp(
-        onGenerateTitle: title,
-        theme: appTheme.light,
-        darkTheme: appTheme.dark,
-        localizationsDelegates: L10n.localizationsDelegates,
-        supportedLocales: L10n.supportedLocales,
-        home: home,
-      );
-    }
-
-    debugPrint('Using router');
-    return MaterialApp.router(
-      onGenerateTitle: title,
-      theme: appTheme.light,
-      darkTheme: appTheme.dark,
-      localizationsDelegates: L10n.localizationsDelegates,
-      supportedLocales: L10n.supportedLocales,
-      routerConfig: appRouter,
-    );
-  }
 }

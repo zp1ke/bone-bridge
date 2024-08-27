@@ -2,26 +2,27 @@ import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:provider/provider.dart';
 
-import '../common/route_path.dart';
+import '../app/route_path.dart';
+import '../common/auth_service.dart';
 import 'user.dart';
 
 part 'auth.g.dart';
 
 class AuthState extends ChangeNotifier {
+  final AuthService _authService;
   Auth? _auth;
 
   static AuthState of(BuildContext context, {bool listen = false}) {
     return Provider.of<AuthState>(context, listen: listen);
   }
 
-  AuthState(this._auth);
+  AuthState({
+    required AuthService authService,
+    Auth? auth,
+  })  : _auth = auth,
+        _authService = authService;
 
   Auth? get auth => _auth;
-
-  set auth(Auth? value) {
-    _auth = value;
-    notifyListeners();
-  }
 
   RoutePath? redirectPathFor(RoutePath? path) {
     final routeIsAnonymous = path?.anonymous ?? false;
@@ -32,6 +33,21 @@ class AuthState extends ChangeNotifier {
     }
     return null;
   }
+
+  Future authenticate(Credentials credentials) async {
+    _auth = await _authService.authenticate(credentials);
+    notifyListeners();
+  }
+}
+
+class UsernamePasswordCredentials implements Credentials {
+  final String username;
+  final String password;
+
+  UsernamePasswordCredentials({
+    required this.username,
+    required this.password,
+  });
 }
 
 @JsonSerializable()
