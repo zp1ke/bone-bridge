@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
+import 'package:provider/provider.dart';
 
 import 'app/router.dart';
 import 'app/theme.dart';
+import 'model/auth.dart';
 import 'platform/common.dart'
     if (dart.library.html) 'platform/web.dart'
     if (dart.library.io) 'platform/common.dart';
 
 void main() {
   setupPlatform();
-  runApp(const App());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthState(null)),
+      ],
+      child: const App(),
+    ),
+  );
 }
 
 class App extends StatelessWidget {

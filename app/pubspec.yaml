@@ -20,6 +20,8 @@ dependencies:
   flex_color_scheme: ^7.3.1
   go_router: ^14.2.7
   intl: any
+  json_annotation: ^4.9.0
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
@@ -28,6 +30,7 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   generators:
     path: ../generators/
+  json_serializable: ^6.8.0
   test: any
 
 flutter:

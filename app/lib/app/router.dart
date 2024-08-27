@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../common/route_path.dart';
+import '../model/auth.dart';
 import '../ui/component/layout.dart';
 import '../ui/page/index.dart';
 import 'routes.dart';
@@ -8,13 +10,19 @@ import 'routes.dart';
 // https://pub.dev/documentation/go_router/latest/topics/Configuration-topic.html
 final appRouter = GoRouter(
   routes: [
+    GoRoute(
+      path: RoutePath.signIn.path,
+      builder: (context, state) {
+        return const SignInPage();
+      },
+    ),
     ShellRoute(
       builder: (context, state, child) {
         return AppLayout(routes: appRoutes, child: child);
       },
       routes: [
         GoRoute(
-          path: '/',
+          path: RoutePath.home.path,
           builder: (context, state) {
             return const HomePage();
           },
@@ -30,6 +38,11 @@ final appRouter = GoRouter(
           }).toList(),
         ),
       ],
+      redirect: (context, state) async {
+        final routePath = RoutePath.parse(state.matchedLocation);
+        final redirectPath = AuthState.of(context).redirectPathFor(routePath);
+        return redirectPath?.path;
+      },
     ),
   ],
 );

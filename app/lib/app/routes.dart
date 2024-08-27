@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-import '../ui/page/page_a/page_a.dart';
-import '../ui/page/page_b/page_b.dart';
+import '../ui/page/page_a.dart';
+import '../ui/page/page_b.dart';
 import 'router.dart';
 
 final appRoutes = <AppRoute>[
