@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../app/route_path.dart';
-import '../common/auth_service.dart';
+import '../service/auth_service.dart';
 import 'user.dart';
 
 abstract class Auth extends User {

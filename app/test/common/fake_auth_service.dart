@@ -1,5 +1,5 @@
-import 'package:app/common/auth_service.dart';
 import 'package:app/model/auth.dart';
+import 'package:app/service/auth_service.dart';
 
 class EmptyCredentials implements Credentials {}
 
