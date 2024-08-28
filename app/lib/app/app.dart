@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 
+import '../common/logger.dart';
 import 'router.dart';
 import 'theme.dart';
 
@@ -17,7 +18,7 @@ class App extends StatelessWidget {
     title(context) => L10n.of(context).appTitle;
 
     if (home != null) {
-      debugPrint('Using static home');
+      logDebug('Using static home', name: 'app/app');
       return MaterialApp(
         onGenerateTitle: title,
         theme: appTheme.light,
@@ -28,7 +29,7 @@ class App extends StatelessWidget {
       );
     }
 
-    debugPrint('Using router');
+    logDebug('Using router', name: 'app/app');
     return MaterialApp.router(
       onGenerateTitle: title,
       theme: appTheme.light,

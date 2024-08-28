@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../app/router.dart';
+import '../../common/logger.dart';
 import '../common/icon.dart';
 
 class NavMenu extends StatelessWidget {
@@ -18,7 +19,7 @@ class NavMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectedPath = context.activeNavPath;
-    debugPrint('Active route: $selectedPath');
+    logDebug('Active route: $selectedPath', name: 'ui/component/nav_menu');
     return ListView(
       padding: EdgeInsets.zero,
       children: [

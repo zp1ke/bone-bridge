@@ -28,7 +28,7 @@ class DummyJsonService implements AuthService {
       'password': credentials.password,
     });
     if (response.isSuccessful) {
-      return response.body!;
+      return Auth.fromJson(response.body!);
     }
 
     // TODO: throw proper error
@@ -42,5 +42,5 @@ abstract class _ChopperAuthService extends ChopperService {
       _$_ChopperAuthService(client);
 
   @Post(path: '/login')
-  Future<Response<Auth>> login(@Body() Map<String, dynamic> body);
+  Future<Response> login(@Body() Map<String, dynamic> body);
 }

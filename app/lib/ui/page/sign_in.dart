@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/l10n.dart';
 
 import '../../app/route_path.dart';
 import '../../app/router.dart';
+import '../../common/logger.dart';
 import '../../model/auth.dart';
 import '../common/alert.dart';
 import '../common/icon.dart';
@@ -90,7 +91,7 @@ class _SignInPageState extends State<SignInPage> {
         icon: const Icon(AppIcons.password),
         suffixIcon: togglePasswordButton(context),
       ),
-      textInputAction: TextInputAction.done,
+      textInputAction: TextInputAction.go,
       validator: (value) {
         if (value == null || value.length < 2) {
           return L10n.of(context).invalidTextLength(2);
@@ -151,14 +152,19 @@ class _SignInPageState extends State<SignInPage> {
       if (context.mounted) {
         context.navToPath(RoutePath.home);
       }
-    } catch (e) {
-      debugPrint(e.toString());
-      setState(() {
-        processing = false;
-      });
+    } catch (e, stack) {
+      logError(
+        'Error signing in',
+        name: 'ui/page/sign_in',
+        error: e,
+        stack: stack,
+      );
       if (context.mounted) {
         showError(context, 'TODO ERROR SIGN_IN = $e');
       }
+      setState(() {
+        processing = false;
+      });
     }
   }
 }

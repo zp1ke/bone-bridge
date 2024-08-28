@@ -1,6 +1,5 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 // https://master--628d031b55e942004ac95df1.chromatic.com/?path=/docs/icons-catalog--page
 // https://fonts.google.com/icons

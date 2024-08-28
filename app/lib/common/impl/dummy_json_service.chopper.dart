@@ -18,7 +18,7 @@ final class _$_ChopperAuthService extends _ChopperAuthService {
   final Type definitionType = _ChopperAuthService;
 
   @override
-  Future<Response<Auth>> login(Map<String, dynamic> body) {
+  Future<Response<dynamic>> login(Map<String, dynamic> body) {
     final Uri $url = Uri.parse('/auth/login');
     final $body = body;
     final Request $request = Request(
@@ -27,6 +27,6 @@ final class _$_ChopperAuthService extends _ChopperAuthService {
       client.baseUrl,
       body: $body,
     );
-    return client.send<Auth, Auth>($request);
+    return client.send<dynamic, dynamic>($request);
   }
 }

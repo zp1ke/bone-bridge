@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../common/logger.dart';
 import 'route_path.dart';
 import '../model/auth.dart';
 import '../ui/component/layout.dart';
@@ -30,7 +31,7 @@ final appRouter = GoRouter(
             final path = appPage.path.startsWith('/')
                 ? appPage.path.substring(1)
                 : appPage.path;
-            debugPrint('Adding route /$path');
+            logDebug('Adding route /$path', name: 'app/router');
             return GoRoute(
               path: path,
               builder: appPage.routeBuilder,
