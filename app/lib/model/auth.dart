@@ -1,12 +1,15 @@
 import 'package:flutter/widgets.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:provider/provider.dart';
 
 import '../app/route_path.dart';
 import '../common/auth_service.dart';
 import 'user.dart';
 
-part 'auth.g.dart';
+abstract class Auth extends User {
+  String get token;
+
+  String get refreshToken;
+}
 
 class AuthState extends ChangeNotifier {
   final AuthService _authService;
@@ -38,36 +41,4 @@ class AuthState extends ChangeNotifier {
     _auth = await _authService.authenticate(credentials);
     notifyListeners();
   }
-}
-
-class UsernamePasswordCredentials implements Credentials {
-  final String username;
-  final String password;
-
-  UsernamePasswordCredentials({
-    required this.username,
-    required this.password,
-  });
-}
-
-@JsonSerializable()
-class Auth extends User {
-  final String token;
-  final String refreshToken;
-
-  Auth({
-    required super.id,
-    required super.email,
-    required super.username,
-    super.firstName,
-    super.lastName,
-    super.image,
-    required this.token,
-    required this.refreshToken,
-  });
-
-  factory Auth.fromJson(Map<String, dynamic> json) => _$AuthFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() => _$AuthToJson(this);
 }

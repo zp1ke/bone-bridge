@@ -4,7 +4,7 @@ import 'package:app/model/auth.dart';
 class EmptyCredentials implements Credentials {}
 
 class FakeAuthService implements AuthService {
-  final Auth auth = Auth(
+  final Auth auth = FakeAuth(
     id: 1,
     email: 'test@mail.com',
     username: 'username',
@@ -16,4 +16,41 @@ class FakeAuthService implements AuthService {
   Future<Auth> authenticate(Credentials credentials) {
     return Future.value(auth);
   }
+}
+
+class FakeAuth implements Auth {
+  @override
+  final String email;
+
+  @override
+  final String? firstName;
+
+  @override
+  int id;
+
+  @override
+  final String? image;
+
+  @override
+  final String? lastName;
+
+  @override
+  final String refreshToken;
+
+  @override
+  final String token;
+
+  @override
+  final String username;
+
+  FakeAuth({
+    required this.email,
+    this.firstName,
+    required this.id,
+    this.image,
+    this.lastName,
+    required this.refreshToken,
+    required this.token,
+    required this.username,
+  });
 }

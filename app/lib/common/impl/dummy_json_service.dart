@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:chopper/chopper.dart';
+import 'package:json_annotation/json_annotation.dart' as json_annot;
 
 import '../../model/auth.dart';
+import '../../model/user.dart';
 import '../auth_service.dart';
 
 part 'dummy_json_service.chopper.dart';
+part 'dummy_json_service.g.dart';
 
 // https://dummyjson.com/docs
 class DummyJsonService implements AuthService {
@@ -28,7 +31,7 @@ class DummyJsonService implements AuthService {
       'password': credentials.password,
     });
     if (response.isSuccessful) {
-      return Auth.fromJson(response.body!);
+      return _Auth.fromJson(response.body!);
     }
 
     // TODO: throw proper error
@@ -43,4 +46,55 @@ abstract class _ChopperAuthService extends ChopperService {
 
   @Post(path: '/login')
   Future<Response> login(@Body() Map<String, dynamic> body);
+}
+
+@json_annot.JsonSerializable()
+class _User implements User {
+  @override
+  final int id;
+  @override
+  final String email;
+  @override
+  final String username;
+  @override
+  final String? firstName;
+  @override
+  final String? lastName;
+  @override
+  final String? image;
+
+  _User({
+    required this.id,
+    required this.email,
+    required this.username,
+    this.firstName,
+    this.lastName,
+    this.image,
+  });
+
+  Map<String, dynamic> toJson() => _$UserToJson(this);
+}
+
+@json_annot.JsonSerializable()
+class _Auth extends _User implements Auth {
+  @override
+  final String token;
+  @override
+  final String refreshToken;
+
+  _Auth({
+    required super.id,
+    required super.email,
+    required super.username,
+    super.firstName,
+    super.lastName,
+    super.image,
+    required this.token,
+    required this.refreshToken,
+  });
+
+  factory _Auth.fromJson(Map<String, dynamic> json) => _$AuthFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$AuthToJson(this);
 }
