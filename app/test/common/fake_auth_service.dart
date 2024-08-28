@@ -16,6 +16,11 @@ class FakeAuthService implements AuthService {
   Future<Auth> authenticate(Credentials credentials) {
     return Future.value(auth);
   }
+
+  @override
+  Auth? parse(Map<String, dynamic> authMap) {
+    return auth;
+  }
 }
 
 class FakeAuth implements Auth {
@@ -53,4 +58,7 @@ class FakeAuth implements Auth {
     required this.token,
     required this.username,
   });
+
+  @override
+  String get asJson => username;
 }

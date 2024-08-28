@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:chopper/chopper.dart';
 import 'package:json_annotation/json_annotation.dart' as json_annot;
@@ -37,6 +38,11 @@ class DummyJsonService implements AuthService {
     // TODO: throw proper error
     throw response.error ?? response.statusCode;
   }
+
+  @override
+  Auth? parse(Map<String, dynamic> authMap) {
+    return _Auth.fromJson(authMap);
+  }
 }
 
 @ChopperApi(baseUrl: '/auth')
@@ -73,6 +79,9 @@ class _User implements User {
   });
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
+
+  @override
+  String get asJson => jsonEncode(toJson());
 }
 
 @json_annot.JsonSerializable()
@@ -97,4 +106,7 @@ class _Auth extends _User implements Auth {
 
   @override
   Map<String, dynamic> toJson() => _$AuthToJson(this);
+
+  @override
+  String get asJson => jsonEncode(toJson());
 }

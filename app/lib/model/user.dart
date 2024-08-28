@@ -10,4 +10,6 @@ abstract class User {
   String? get lastName;
 
   String? get image;
+
+  String get asJson;
 }
