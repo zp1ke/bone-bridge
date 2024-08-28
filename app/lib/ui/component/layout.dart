@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/l10n.dart';
 
 import '../../app/router.dart';
 import '../common/icon.dart';
@@ -45,7 +46,7 @@ class _AppLayoutState extends State<AppLayout> {
     return Scaffold(
       key: key,
       appBar: AppBar(
-        title: const Text('TODO'),
+        title: Text(L10n.of(context).appTitle),
         leading: IconButton(
           icon: const Icon(AppIcons.menu),
           onPressed: onToggleMenu,

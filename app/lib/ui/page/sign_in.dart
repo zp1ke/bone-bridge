@@ -28,9 +28,10 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Center(
+    return Scaffold(
+      appBar: AppBar(title: Text(L10n.of(context).appTitle)),
+      body: SafeArea(
+        child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(minWidth: 200, maxWidth: 450),
             child: body(context),
