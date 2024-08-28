@@ -11,6 +11,7 @@ part 'dummy_json_service.chopper.dart';
 class DummyJsonService implements AuthService {
   final _chopper = ChopperClient(
     baseUrl: Uri.https('dummyjson.com'),
+    converter: const JsonConverter(),
     services: [_ChopperAuthService.create()],
   );
 
@@ -31,10 +32,7 @@ class DummyJsonService implements AuthService {
     }
 
     // TODO: throw proper error
-    throw {
-      'code': response.statusCode,
-      'message': response.error,
-    };
+    throw response.error ?? response.statusCode;
   }
 }
 

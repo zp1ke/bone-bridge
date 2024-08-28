@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../app/router.dart';
+import '../common/icon.dart';
 import 'nav_menu.dart';
 import 'responsive.dart';
 import 'split.dart';
@@ -46,7 +47,7 @@ class _AppLayoutState extends State<AppLayout> {
       appBar: AppBar(
         title: const Text('TODO'),
         leading: IconButton(
-          icon: const Icon(Icons.menu),
+          icon: const Icon(AppIcons.menu),
           onPressed: onToggleMenu,
         ),
       ),

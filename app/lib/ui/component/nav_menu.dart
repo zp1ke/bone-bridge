@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../app/router.dart';
+import '../common/icon.dart';
 
 class NavMenu extends StatelessWidget {
   final bool expanded;
@@ -22,13 +23,14 @@ class NavMenu extends StatelessWidget {
       padding: EdgeInsets.zero,
       children: [
         DrawerHeader(
-          child:
-              expanded ? const Text('Drawer Header') : const Icon(Icons.people),
+          child: expanded
+              ? const Text('TODO Drawer Header')
+              : const Icon(AppIcons.user),
         ),
         _menuItem(
           expanded: expanded,
           label: 'Home',
-          icon: Icons.home_sharp,
+          icon: AppIcons.home,
           path: '/',
           selected: selectedPath == null || selectedPath == '/',
           onNavigation: onNavigation,

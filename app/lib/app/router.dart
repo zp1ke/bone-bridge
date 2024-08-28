@@ -52,6 +52,10 @@ extension GoRouterHelper on BuildContext {
     GoRouter.of(this).go(location, extra: extra);
   }
 
+  void navToPath(RoutePath routePath, {Object? extra}) {
+    GoRouter.of(this).go(routePath.path, extra: extra);
+  }
+
   String? get activeNavPath {
     return GoRouterState.of(this).fullPath;
   }
