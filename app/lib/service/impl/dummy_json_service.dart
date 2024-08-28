@@ -55,7 +55,7 @@ abstract class _ChopperAuthService extends ChopperService {
 }
 
 @json_annot.JsonSerializable()
-class _User implements User {
+class _User extends User {
   @override
   final int id;
   @override

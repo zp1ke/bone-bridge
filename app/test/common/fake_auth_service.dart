@@ -23,7 +23,7 @@ class FakeAuthService implements AuthService {
   }
 }
 
-class FakeAuth implements Auth {
+class FakeAuth extends Auth {
   @override
   final String email;
 

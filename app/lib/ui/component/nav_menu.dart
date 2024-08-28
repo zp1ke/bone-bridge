@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../app/router.dart';
 import '../../common/logger.dart';
+import '../../model/auth.dart';
 import '../common/icon.dart';
 
 class NavMenu extends StatelessWidget {
@@ -23,10 +25,56 @@ class NavMenu extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.zero,
       children: [
-        DrawerHeader(
-          child: expanded
-              ? const Text('TODO Drawer Header')
-              : const Icon(AppIcons.user),
+        Consumer<AuthState>(
+          builder: (context, authState, _) {
+            final auth = authState.auth!;
+            final textColor = Theme.of(context).colorScheme.onPrimaryContainer;
+            return UserAccountsDrawerHeader(
+              accountName: expanded
+                  ? Text(
+                      auth.fullName ?? auth.username,
+                      textScaler: const TextScaler.linear(0.9),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: textColor,
+                      ),
+                    )
+                  : null,
+              accountEmail: expanded
+                  ? Text(
+                      auth.email,
+                      textScaler: const TextScaler.linear(0.8),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: textColor,
+                      ),
+                    )
+                  : null,
+              currentAccountPicture: auth.image != null
+                  //? CircleAvatar(backgroundImage: NetworkImage(auth.image!))
+                  ? AnimatedContainer(
+                      width: expanded ? 130 : 16,
+                      height: expanded ? 130 : 16,
+                      duration: const Duration(milliseconds: 250),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: textColor,
+                        image: DecorationImage(
+                          image: NetworkImage(auth.image!),
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
+                    )
+                  : null,
+              arrowColor: Theme.of(context).primaryColor,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryContainer,
+              ),
+            );
+          },
+          child: const Center(
+            child: CircularProgressIndicator.adaptive(),
+          ),
         ),
         _menuItem(
           expanded: expanded,

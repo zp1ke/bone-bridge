@@ -9,6 +9,13 @@ abstract class User {
 
   String? get lastName;
 
+  String? get fullName {
+    if (firstName != null || lastName != null) {
+      return '${firstName ?? ''} ${lastName ?? ''}'.trim();
+    }
+    return null;
+  }
+
   String? get image;
 
   String get asJson;

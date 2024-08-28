@@ -13,7 +13,7 @@ class AppIcons {
   static const Widget loadingSmall = SizedBox(
     height: 18,
     width: 18,
-    child: CircularProgressIndicator(),
+    child: CircularProgressIndicator.adaptive(),
   );
 
   static const IconData menu = FluentIcons.navigation_24_filled;

@@ -1,7 +1,7 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
-const _scheme = FlexScheme.espresso;
+const _scheme = FlexScheme.hippieBlue;
 const _surfaceMode = FlexSurfaceMode.levelSurfacesLowScaffold;
 final _visualDensity = FlexColorScheme.comfortablePlatformDensity;
 
