@@ -82,4 +82,9 @@ class AuthState extends ChangeNotifier {
     await _storageService.saveString(key: _userJsonKey, value: authJson);
     notifyListeners();
   }
+
+  Future signOut() async {
+    await _storageService.clear();
+    notifyListeners();
+  }
 }

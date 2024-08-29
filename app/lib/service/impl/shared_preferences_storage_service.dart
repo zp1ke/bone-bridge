@@ -19,4 +19,9 @@ class SharedPreferencesStorageService implements StorageService {
     }
     return _asyncPrefs.remove(key);
   }
+
+  @override
+  Future clear() {
+    return _asyncPrefs.clear();
+  }
 }

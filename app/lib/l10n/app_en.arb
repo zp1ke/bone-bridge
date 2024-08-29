@@ -1,5 +1,8 @@
 {
+  "@@locale": "en",
   "appTitle": "Bone Bridge",
+  "cancel": "Cancel",
+  "home": "Home",
   "invalidTextLength": "Must be at least {minLength} characters length.",
   "@invalidTextLength": {
     "placeholders": {
@@ -8,7 +11,10 @@
       }
     }
   },
+  "ok": "Ok",
   "password": "Password",
   "signIn": "Sign In",
+  "signOut": "Sign Out",
+  "signOutConfirmation": "Confirm to sign out.",
   "username": "Username"
 }

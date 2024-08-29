@@ -17,4 +17,10 @@ class MemoryStorageService implements StorageService {
     }
     return Future.value(null);
   }
+
+  @override
+  Future clear() {
+    _map.clear();
+    return Future.value(null);
+  }
 }

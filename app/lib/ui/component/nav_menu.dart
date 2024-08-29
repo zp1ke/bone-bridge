@@ -1,11 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:provider/provider.dart';
 
+import '../../app/route_path.dart';
 import '../../app/router.dart';
 import '../../common/logger.dart';
 import '../../model/auth.dart';
+import '../common/alert.dart';
 import '../common/icon.dart';
 
 class NavMenu extends StatelessWidget {
@@ -24,6 +25,13 @@ class NavMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final selectedPath = context.activeNavPath;
     logDebug('Active route: $selectedPath', name: 'ui/component/nav_menu');
+
+    final signOutColor = Theme.of(context).colorScheme.error;
+    final signOutIcon = Icon(
+      AppIcons.signOut,
+      color: signOutColor,
+    );
+
     return ListView(
       padding: EdgeInsets.zero,
       children: [
@@ -37,7 +45,7 @@ class NavMenu extends StatelessWidget {
         ),
         _menuItem(
           expanded: expanded,
-          label: 'Home',
+          label: L10n.of(context).home,
           icon: AppIcons.home,
           path: '/',
           selected: selectedPath == null || selectedPath == '/',
@@ -55,6 +63,21 @@ class NavMenu extends StatelessWidget {
             onNavigation: onNavigation,
           );
         }),
+        const Divider(),
+        ListTile(
+          dense: !expanded,
+          contentPadding: !expanded ? EdgeInsets.zero : null,
+          leading: expanded ? signOutIcon : null,
+          title: expanded
+              ? Text(
+                  L10n.of(context).signOut,
+                  style: TextStyle(color: signOutColor),
+                )
+              : signOutIcon,
+          onTap: () {
+            _onSignOut(context);
+          },
+        ),
       ],
     );
   }
@@ -132,6 +155,20 @@ class NavMenu extends StatelessWidget {
           : null,
       arrowColor: Theme.of(context).primaryColor,
       decoration: decoration,
+    );
+  }
+
+  void _onSignOut(BuildContext context) {
+    showConfirmation(
+      context,
+      title: L10n.of(context).signOut,
+      description: L10n.of(context).signOutConfirmation,
+      onOk: () async {
+        await AuthState.of(context).signOut();
+        if (context.mounted) {
+          context.navToPath(RoutePath.signIn);
+        }
+      },
     );
   }
 }
