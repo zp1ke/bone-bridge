@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../app/route_path.dart';
 import '../../app/router.dart';
+import '../../app/routes.dart';
 import '../../common/logger.dart';
 import '../../model/auth.dart';
 import '../common/alert.dart';
@@ -11,19 +12,18 @@ import '../common/icon.dart';
 
 class NavMenu extends StatelessWidget {
   final bool expanded;
-  final List<AppRoute> routes;
   final Function(String) onNavigation;
 
   const NavMenu({
     super.key,
     required this.expanded,
-    required this.routes,
     required this.onNavigation,
   });
 
   @override
   Widget build(BuildContext context) {
     final selectedPath = context.activeNavPath;
+    final l10n = L10n.of(context);
     logDebug('Active route: $selectedPath', name: 'ui/component/nav_menu');
 
     return Column(
@@ -42,17 +42,17 @@ class NavMenu extends StatelessWidget {
               ),
               _menuItem(
                 expanded: expanded,
-                label: L10n.of(context).home,
+                label: l10n.home,
                 icon: AppIcons.home,
                 path: '/',
                 selected: selectedPath == null || selectedPath == '/',
                 onNavigation: onNavigation,
               ),
               const Divider(),
-              ...routes.map((route) {
+              ...appRoutes.map((route) {
                 return _menuItem(
                   expanded: expanded,
-                  label: route.label,
+                  label: route.label(l10n),
                   icon: route.iconData,
                   path: route.path,
                   selected: selectedPath != null &&

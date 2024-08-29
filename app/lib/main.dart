@@ -11,8 +11,8 @@ import 'service/shared_preferences/shared_preferences_storage_service.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   setupPlatform();
+
   final dummyJsonService = DummyJsonService();
   final sharedPreferencesStorageService = SharedPreferencesStorageService();
   final authState = await AuthState.create(

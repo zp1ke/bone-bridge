@@ -8,12 +8,10 @@ import 'responsive.dart';
 import 'split.dart';
 
 class AppLayout extends StatefulWidget {
-  final List<AppRoute> routes;
   final Widget child;
 
   const AppLayout({
     super.key,
-    required this.routes,
     required this.child,
   });
 
@@ -71,7 +69,6 @@ class _AppLayoutState extends State<AppLayout> {
   Widget menu(bool expanded) {
     return NavMenu(
       expanded: expanded,
-      routes: widget.routes,
       onNavigation: (path) {
         if (key.currentState!.hasDrawer) {
           key.currentState!.closeDrawer();

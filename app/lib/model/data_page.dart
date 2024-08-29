@@ -1,9 +1,16 @@
-abstract class DataPage<T> {
-  Iterable<T> get list;
+class DataPage<T> {
+  final Iterable<T> list;
 
-  int get page;
+  final int page;
 
-  int get pageSize;
+  final int pageSize;
 
-  int get totalCount;
+  final int totalCount;
+
+  DataPage({
+    required this.list,
+    required this.page,
+    required this.pageSize,
+    required this.totalCount,
+  });
 }

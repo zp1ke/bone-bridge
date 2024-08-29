@@ -56,25 +56,34 @@ class DummyJsonService implements AuthService, TodoService {
       skip,
     );
     if (response.isSuccessful) {
-      /*
-      {
-        "todos": [
-          {
-            "id": 19,
-            "todo": "Create a compost pile",
-            "completed": true,
-            "userId": 5 // user id is 5
-          },
-          {...},
-          {...}
-        ],
-        "total": 3,
-        "skip": 0,
-        "limit": 3
-      }
-       */
+      return _parseDataPage<Todo>(
+        response.body!,
+        listKey: 'todos',
+        typeParser: (map) {
+          return DummyJsonTodo.fromJson(map);
+        },
+      );
     }
     throw _error(response);
+  }
+
+  DataPage<T> _parseDataPage<T>(
+    Map<String, dynamic> json, {
+    required String listKey,
+    required _TypeParser<T> typeParser,
+  }) {
+    final List list = json[listKey] ?? [];
+    final limit = json['limit'] ?? 0;
+    final skip = json['skip'] ?? 0;
+    final page = limit > 0 ? skip / limit : 0;
+    return DataPage<T>(
+      list: list.whereType<Map<String, dynamic>>().map((item) {
+        return typeParser(item);
+      }),
+      page: page,
+      pageSize: limit,
+      totalCount: json['total'] ?? list.length,
+    );
   }
 
   Object _error(Response response) {
@@ -86,6 +95,8 @@ class DummyJsonService implements AuthService, TodoService {
         statusCode: response.statusCode, message: errorMessage);
   }
 }
+
+typedef _TypeParser<T> = T Function(Map<String, dynamic>);
 
 @ChopperApi()
 abstract class _ChopperService extends ChopperService {

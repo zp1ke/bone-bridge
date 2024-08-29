@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../common/logger.dart';
-import 'route_path.dart';
 import '../model/auth.dart';
 import '../ui/component/layout.dart';
 import '../ui/page/index.dart';
+import 'route_path.dart';
 import 'routes.dart';
 
 // https://pub.dev/documentation/go_router/latest/topics/Configuration-topic.html
@@ -19,7 +19,7 @@ final appRouter = GoRouter(
     ),
     ShellRoute(
       builder: (context, state, child) {
-        return AppLayout(routes: appRoutes, child: child);
+        return AppLayout(child: child);
       },
       routes: [
         GoRoute(
@@ -60,18 +60,4 @@ extension GoRouterHelper on BuildContext {
   String? get activeNavPath {
     return GoRouterState.of(this).fullPath;
   }
-}
-
-class AppRoute {
-  final IconData iconData;
-  final String path;
-  final String label;
-  final GoRouterWidgetBuilder routeBuilder;
-
-  AppRoute({
-    required this.iconData,
-    required this.path,
-    required this.label,
-    required this.routeBuilder,
-  });
 }

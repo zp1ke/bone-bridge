@@ -9,8 +9,8 @@ class AppRoutesBuilder implements Builder {
     final content = <String>[
       '/* GENERATED CODE. DO NOT MODIFY */',
       '',
-      'import \'package:flutter/material.dart\';',
-      '',
+      '// ignore_for_file: prefer_relative_imports',
+      'import \'package:app/ui/common/icon.dart\';',
     ];
     final codeContent = <String>[];
     final routes = <String>[];
@@ -22,19 +22,37 @@ class AppRoutesBuilder implements Builder {
       routes.addAll(extractRoute(fileContent));
     }
 
-    if (content.isNotEmpty) {
-      content.add('''
-import 'router.dart';
+    content.add('''
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/l10n.dart';
+import 'package:go_router/go_router.dart';
 
 final appRoutes = <AppRoute>[
   ${routes.join(',\n  ')}
 ];
 ''');
-      content.addAll(codeContent);
-      buildStep.writeAsString(
-          AssetId(buildStep.inputId.package, 'lib/app/routes.dart'),
-          content.join('\n'));
-    }
+    content.addAll(codeContent);
+    content.add('''
+typedef L10nFunction = String Function(L10n);
+
+class AppRoute {
+  final IconData iconData;
+  final String path;
+  final L10nFunction label;
+  final GoRouterWidgetBuilder routeBuilder;
+
+  AppRoute({
+    required this.iconData,
+    required this.path,
+    required this.label,
+    required this.routeBuilder,
+  });
+}
+''');
+
+    buildStep.writeAsString(
+        AssetId(buildStep.inputId.package, 'lib/app/routes.dart'),
+        content.join('\n'));
   }
 
   @override

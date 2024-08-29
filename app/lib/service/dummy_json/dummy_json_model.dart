@@ -86,6 +86,9 @@ class DummyJsonTodo extends Todo {
     this.isCompleted = false,
   });
 
+  factory DummyJsonTodo.fromJson(Map<String, dynamic> json) =>
+      _$DummyJsonTodoFromJson(json);
+
   Map<String, dynamic> toJson() => _$DummyJsonTodoToJson(this);
 }
 

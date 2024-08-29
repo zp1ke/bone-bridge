@@ -37,16 +37,15 @@ class AppPageRouteBuilder extends Builder {
       iconCode: readString(element, 'iconCode'),
     );
 
-    // ignore: prefer_single_quotes
-    return """
-import '../${filePath.replaceFirst('lib/', '')}';
+    return '''
+import 'package:app/${filePath.replaceFirst('lib/', '')}';
 final pageRoute$elementName = AppRoute(
-  iconData: const IconData(${appPageRoute.iconCode}, fontFamily: 'MaterialIcons'),
+  iconData: AppIcons.${appPageRoute.iconCode},
   path: '${appPageRoute.path}',
-  label: '${appPageRoute.label}',
+  label: (l10n) => l10n.${appPageRoute.label},
   routeBuilder: (context, state) => const $elementName(),
 );
-""";
+''';
   }
 
   String readString(AnnotatedElement element, String field) {
