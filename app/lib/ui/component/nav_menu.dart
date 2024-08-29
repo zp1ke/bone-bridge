@@ -26,58 +26,45 @@ class NavMenu extends StatelessWidget {
     final selectedPath = context.activeNavPath;
     logDebug('Active route: $selectedPath', name: 'ui/component/nav_menu');
 
-    final signOutColor = Theme.of(context).colorScheme.error;
-    final signOutIcon = Icon(
-      AppIcons.signOut,
-      color: signOutColor,
-    );
-
-    return ListView(
-      padding: EdgeInsets.zero,
+    return Column(
       children: [
-        Consumer<AuthState>(
-          builder: (context, authState, _) {
-            return _header(context, authState.auth!);
-          },
-          child: const Center(
-            child: CircularProgressIndicator.adaptive(),
+        Expanded(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              Consumer<AuthState>(
+                builder: (context, authState, _) {
+                  return _header(context, authState.auth!);
+                },
+                child: const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                ),
+              ),
+              _menuItem(
+                expanded: expanded,
+                label: L10n.of(context).home,
+                icon: AppIcons.home,
+                path: '/',
+                selected: selectedPath == null || selectedPath == '/',
+                onNavigation: onNavigation,
+              ),
+              const Divider(),
+              ...routes.map((route) {
+                return _menuItem(
+                  expanded: expanded,
+                  label: route.label,
+                  icon: route.iconData,
+                  path: route.path,
+                  selected: selectedPath != null &&
+                      selectedPath.startsWith(route.path),
+                  onNavigation: onNavigation,
+                );
+              }),
+            ],
           ),
         ),
-        _menuItem(
-          expanded: expanded,
-          label: L10n.of(context).home,
-          icon: AppIcons.home,
-          path: '/',
-          selected: selectedPath == null || selectedPath == '/',
-          onNavigation: onNavigation,
-        ),
         const Divider(),
-        ...routes.map((route) {
-          return _menuItem(
-            expanded: expanded,
-            label: route.label,
-            icon: route.iconData,
-            path: route.path,
-            selected:
-                selectedPath != null && selectedPath.startsWith(route.path),
-            onNavigation: onNavigation,
-          );
-        }),
-        const Divider(),
-        ListTile(
-          dense: !expanded,
-          contentPadding: !expanded ? EdgeInsets.zero : null,
-          leading: expanded ? signOutIcon : null,
-          title: expanded
-              ? Text(
-                  L10n.of(context).signOut,
-                  style: TextStyle(color: signOutColor),
-                )
-              : signOutIcon,
-          onTap: () {
-            _onSignOut(context);
-          },
-        ),
+        _signOutItem(context),
       ],
     );
   }
@@ -155,6 +142,29 @@ class NavMenu extends StatelessWidget {
           : null,
       arrowColor: Theme.of(context).primaryColor,
       decoration: decoration,
+    );
+  }
+
+  Widget _signOutItem(BuildContext context) {
+    final signOutColor = Theme.of(context).colorScheme.error;
+    final signOutIcon = Icon(
+      AppIcons.signOut,
+      color: signOutColor,
+    );
+
+    return ListTile(
+      dense: !expanded,
+      contentPadding: !expanded ? EdgeInsets.zero : null,
+      leading: expanded ? signOutIcon : null,
+      title: expanded
+          ? Text(
+              L10n.of(context).signOut,
+              style: TextStyle(color: signOutColor),
+            )
+          : signOutIcon,
+      onTap: () {
+        _onSignOut(context);
+      },
     );
   }
 

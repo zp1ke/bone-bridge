@@ -5,6 +5,7 @@ import 'package:chopper/chopper.dart';
 import 'package:json_annotation/json_annotation.dart' as json_annot;
 
 import '../../model/auth.dart';
+import '../../model/http_error.dart';
 import '../../model/user.dart';
 import '../auth_service.dart';
 
@@ -22,7 +23,6 @@ class DummyJsonService implements AuthService {
   @override
   Future<Auth> authenticate(Credentials credentials) async {
     if (credentials is! UsernamePasswordCredentials) {
-      // TODO: throw proper error
       throw UnimplementedError();
     }
 
@@ -35,8 +35,11 @@ class DummyJsonService implements AuthService {
       return _Auth.fromJson(response.body!);
     }
 
-    // TODO: throw proper error
-    throw response.error ?? response.statusCode;
+    String? errorMessage;
+    if (response.error is String) {
+      errorMessage = jsonDecode(response.error as String)['message'];
+    }
+    throw _HttpError(statusCode: response.statusCode, message: errorMessage);
   }
 
   @override
@@ -109,4 +112,16 @@ class _Auth extends _User implements Auth {
 
   @override
   String get asJson => jsonEncode(toJson());
+}
+
+class _HttpError extends HttpError {
+  @override
+  final int statusCode;
+  @override
+  final String? message;
+
+  _HttpError({
+    required this.statusCode,
+    required this.message,
+  });
 }

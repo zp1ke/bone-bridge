@@ -2,6 +2,7 @@
   "@@locale": "en",
   "appTitle": "Bone Bridge",
   "cancel": "Cancel",
+  "errorSigningIn": "An error occurs signing you in.",
   "home": "Home",
   "invalidTextLength": "Must be at least {minLength} characters length.",
   "@invalidTextLength": {

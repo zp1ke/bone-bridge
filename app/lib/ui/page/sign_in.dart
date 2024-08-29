@@ -5,6 +5,7 @@ import '../../app/route_path.dart';
 import '../../app/router.dart';
 import '../../common/logger.dart';
 import '../../model/auth.dart';
+import '../../model/http_error.dart';
 import '../../service/auth_service.dart';
 import '../common/alert.dart';
 import '../common/icon.dart';
@@ -154,6 +155,13 @@ class _SignInPageState extends State<SignInPage> {
       if (context.mounted) {
         context.navToPath(RoutePath.home);
       }
+    } on HttpError catch (e) {
+      if (context.mounted) {
+        showError(context, e.message ?? L10n.of(context).errorSigningIn);
+      }
+      setState(() {
+        processing = false;
+      });
     } catch (e, stack) {
       logError(
         'Error signing in',
@@ -162,7 +170,7 @@ class _SignInPageState extends State<SignInPage> {
         stack: stack,
       );
       if (context.mounted) {
-        showError(context, 'TODO ERROR SIGN_IN = $e');
+        showError(context, L10n.of(context).errorSigningIn);
       }
       setState(() {
         processing = false;

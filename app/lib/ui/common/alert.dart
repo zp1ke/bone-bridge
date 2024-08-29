@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 
 void showError(BuildContext context, String text) {
+  final color = Theme.of(context).colorScheme.onErrorContainer;
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(
         text,
         style: TextStyle(
-          color: Theme.of(context).colorScheme.onErrorContainer,
+          color: color,
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.errorContainer,
       showCloseIcon: true,
+      closeIconColor: color,
     ),
   );
 }
