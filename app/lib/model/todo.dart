@@ -1,7 +1,7 @@
 abstract class Todo {
   int get id;
 
-  String get todo;
+  String get description;
 
-  bool get completed;
+  bool get isCompleted;
 }

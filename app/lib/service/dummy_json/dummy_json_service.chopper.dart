@@ -8,14 +8,14 @@ part of 'dummy_json_service.dart';
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-final class _$_ChopperAuthService extends _ChopperAuthService {
-  _$_ChopperAuthService([ChopperClient? client]) {
+final class _$_ChopperService extends _ChopperService {
+  _$_ChopperService([ChopperClient? client]) {
     if (client == null) return;
     this.client = client;
   }
 
   @override
-  final Type definitionType = _ChopperAuthService;
+  final Type definitionType = _ChopperService;
 
   @override
   Future<Response<dynamic>> login(Map<String, dynamic> body) {
@@ -26,6 +26,26 @@ final class _$_ChopperAuthService extends _ChopperAuthService {
       $url,
       client.baseUrl,
       body: $body,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> fetchTodos(
+    String userId,
+    int limit,
+    int skip,
+  ) {
+    final Uri $url = Uri.parse('/todos/user/${userId}');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'limit': limit,
+      'skip': skip,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
     );
     return client.send<dynamic, dynamic>($request);
   }

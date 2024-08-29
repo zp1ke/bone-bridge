@@ -6,8 +6,8 @@ import 'model/auth.dart';
 import 'platform/common.dart'
     if (dart.library.html) 'platform/web.dart'
     if (dart.library.io) 'platform/common.dart';
-import 'service/impl/dummy_json_service.dart';
-import 'service/impl/shared_preferences_storage_service.dart';
+import 'service/dummy_json/dummy_json_service.dart';
+import 'service/shared_preferences/shared_preferences_storage_service.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
