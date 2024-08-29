@@ -29,18 +29,19 @@ class _AppLayoutState extends State<AppLayout> {
   Widget build(BuildContext context) {
     return ResponsiveWidget(
       small: (context) => body(context, withDrawer: true),
-      medium: (context) => body(context),
+      medium: (context) => body(context, menuExpandedSize: 240),
       large: (context) => body(context),
     );
   }
 
-  Widget body(BuildContext context, {bool withDrawer = false}) {
+  Widget body(BuildContext context,
+      {bool withDrawer = false, double menuExpandedSize = 280}) {
     final body = withDrawer
         ? widget.child
         : SplitWidget(
             left: menu(menuExpanded),
             center: widget.child,
-            leftWidth: menuExpanded ? 240 : 52,
+            leftWidth: menuExpanded ? menuExpandedSize : 52,
           );
 
     return Scaffold(

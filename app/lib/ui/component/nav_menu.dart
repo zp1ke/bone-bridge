@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,50 +29,7 @@ class NavMenu extends StatelessWidget {
       children: [
         Consumer<AuthState>(
           builder: (context, authState, _) {
-            final auth = authState.auth!;
-            final textColor = Theme.of(context).colorScheme.onPrimaryContainer;
-            return UserAccountsDrawerHeader(
-              accountName: expanded
-                  ? Text(
-                      auth.fullName ?? auth.username,
-                      textScaler: const TextScaler.linear(0.9),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: textColor,
-                      ),
-                    )
-                  : null,
-              accountEmail: expanded
-                  ? Text(
-                      auth.email,
-                      textScaler: const TextScaler.linear(0.8),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: textColor,
-                      ),
-                    )
-                  : null,
-              currentAccountPicture: auth.image != null
-                  //? CircleAvatar(backgroundImage: NetworkImage(auth.image!))
-                  ? AnimatedContainer(
-                      width: expanded ? 130 : 16,
-                      height: expanded ? 130 : 16,
-                      duration: const Duration(milliseconds: 250),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: textColor,
-                        image: DecorationImage(
-                          image: NetworkImage(auth.image!),
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                    )
-                  : null,
-              arrowColor: Theme.of(context).primaryColor,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-              ),
-            );
+            return _header(context, authState.auth!);
           },
           child: const Center(
             child: CircularProgressIndicator.adaptive(),
@@ -112,11 +71,67 @@ class NavMenu extends StatelessWidget {
       message: label,
       waitDuration: Duration(milliseconds: selected ? 1000 : 600),
       child: ListTile(
+        dense: !expanded,
+        contentPadding: !expanded ? EdgeInsets.zero : null,
         selected: selected,
         leading: expanded ? Icon(icon) : null,
         title: expanded ? Text(label) : Icon(icon),
         onTap: !selected ? () => onNavigation(path) : null,
       ),
+    );
+  }
+
+  Widget _header(BuildContext context, Auth auth) {
+    final color = Theme.of(context).colorScheme.onPrimaryContainer;
+    final decoration = BoxDecoration(
+      color: Theme.of(context).colorScheme.primaryContainer,
+    );
+
+    if (!expanded) {
+      return DrawerHeader(
+        decoration: decoration,
+        child: auth.image != null
+            ? CircleAvatar(
+                radius: 56,
+                backgroundImage: Image.network(
+                  auth.image!,
+                  width: 56,
+                  fit: BoxFit.scaleDown,
+                ).image,
+                backgroundColor: color,
+              )
+            : const Icon(AppIcons.user),
+      );
+    }
+
+    return UserAccountsDrawerHeader(
+      accountName: Text(
+        auth.fullName ?? auth.username,
+        textScaler: const TextScaler.linear(0.9),
+        style: TextStyle(
+          fontWeight: FontWeight.w500,
+          color: color,
+        ),
+      ),
+      accountEmail: Text(
+        auth.email,
+        textScaler: const TextScaler.linear(0.8),
+        style: TextStyle(
+          fontWeight: FontWeight.w600,
+          color: color,
+        ),
+      ),
+      currentAccountPicture: auth.image != null
+          ? CircleAvatar(
+              backgroundImage: Image.network(
+                auth.image!,
+                fit: BoxFit.cover,
+              ).image,
+              backgroundColor: color,
+            )
+          : null,
+      arrowColor: Theme.of(context).primaryColor,
+      decoration: decoration,
     );
   }
 }
