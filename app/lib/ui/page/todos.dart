@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import '../../model/auth.dart';
 import '../../model/data_page.dart';
 import '../../model/todo.dart';
+import '../common/icon.dart';
+import '../component/app_state.dart';
 
 @AppPageRoute(path: '/todos', label: 'todos', iconCode: 'todos')
 class TodosPage extends StatefulWidget {
@@ -14,7 +16,7 @@ class TodosPage extends StatefulWidget {
   State<TodosPage> createState() => _TodosPageState();
 }
 
-class _TodosPageState extends State<TodosPage> {
+class _TodosPageState extends AppState<TodosPage> {
   late Auth auth;
 
   int page = 0;
@@ -31,8 +33,13 @@ class _TodosPageState extends State<TodosPage> {
     });
   }
 
-  void fetchPage() {
-    TodoState.of(context).fetchTodos(auth, page: page, pageSize: pageSize);
+  void fetchPage({bool force = false}) {
+    TodoState.of(context).fetchTodos(
+      auth,
+      page: page,
+      pageSize: pageSize,
+      force: force,
+    );
   }
 
   @override
@@ -40,7 +47,7 @@ class _TodosPageState extends State<TodosPage> {
     return Consumer<TodoState>(
       builder: (context, todoState, child) {
         if (todoState.todos != null) {
-          return listView(todoState.todos!);
+          return listView(todoState.todos!, todoState.fetching);
         }
         return child!;
       },
@@ -50,7 +57,7 @@ class _TodosPageState extends State<TodosPage> {
     );
   }
 
-  Widget listView(DataPage<Todo> todos) {
+  Widget listView(DataPage<Todo> todos, bool fetching) {
     if (todos.list.isEmpty) {
       return const Center(
         child: Text('Nothing here :( TODO L10N'),
@@ -60,13 +67,16 @@ class _TodosPageState extends State<TodosPage> {
     final list = todos.list.toList();
     return ListView.separated(
       itemBuilder: (context, index) {
+        if (index == list.length) {
+          return const ListTile(title: Center(child: AppIcons.loadingSmall));
+        }
         final todo = list[index];
         return itemWidget(todo);
       },
       separatorBuilder: (context, index) {
         return const Divider();
       },
-      itemCount: list.length,
+      itemCount: list.length + (fetching ? 1 : 0),
     );
   }
 
@@ -84,5 +94,10 @@ class _TodosPageState extends State<TodosPage> {
         onChanged: null,
       ),
     );
+  }
+
+  @override
+  void onReload() {
+    fetchPage(force: true);
   }
 }

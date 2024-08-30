@@ -12,19 +12,18 @@ import '../common/icon.dart';
 
 class NavMenu extends StatelessWidget {
   final bool expanded;
-  final AppRoute? appRoute;
   final Function(String) onNavigation;
 
   const NavMenu({
     super.key,
     required this.expanded,
-    required this.appRoute,
     required this.onNavigation,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = L10n.of(context);
+    var appRoute = context.activeAppRoute;
     logDebug('Active route: ${appRoute?.path}', name: 'ui/component/nav_menu');
 
     return SafeArea(
@@ -61,7 +60,7 @@ class NavMenu extends StatelessWidget {
                     icon: route.iconData,
                     path: route.path,
                     selected: appRoute != null &&
-                        appRoute!.path.startsWith(route.path),
+                        appRoute.path.startsWith(route.path),
                     onNavigation: onNavigation,
                   );
                 }),

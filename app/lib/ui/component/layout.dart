@@ -4,17 +4,16 @@ import 'package:flutter_gen/gen_l10n/l10n.dart';
 import '../../app/router.dart';
 import '../../app/routes.dart';
 import '../common/icon.dart';
+import 'app_state.dart';
 import 'nav_menu.dart';
 import 'responsive.dart';
 import 'split.dart';
 
 class AppLayout extends StatefulWidget {
-  final AppRoute? appRoute;
   final Widget child;
 
   const AppLayout({
     super.key,
-    required this.appRoute,
     required this.child,
   });
 
@@ -24,7 +23,14 @@ class AppLayout extends StatefulWidget {
 
 class _AppLayoutState extends State<AppLayout> {
   final GlobalKey<ScaffoldState> key = GlobalKey();
+
   bool menuExpanded = true;
+  bool reloadEnabled = true;
+
+  AppRoute? get appRoute => context.activeAppRoute;
+
+  GlobalKey<AppState>? get routeKey =>
+      appRoute?.widgetKey as GlobalKey<AppState>?;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +62,9 @@ class _AppLayoutState extends State<AppLayout> {
           icon: const Icon(AppIcons.menu),
           onPressed: onToggleMenu,
         ),
+        actions: [
+          if (routeKey != null) refreshAction(),
+        ],
       ),
       body: SafeArea(child: body),
       drawer: withDrawer ? Drawer(child: menu(true)) : null,
@@ -64,7 +73,7 @@ class _AppLayoutState extends State<AppLayout> {
 
   Widget title() {
     final titleText = Text(L10n.of(context).appTitle);
-    if (widget.appRoute == null) {
+    if (appRoute == null) {
       return titleText;
     }
 
@@ -74,7 +83,7 @@ class _AppLayoutState extends State<AppLayout> {
       children: [
         titleText,
         Text(
-          widget.appRoute!.label(L10n.of(context)),
+          appRoute!.label(L10n.of(context)),
           textScaler: const TextScaler.linear(0.5),
           style: const TextStyle(fontWeight: FontWeight.w400),
         ),
@@ -95,13 +104,33 @@ class _AppLayoutState extends State<AppLayout> {
   Widget menu(bool expanded) {
     return NavMenu(
       expanded: expanded,
-      appRoute: widget.appRoute,
       onNavigation: (path) {
         if (key.currentState!.hasDrawer) {
           key.currentState!.closeDrawer();
         }
         context.navTo(path);
       },
+    );
+  }
+
+  Widget refreshAction() {
+    return IconButton(
+      onPressed: reloadEnabled
+          ? () {
+              setState(() {
+                reloadEnabled = false;
+              });
+              routeKey?.currentState?.onReload();
+              Future.delayed(const Duration(seconds: 10), () {
+                if (mounted) {
+                  setState(() {
+                    reloadEnabled = true;
+                  });
+                }
+              });
+            }
+          : null,
+      icon: const Icon(AppIcons.refresh),
     );
   }
 }

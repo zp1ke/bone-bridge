@@ -19,16 +19,7 @@ final appRouter = GoRouter(
     ),
     ShellRoute(
       builder: (context, state, child) {
-        final activePath = state.fullPath;
-        final appRoute = activePath != null
-            ? appRoutes.where((routePath) {
-                return activePath.startsWith(routePath.path);
-              }).firstOrNull
-            : null;
-        return AppLayout(
-          appRoute: appRoute,
-          child: child,
-        );
+        return AppLayout(child: child);
       },
       routes: [
         GoRoute(
@@ -36,14 +27,18 @@ final appRouter = GoRouter(
           builder: (context, state) {
             return const HomePage();
           },
-          routes: appRoutes.map((appPage) {
-            final path = appPage.path.startsWith('/')
-                ? appPage.path.substring(1)
-                : appPage.path;
+          routes: appRoutes.map((appRoute) {
+            final path = appRoute.path.startsWith('/')
+                ? appRoute.path.substring(1)
+                : appRoute.path;
             logDebug('Adding route /$path', name: 'app/router');
             return GoRoute(
               path: path,
-              builder: appPage.routeBuilder,
+              builder: (context, state) => appRoute.routeBuilder(
+                context,
+                state,
+                appRoute.widgetKey,
+              ),
             );
           }).toList(),
         ),
@@ -64,5 +59,14 @@ extension GoRouterHelper on BuildContext {
 
   void navToPath(RoutePath routePath, {Object? extra}) {
     GoRouter.of(this).go(routePath.path, extra: extra);
+  }
+
+  AppRoute? get activeAppRoute {
+    final activePath = GoRouterState.of(this).fullPath;
+    return activePath != null
+        ? appRoutes.where((routePath) {
+            return activePath.startsWith(routePath.path);
+          }).firstOrNull
+        : null;
   }
 }

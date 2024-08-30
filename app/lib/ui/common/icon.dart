@@ -20,6 +20,8 @@ class AppIcons {
 
   static const IconData password = FluentIcons.password_24_filled;
 
+  static const IconData refresh = FluentIcons.arrow_clockwise_24_filled;
+
   static const IconData showPassword = FluentIcons.eye_24_filled;
 
   static const IconData signOut = FluentIcons.sign_out_24_filled;
