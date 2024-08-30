@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 
 import '../../app/router.dart';
+import '../../app/routes.dart';
 import '../common/icon.dart';
 import 'nav_menu.dart';
 import 'responsive.dart';
@@ -45,7 +46,7 @@ class _AppLayoutState extends State<AppLayout> {
     return Scaffold(
       key: key,
       appBar: AppBar(
-        title: Text(L10n.of(context).appTitle),
+        title: title(context),
         leading: IconButton(
           icon: const Icon(AppIcons.menu),
           onPressed: onToggleMenu,
@@ -53,6 +54,34 @@ class _AppLayoutState extends State<AppLayout> {
       ),
       body: SafeArea(child: body),
       drawer: withDrawer ? Drawer(child: menu(true)) : null,
+    );
+  }
+
+  Widget title(BuildContext context) {
+    final titleText = Text(L10n.of(context).appTitle);
+
+    final activePath = context.activeNavPath;
+    if (activePath == null) {
+      return titleText;
+    }
+    final activeAppRoute = appRoutes.where((routePath) {
+      return activePath.startsWith(routePath.path);
+    }).firstOrNull;
+    if (activeAppRoute == null) {
+      return titleText;
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        titleText,
+        Text(
+          activeAppRoute.label(L10n.of(context)),
+          textScaler: const TextScaler.linear(0.5),
+          style: const TextStyle(fontWeight: FontWeight.w400),
+        ),
+      ],
     );
   }
 

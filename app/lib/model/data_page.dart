@@ -13,4 +13,10 @@ class DataPage<T> {
     required this.pageSize,
     required this.totalCount,
   });
+
+  DataPage.empty()
+      : list = [],
+        page = -1,
+        pageSize = 0,
+        totalCount = 0;
 }

@@ -7,6 +7,7 @@ import '../app/route_path.dart';
 import '../common/crypto.dart';
 import '../service/auth_service.dart';
 import '../service/storage_service.dart';
+import 'todo.dart';
 import 'user.dart';
 
 abstract class Auth extends User {
@@ -26,6 +27,8 @@ class AuthState extends ChangeNotifier {
   static AuthState of(BuildContext context, {bool listen = false}) {
     return Provider.of<AuthState>(context, listen: listen);
   }
+
+  Auth? get auth => _auth;
 
   static Future<AuthState> create({
     required AuthService authService,
@@ -62,8 +65,6 @@ class AuthState extends ChangeNotifier {
         _authService = authService,
         _storageService = storageService;
 
-  Auth? get auth => _auth;
-
   RoutePath? redirectPathFor(RoutePath? path) {
     final routeIsAnonymous = path?.anonymous ?? false;
     final hasAuth = _auth != null;
@@ -83,8 +84,16 @@ class AuthState extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future signOut() async {
+  static Future signOut(BuildContext context) async {
+    await AuthState.of(context).clear();
+    if (context.mounted) {
+      await TodoState.of(context).clear();
+    }
+  }
+
+  Future clear() async {
     await _storageService.clear();
+    _auth = null;
     notifyListeners();
   }
 }

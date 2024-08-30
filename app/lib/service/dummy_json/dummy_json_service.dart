@@ -73,15 +73,15 @@ class DummyJsonService implements AuthService, TodoService {
     required _TypeParser<T> typeParser,
   }) {
     final List list = json[listKey] ?? [];
-    final limit = json['limit'] ?? 0;
-    final skip = json['skip'] ?? 0;
+    final limit = (json['limit'] as num?) ?? 0;
+    final skip = (json['skip'] as num?) ?? 0;
     final page = limit > 0 ? skip / limit : 0;
     return DataPage<T>(
       list: list.whereType<Map<String, dynamic>>().map((item) {
         return typeParser(item);
       }),
-      page: page,
-      pageSize: limit,
+      page: page.toInt(),
+      pageSize: limit.toInt(),
       totalCount: json['total'] ?? list.length,
     );
   }
