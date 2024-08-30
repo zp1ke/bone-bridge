@@ -11,6 +11,7 @@ class AppRoutesBuilder implements Builder {
       '',
       '// ignore_for_file: prefer_relative_imports',
       'import \'package:app/ui/common/icon.dart\';',
+      'import \'package:app/ui/component/app_state.dart\';',
     ];
     final codeContent = <String>[];
     final routes = <String>[];
@@ -35,16 +36,24 @@ final appRoutes = <AppRoute>[
     content.add('''
 typedef L10nFunction = String Function(L10n);
 
+typedef RouterWidgetBuilder = Widget Function(
+  BuildContext context,
+  GoRouterState state,
+  Key? key,
+);
+
 class AppRoute {
   final IconData iconData;
   final String path;
   final L10nFunction label;
-  final GoRouterWidgetBuilder routeBuilder;
+  final Key widgetKey;
+  final RouterWidgetBuilder routeBuilder;
 
   AppRoute({
     required this.iconData,
     required this.path,
     required this.label,
+    required this.widgetKey,
     required this.routeBuilder,
   });
 }
