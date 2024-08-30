@@ -9,10 +9,12 @@ import 'responsive.dart';
 import 'split.dart';
 
 class AppLayout extends StatefulWidget {
+  final AppRoute? appRoute;
   final Widget child;
 
   const AppLayout({
     super.key,
+    required this.appRoute,
     required this.child,
   });
 
@@ -33,8 +35,11 @@ class _AppLayoutState extends State<AppLayout> {
     );
   }
 
-  Widget body(BuildContext context,
-      {bool withDrawer = false, double menuExpandedSize = 280}) {
+  Widget body(
+    BuildContext context, {
+    bool withDrawer = false,
+    double menuExpandedSize = 280,
+  }) {
     final body = withDrawer
         ? widget.child
         : SplitWidget(
@@ -46,7 +51,7 @@ class _AppLayoutState extends State<AppLayout> {
     return Scaffold(
       key: key,
       appBar: AppBar(
-        title: title(context),
+        title: title(),
         leading: IconButton(
           icon: const Icon(AppIcons.menu),
           onPressed: onToggleMenu,
@@ -57,17 +62,9 @@ class _AppLayoutState extends State<AppLayout> {
     );
   }
 
-  Widget title(BuildContext context) {
+  Widget title() {
     final titleText = Text(L10n.of(context).appTitle);
-
-    final activePath = context.activeNavPath;
-    if (activePath == null) {
-      return titleText;
-    }
-    final activeAppRoute = appRoutes.where((routePath) {
-      return activePath.startsWith(routePath.path);
-    }).firstOrNull;
-    if (activeAppRoute == null) {
+    if (widget.appRoute == null) {
       return titleText;
     }
 
@@ -77,7 +74,7 @@ class _AppLayoutState extends State<AppLayout> {
       children: [
         titleText,
         Text(
-          activeAppRoute.label(L10n.of(context)),
+          widget.appRoute!.label(L10n.of(context)),
           textScaler: const TextScaler.linear(0.5),
           style: const TextStyle(fontWeight: FontWeight.w400),
         ),
@@ -98,6 +95,7 @@ class _AppLayoutState extends State<AppLayout> {
   Widget menu(bool expanded) {
     return NavMenu(
       expanded: expanded,
+      appRoute: widget.appRoute,
       onNavigation: (path) {
         if (key.currentState!.hasDrawer) {
           key.currentState!.closeDrawer();

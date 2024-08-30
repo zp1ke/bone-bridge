@@ -19,7 +19,16 @@ final appRouter = GoRouter(
     ),
     ShellRoute(
       builder: (context, state, child) {
-        return AppLayout(child: child);
+        final activePath = state.fullPath;
+        final appRoute = activePath != null
+            ? appRoutes.where((routePath) {
+                return activePath.startsWith(routePath.path);
+              }).firstOrNull
+            : null;
+        return AppLayout(
+          appRoute: appRoute,
+          child: child,
+        );
       },
       routes: [
         GoRoute(
@@ -55,9 +64,5 @@ extension GoRouterHelper on BuildContext {
 
   void navToPath(RoutePath routePath, {Object? extra}) {
     GoRouter.of(this).go(routePath.path, extra: extra);
-  }
-
-  String? get activeNavPath {
-    return GoRouterState.of(this).fullPath;
   }
 }
