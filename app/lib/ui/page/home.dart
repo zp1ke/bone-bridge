@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../component/responsive.dart';
+import '../widget/responsive.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

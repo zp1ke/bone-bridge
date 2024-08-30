@@ -50,11 +50,7 @@ class DummyJsonService implements AuthService, TodoService {
   }) async {
     final service = _chopper.getService<_ChopperService>();
     final skip = page * pageSize;
-    final response = await service.fetchTodos(
-      auth.id.toString(),
-      pageSize,
-      skip,
-    );
+    final response = await service.fetchTodos(pageSize, skip);
     if (response.isSuccessful) {
       return _parseDataPage<Todo>(
         response.body!,
@@ -106,10 +102,6 @@ abstract class _ChopperService extends ChopperService {
   @Post(path: '/auth/login')
   Future<Response> login(@Body() Map<String, dynamic> body);
 
-  @Get(path: '/todos/user/{userId}')
-  Future<Response> fetchTodos(
-    @Path() String userId,
-    @Query() int limit,
-    @Query() int skip,
-  );
+  @Get(path: '/todos')
+  Future<Response> fetchTodos(@Query() int limit, @Query() int skip);
 }

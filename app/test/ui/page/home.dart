@@ -1,4 +1,4 @@
-import 'package:app/ui/component/responsive.dart';
+import 'package:app/ui/widget/responsive.dart';
 import 'package:flutter/material.dart';
 
 class HomeTestPage extends StatelessWidget {

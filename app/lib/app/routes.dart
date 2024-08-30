@@ -16,7 +16,7 @@ final pageRouteTodosPage = AppRoute(
   iconData: AppIcons.todos,
   path: '/todos',
   label: (l10n) => l10n.todos,
-  widgetKey: GlobalKey<AppState<TodosPage>>(),
+  widgetKey: GlobalKey<PageState<TodosPage>>(),
   routeBuilder: (context, state, key) => TodosPage(key: key),
 );
 

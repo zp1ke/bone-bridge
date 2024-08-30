@@ -18,6 +18,10 @@ class AppIcons {
 
   static const IconData menu = FluentIcons.navigation_24_filled;
 
+  static const IconData paginationPrev = Icons.arrow_back_ios;
+
+  static const IconData paginationNext = Icons.arrow_forward_ios;
+
   static const IconData password = FluentIcons.password_24_filled;
 
   static const IconData refresh = FluentIcons.arrow_clockwise_24_filled;

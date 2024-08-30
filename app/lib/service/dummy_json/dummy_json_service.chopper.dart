@@ -32,11 +32,10 @@ final class _$_ChopperService extends _ChopperService {
 
   @override
   Future<Response<dynamic>> fetchTodos(
-    String userId,
     int limit,
     int skip,
   ) {
-    final Uri $url = Uri.parse('/todos/user/${userId}');
+    final Uri $url = Uri.parse('/todos');
     final Map<String, dynamic> $params = <String, dynamic>{
       'limit': limit,
       'skip': skip,

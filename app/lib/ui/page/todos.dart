@@ -7,6 +7,7 @@ import '../../model/data_page.dart';
 import '../../model/todo.dart';
 import '../common/icon.dart';
 import '../component/app_state.dart';
+import '../widget/pagination.dart';
 
 @AppPageRoute(path: '/todos', label: 'todos', iconCode: 'todos')
 class TodosPage extends StatefulWidget {
@@ -16,7 +17,7 @@ class TodosPage extends StatefulWidget {
   State<TodosPage> createState() => _TodosPageState();
 }
 
-class _TodosPageState extends AppState<TodosPage> {
+class _TodosPageState extends PageState<TodosPage> {
   late Auth auth;
 
   int page = 0;
@@ -65,18 +66,37 @@ class _TodosPageState extends AppState<TodosPage> {
     }
 
     final list = todos.list.toList();
-    return ListView.separated(
-      itemBuilder: (context, index) {
-        if (index == list.length) {
-          return const ListTile(title: Center(child: AppIcons.loadingSmall));
-        }
-        final todo = list[index];
-        return itemWidget(todo);
-      },
-      separatorBuilder: (context, index) {
-        return const Divider();
-      },
-      itemCount: list.length + (fetching ? 1 : 0),
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.separated(
+            itemBuilder: (context, index) {
+              if (index == list.length) {
+                return const ListTile(
+                  dense: true,
+                  title: Center(child: AppIcons.loadingSmall),
+                );
+              }
+              final todo = list[index];
+              return itemWidget(todo);
+            },
+            separatorBuilder: (context, index) {
+              return const Divider();
+            },
+            itemCount: list.length + (fetching ? 1 : 0),
+          ),
+        ),
+        PaginationWidget(
+          page: page,
+          totalPages: todos.totalCount ~/ pageSize,
+          onPageChanged: (value) {
+            setState(() {
+              page = value;
+            });
+            fetchPage();
+          },
+        ),
+      ],
     );
   }
 
@@ -89,9 +109,9 @@ class _TodosPageState extends AppState<TodosPage> {
           color: todo.isCompleted ? Theme.of(context).disabledColor : null,
         ),
       ),
-      trailing: Switch(
+      trailing: Checkbox(
         value: todo.isCompleted,
-        onChanged: null,
+        onChanged: (_) {},
       ),
     );
   }

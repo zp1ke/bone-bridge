@@ -4,10 +4,10 @@ import 'package:flutter_gen/gen_l10n/l10n.dart';
 import '../../app/router.dart';
 import '../../app/routes.dart';
 import '../common/icon.dart';
+import '../widget/responsive.dart';
+import '../widget/split.dart';
 import 'app_state.dart';
 import 'nav_menu.dart';
-import 'responsive.dart';
-import 'split.dart';
 
 class AppLayout extends StatefulWidget {
   final Widget child;
@@ -29,8 +29,8 @@ class _AppLayoutState extends State<AppLayout> {
 
   AppRoute? get appRoute => context.activeAppRoute;
 
-  GlobalKey<AppState>? get routeKey =>
-      appRoute?.widgetKey as GlobalKey<AppState>?;
+  GlobalKey<PageState>? get routeKey =>
+      appRoute?.widgetKey as GlobalKey<PageState>?;
 
   @override
   Widget build(BuildContext context) {
