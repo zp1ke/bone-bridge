@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/auth.dart';
-import '../../model/data_page.dart';
 import '../../model/todo.dart';
-import '../common/icon.dart';
 import '../shell/page_state.dart';
-import '../widget/pagination.dart';
-import '../widget/responsive.dart';
+import '../widget/paginated_list.dart';
 
 @AppPageRoute(path: '/todos', label: 'todos', iconCode: 'todos')
 class TodosPage extends StatefulWidget {
@@ -49,73 +46,24 @@ class _TodosPageState extends PageState<TodosPage> {
     return Consumer<TodoState>(
       builder: (context, todoState, child) {
         if (todoState.todos != null) {
-          return body(todoState.todos!, todoState.fetching);
+          // return body(todoState.todos!, todoState.fetching);
+          return PaginatedListWidget<Todo>(
+            dataPage: todoState.todos!,
+            fetching: todoState.fetching,
+            itemBuilder: itemWidget,
+            onPageChanged: (value) {
+              setState(() {
+                page = value;
+              });
+              fetchPage();
+            },
+          );
         }
         return child!;
       },
       child: const Center(
         child: CircularProgressIndicator.adaptive(),
       ),
-    );
-  }
-
-  Widget body(DataPage<Todo> todos, bool fetching) {
-    if (todos.list.isEmpty) {
-      return const Center(
-        child: Text('Nothing here :( TODO L10N'),
-      );
-    }
-    return ResponsiveWidget(
-      small: (context) => itemsList(context, todos, fetching),
-      medium: (context) => paginationList(context, todos, fetching),
-    );
-  }
-
-  Widget paginationList(
-    BuildContext context,
-    DataPage<Todo> todos,
-    bool fetching,
-  ) {
-    return Column(
-      children: [
-        Expanded(
-          child: itemsList(context, todos, fetching),
-        ),
-        PaginationWidget(
-          page: page,
-          totalPages: todos.totalCount ~/ pageSize,
-          onPageChanged: (value) {
-            setState(() {
-              page = value;
-            });
-            fetchPage();
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget itemsList(
-    BuildContext context,
-    DataPage<Todo> todos,
-    bool fetching,
-  ) {
-    final list = todos.list.toList();
-    return ListView.separated(
-      itemBuilder: (context, index) {
-        if (index == list.length) {
-          return const ListTile(
-            dense: true,
-            title: Center(child: AppIcons.loadingSmall),
-          );
-        }
-        final todo = list[index];
-        return itemWidget(todo);
-      },
-      separatorBuilder: (context, index) {
-        return const Divider();
-      },
-      itemCount: list.length + (fetching ? 1 : 0),
     );
   }
 
