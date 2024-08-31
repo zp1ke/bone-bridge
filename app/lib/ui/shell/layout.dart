@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/l10n.dart';
 
 import '../../app/router.dart';
 import '../../app/routes.dart';
+import '../../common/logger.dart';
 import '../common/icon.dart';
 import '../widget/responsive.dart';
 import '../widget/split.dart';
@@ -24,20 +25,53 @@ class AppLayout extends StatefulWidget {
 class _AppLayoutState extends State<AppLayout> {
   final GlobalKey<ScaffoldState> key = GlobalKey();
 
+  PageState? routeState;
   bool menuExpanded = true;
   bool reloadEnabled = true;
 
   AppRoute? get appRoute => context.activeAppRoute;
 
-  PageState? get routeState =>
-      (appRoute?.widgetKey as GlobalKey<PageState>?)?.currentState;
+  @override
+  void didUpdateWidget(covariant AppLayout oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    Future.delayed(Duration.zero, initRouteState);
+  }
+
+  // FIXME: not working on web accessing directly to url /todos
+  void initRouteState({int count = 0}) {
+    if (appRoute != null && routeState == null) {
+      routeState = (appRoute!.widgetKey as GlobalKey<PageState>?)?.currentState;
+      if (routeState != null) {
+        setState(() {});
+        logDebug('routeState successfully initiated', name: 'ui/shell/layout');
+      } else if (count < 5) {
+        Future.delayed(
+          const Duration(milliseconds: 50),
+          () => initRouteState(count: count + 1),
+        );
+      } else {
+        logError('routeState failed to initiate', name: 'ui/shell/layout');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return ResponsiveWidget(
-      small: (context) => body(context, withDrawer: true),
-      medium: (context) => body(context, menuExpandedSize: 240),
-      large: (context) => body(context),
+      small: (context) => body(
+        context,
+        withDrawer: true,
+        withFab: true,
+      ),
+      medium: (context) => body(
+        context,
+        menuExpandedSize: 240,
+        withAddAction: true,
+      ),
+      large: (context) => body(
+        context,
+        withAddAction: true,
+      ),
     );
   }
 
@@ -45,6 +79,8 @@ class _AppLayoutState extends State<AppLayout> {
     BuildContext context, {
     bool withDrawer = false,
     double menuExpandedSize = 280,
+    bool withFab = false,
+    bool withAddAction = false,
   }) {
     final body = withDrawer
         ? widget.child
@@ -63,12 +99,14 @@ class _AppLayoutState extends State<AppLayout> {
           onPressed: onToggleMenu,
         ),
         actions: [
+          if (withAddAction && (routeState?.canAdd ?? false)) addAction(),
           if (routeState?.canReload ?? false) refreshAction(),
         ],
       ),
       body: SafeArea(child: body),
       drawer: withDrawer ? Drawer(child: menu(true)) : null,
-      floatingActionButton: (routeState?.canAdd ?? false) ? addButton() : null,
+      floatingActionButton:
+          withFab && (routeState?.canAdd ?? false) ? fabAddButton() : null,
     );
   }
 
@@ -114,12 +152,22 @@ class _AppLayoutState extends State<AppLayout> {
     );
   }
 
-  Widget addButton() {
+  Widget fabAddButton() {
     return FloatingActionButton(
+      mini: true,
       onPressed: () {
         routeState?.onAdd();
       },
       child: const Icon(AppIcons.add),
+    );
+  }
+
+  Widget addAction() {
+    return IconButton(
+      onPressed: () {
+        routeState?.onAdd();
+      },
+      icon: const Icon(AppIcons.add),
     );
   }
 
@@ -142,5 +190,11 @@ class _AppLayoutState extends State<AppLayout> {
           : null,
       icon: const Icon(AppIcons.refresh),
     );
+  }
+
+  @override
+  void dispose() {
+    routeState = null;
+    super.dispose();
   }
 }

@@ -3,6 +3,10 @@
   "appTitle": "Bone Bridge",
   "cancel": "Cancel",
   "errorSigningIn": "An error occurs signing you in.",
+  "goFirstPage": "Goto first page",
+  "goLastPage": "Goto last page",
+  "goNextPage": "Next page",
+  "goPreviousPage": "Previous page",
   "home": "Home",
   "invalidTextLength": "Must be at least {minLength} characters length.",
   "@invalidTextLength": {

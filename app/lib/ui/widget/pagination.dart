@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/l10n.dart';
 
 import '../common/icon.dart';
 
@@ -9,6 +10,7 @@ class PaginationWidget extends StatelessWidget {
   final int totalPages;
   final _PageRange _pageRange;
   final Function(int) onPageChanged;
+  final MainAxisAlignment mainAxisAlignment;
 
   PaginationWidget({
     super.key,
@@ -16,6 +18,7 @@ class PaginationWidget extends StatelessWidget {
     required this.totalPages,
     int visiblePages = 5,
     required this.onPageChanged,
+    this.mainAxisAlignment = MainAxisAlignment.center,
   }) : _pageRange = _PageRange.create(
           page: page,
           totalPages: totalPages,
@@ -24,21 +27,30 @@ class PaginationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = L10n.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: mainAxisAlignment,
         children: [
-          /// Previous button
-          Padding(
-            padding: const EdgeInsets.only(right: 6),
-            child: IconButton(
-              icon: const Icon(AppIcons.paginationPrev),
-              onPressed: page > 0 ? () => onPageChanged(page - 1) : null,
-            ),
+          /// First page button
+          tooltipButton(
+            message: l10n.goFirstPage,
+            enabled: _pageRange.start > 0,
+            iconData: AppIcons.paginationGoFirst,
+            onAction: () => onPageChanged(0),
+            invisibleIfDisabled: true,
           ),
 
-          for (int index = _pageRange.start; index < _pageRange.end; index++)
+          /// Previous button
+          tooltipButton(
+            message: l10n.goPreviousPage,
+            enabled: page > 0,
+            iconData: AppIcons.paginationPrev,
+            onAction: () => onPageChanged(page - 1),
+          ),
+
+          for (int index = _pageRange.start; index <= _pageRange.end; index++)
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               child: Padding(
@@ -59,15 +71,50 @@ class PaginationWidget extends StatelessWidget {
             ),
 
           /// Next button
-          Padding(
-            padding: const EdgeInsets.only(left: 6),
-            child: IconButton(
-              icon: const Icon(AppIcons.paginationNext),
-              onPressed:
-                  page < totalPages ? () => onPageChanged(page + 1) : null,
-            ),
+          tooltipButton(
+            message: l10n.goNextPage,
+            enabled: page < totalPages,
+            iconData: AppIcons.paginationNext,
+            onAction: () => onPageChanged(page + 1),
+          ),
+
+          /// Last page button
+          tooltipButton(
+            message: l10n.goLastPage,
+            enabled: _pageRange.end < totalPages - 1,
+            iconData: AppIcons.paginationGoLast,
+            onAction: () => onPageChanged(totalPages - 1),
+            invisibleIfDisabled: true,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget tooltipButton({
+    required String message,
+    required bool enabled,
+    required IconData iconData,
+    required VoidCallback onAction,
+    bool invisibleIfDisabled = false,
+  }) {
+    final invisible = invisibleIfDisabled && !enabled;
+    final button = IconButton(
+      icon: Icon(
+        iconData,
+        color: invisible ? Colors.transparent : null,
+      ),
+      onPressed: enabled ? onAction : null,
+    );
+
+    if (invisible) {
+      return button;
+    }
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      child: Tooltip(
+        message: message,
+        child: button,
       ),
     );
   }
@@ -85,10 +132,14 @@ class _PageRange {
     required int visiblePages,
   }) {
     final halfPagesWindow = visiblePages ~/ 2;
-    final start = max(0, page - halfPagesWindow);
+    var start = max(0, page - halfPagesWindow);
     var end = min(totalPages - 1, page + halfPagesWindow);
-    while (end - start < visiblePages && end < totalPages - 1) {
-      end += 1;
+    while (end - start < visiblePages) {
+      if (end < totalPages - 1) {
+        end += 1;
+      } else if (start > 0) {
+        start -= 1;
+      }
     }
     return _PageRange(start: start, end: end);
   }
