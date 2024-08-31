@@ -6,8 +6,8 @@ import '../../app/routes.dart';
 import '../common/icon.dart';
 import '../widget/responsive.dart';
 import '../widget/split.dart';
-import 'app_state.dart';
 import 'nav_menu.dart';
+import 'page_state.dart';
 
 class AppLayout extends StatefulWidget {
   final Widget child;
@@ -29,8 +29,8 @@ class _AppLayoutState extends State<AppLayout> {
 
   AppRoute? get appRoute => context.activeAppRoute;
 
-  GlobalKey<PageState>? get routeKey =>
-      appRoute?.widgetKey as GlobalKey<PageState>?;
+  PageState? get routeState =>
+      (appRoute?.widgetKey as GlobalKey<PageState>?)?.currentState;
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +63,12 @@ class _AppLayoutState extends State<AppLayout> {
           onPressed: onToggleMenu,
         ),
         actions: [
-          if (routeKey != null) refreshAction(),
+          if (routeState?.canReload ?? false) refreshAction(),
         ],
       ),
       body: SafeArea(child: body),
       drawer: withDrawer ? Drawer(child: menu(true)) : null,
+      floatingActionButton: (routeState?.canAdd ?? false) ? addButton() : null,
     );
   }
 
@@ -113,6 +114,15 @@ class _AppLayoutState extends State<AppLayout> {
     );
   }
 
+  Widget addButton() {
+    return FloatingActionButton(
+      onPressed: () {
+        routeState?.onAdd();
+      },
+      child: const Icon(AppIcons.add),
+    );
+  }
+
   Widget refreshAction() {
     return IconButton(
       onPressed: reloadEnabled
@@ -120,7 +130,7 @@ class _AppLayoutState extends State<AppLayout> {
               setState(() {
                 reloadEnabled = false;
               });
-              routeKey?.currentState?.onReload();
+              routeState?.onReload();
               Future.delayed(const Duration(seconds: 10), () {
                 if (mounted) {
                   setState(() {

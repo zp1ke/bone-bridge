@@ -6,7 +6,7 @@ import '../../model/auth.dart';
 import '../../model/data_page.dart';
 import '../../model/todo.dart';
 import '../common/icon.dart';
-import '../component/app_state.dart';
+import '../shell/page_state.dart';
 import '../widget/pagination.dart';
 
 @AppPageRoute(path: '/todos', label: 'todos', iconCode: 'todos')
@@ -114,6 +114,17 @@ class _TodosPageState extends PageState<TodosPage> {
         onChanged: (_) {},
       ),
     );
+  }
+
+  @override
+  bool get canAdd => true;
+
+  @override
+  bool get canReload => true;
+
+  @override
+  void onAdd() {
+    // TODO: implement onAdd
   }
 
   @override

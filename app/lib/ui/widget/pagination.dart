@@ -27,14 +27,14 @@ class PaginationWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           /// Previous button
           Padding(
             padding: const EdgeInsets.only(right: 6),
             child: IconButton(
               icon: const Icon(AppIcons.paginationPrev),
-              onPressed: page > 1 ? () => onPageChanged(page - 1) : null,
+              onPressed: page > 0 ? () => onPageChanged(page - 1) : null,
             ),
           ),
 

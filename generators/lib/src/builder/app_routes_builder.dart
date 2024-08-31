@@ -11,7 +11,7 @@ class AppRoutesBuilder implements Builder {
       '',
       '// ignore_for_file: prefer_relative_imports',
       'import \'package:app/ui/common/icon.dart\';',
-      'import \'package:app/ui/component/app_state.dart\';',
+      'import \'package:app/ui/shell/page_state.dart\';',
     ];
     final codeContent = <String>[];
     final routes = <String>[];

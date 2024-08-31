@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../common/logger.dart';
 import '../model/auth.dart';
-import '../ui/component/layout.dart';
+import '../ui/shell/layout.dart';
 import '../ui/page/index.dart';
 import 'route_path.dart';
 import 'routes.dart';

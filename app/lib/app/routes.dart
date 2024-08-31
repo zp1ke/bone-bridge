@@ -2,7 +2,7 @@
 
 // ignore_for_file: prefer_relative_imports
 import 'package:app/ui/common/icon.dart';
-import 'package:app/ui/component/app_state.dart';
+import 'package:app/ui/shell/page_state.dart';
 import 'package:app/ui/page/todos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';

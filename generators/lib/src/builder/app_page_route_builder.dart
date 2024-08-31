@@ -43,7 +43,7 @@ final pageRoute$elementName = AppRoute(
   iconData: AppIcons.${appPageRoute.iconCode},
   path: '${appPageRoute.path}',
   label: (l10n) => l10n.${appPageRoute.label},
-  widgetKey: GlobalKey<AppState<$elementName>>(),
+  widgetKey: GlobalKey<PageState<$elementName>>(),
   routeBuilder: (context, state, key) => $elementName(key: key),
 );
 ''';
