@@ -5,9 +5,8 @@ const searchParams = new URLSearchParams(window.location.search);
 const renderer = searchParams.get('renderer');
 const userConfig = renderer ? {'renderer': renderer} : {};
 
-const loading = document.createElement('div');
-document.body.appendChild(loading);
-loading.textContent = "Loading...";
+const loading = document.getElementById('splash-strapline');
+loading.textContent = 'Loading...';
 
 _flutter.loader.load({
   config: userConfig,
@@ -15,9 +14,9 @@ _flutter.loader.load({
     serviceWorkerVersion: {{flutter_service_worker_version}},
   },
   onEntrypointLoaded: async function(engineInitializer) {
-    loading.textContent = "Initializing engine...";
+    loading.textContent = 'Initializing engine...';
     const appRunner = await engineInitializer.initializeEngine();
-    loading.textContent = "Running app...";
+    loading.textContent = 'Running app...';
     await appRunner.runApp();
   },
 });

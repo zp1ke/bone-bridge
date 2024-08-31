@@ -1,0 +1,52 @@
+:root {
+    color-scheme: light dark;
+    --text-color: #000;
+    --background-color: #fff;
+}
+
+/* Dark Color Scheme */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: #fff;
+        --background-color: #333;
+    }
+}
+
+body {
+    font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#splash-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    background-blend-mode: multiply;
+    background-size: cover;
+    background-position: center;
+}
+
+#splash-heading {
+    font-weight: 600;
+    font-size: 3rem;
+    margin-bottom: 0;
+    outline: none;
+}
+
+#splash-strapline {
+    font-weight: 300;
+    font-size: 1.3rem;
+    margin-top: .4rem;
+    outline: none;
+}
