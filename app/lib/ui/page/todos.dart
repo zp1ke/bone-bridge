@@ -23,7 +23,7 @@ class _TodosPageState extends PageState<TodosPage> {
 
   late Auth auth;
   var scrollPaginated = false;
-  var dataPage = DataPage<Todo>.empty();
+  var dataPages = <DataPage<Todo>>[];
   var fetching = false;
 
   var page = 0;
@@ -55,7 +55,8 @@ class _TodosPageState extends PageState<TodosPage> {
   }
 
   void fetchPage({bool force = false}) async {
-    if (!fetching && (force || page != dataPage.page)) {
+    if (!fetching &&
+        (force || dataPages.isEmpty || page != dataPages.last.page)) {
       setState(() {
         fetching = true;
       });
@@ -64,13 +65,9 @@ class _TodosPageState extends PageState<TodosPage> {
         page: page,
         pageSize: pageSize,
       );
-      if (scrollPaginated) {
-        dataPage.add(data);
-      } else {
-        dataPage = data;
-      }
       setState(() {
-        lastPage = dataPage.totalCount ~/ pageSize;
+        dataPages.add(data);
+        lastPage = data.totalCount ~/ pageSize;
         fetching = false;
       });
     }
@@ -78,7 +75,7 @@ class _TodosPageState extends PageState<TodosPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (dataPage.page < 0) {
+    if (dataPages.isEmpty) {
       return const Center(
         child: CircularProgressIndicator.adaptive(),
       );
@@ -98,7 +95,7 @@ class _TodosPageState extends PageState<TodosPage> {
 
   Widget body() {
     return PaginatedListWidget<Todo>(
-      dataPage: dataPage,
+      dataPages: dataPages,
       fetching: fetching,
       itemBuilder: itemWidget,
       scrollController: scrollController,
