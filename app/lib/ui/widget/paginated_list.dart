@@ -43,6 +43,7 @@ class PaginatedListWidget<T> extends StatelessWidget {
           child: itemsList(context),
         ),
         PaginationWidget(
+          enabled: !fetching,
           page: dataPage.page,
           totalPages: dataPage.totalCount ~/ dataPage.pageSize,
           onPageChanged: onPageChanged,

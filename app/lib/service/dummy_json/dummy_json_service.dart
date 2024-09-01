@@ -52,7 +52,7 @@ class DummyJsonService implements AuthService, TodoService {
     final skip = page * pageSize;
 
     /// Intentional delay
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 2000));
     final response = await service.fetchTodos(pageSize, skip);
     if (response.isSuccessful) {
       return _parseDataPage<Todo>(

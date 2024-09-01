@@ -1,10 +1,11 @@
 import 'package:annotations/annotations.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+import '../../common/locator.dart';
 import '../../model/auth.dart';
 import '../../model/data_page.dart';
 import '../../model/todo.dart';
+import '../../service/todo_service.dart';
 import '../shell/page_state.dart';
 import '../widget/paginated_list.dart';
 import '../widget/responsive.dart';
@@ -26,8 +27,10 @@ class _TodosPageState extends PageState<TodosPage> {
   var fetching = false;
 
   var page = 0;
-  var pageSize = 15; // TODO: config
+  var pageSize = 10; // TODO: config
   var lastPage = 10000;
+
+  TodoService get todoService => getService<TodoService>();
 
   @override
   void initState() {
@@ -51,43 +54,45 @@ class _TodosPageState extends PageState<TodosPage> {
     });
   }
 
-  void fetchPage({bool force = false}) {
-    TodoState.of(context).fetchTodos(
-      auth,
-      page: page,
-      pageSize: pageSize,
-      force: force,
-    );
+  void fetchPage({bool force = false}) async {
+    if (!fetching && (force || page != dataPage.page)) {
+      setState(() {
+        fetching = true;
+      });
+      final data = await todoService.fetchTodos(
+        auth,
+        page: page,
+        pageSize: pageSize,
+      );
+      if (scrollPaginated) {
+        dataPage.add(data);
+      } else {
+        dataPage = data;
+      }
+      setState(() {
+        lastPage = dataPage.totalCount ~/ pageSize;
+        fetching = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TodoState>(
-      builder: (context, todoState, child) {
-        if (todoState.todos != null) {
-          lastPage = todoState.todos!.totalCount ~/ pageSize;
-          if (scrollPaginated) {
-            dataPage.add(todoState.todos!);
-          } else {
-            dataPage = todoState.todos!;
-          }
-          fetching = todoState.fetching;
-          return ResponsiveWidget(
-            small: (context) {
-              scrollPaginated = true;
-              return body();
-            },
-            medium: (context) {
-              scrollPaginated = false;
-              return body();
-            },
-          );
-        }
-        return child!;
-      },
-      child: const Center(
+    if (dataPage.page < 0) {
+      return const Center(
         child: CircularProgressIndicator.adaptive(),
-      ),
+      );
+    }
+
+    return ResponsiveWidget(
+      small: (context) {
+        scrollPaginated = true;
+        return body();
+      },
+      medium: (context) {
+        scrollPaginated = false;
+        return body();
+      },
     );
   }
 
@@ -135,9 +140,6 @@ class _TodosPageState extends PageState<TodosPage> {
 
   @override
   void onReload() {
-    setState(() {
-      page = 0;
-    });
     fetchPage(force: true);
   }
 

@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/l10n.dart';
 import '../common/icon.dart';
 
 class PaginationWidget extends StatelessWidget {
+  final bool enabled;
   final int page;
   final int totalPages;
   final _PageRange _pageRange;
@@ -14,6 +15,7 @@ class PaginationWidget extends StatelessWidget {
 
   PaginationWidget({
     super.key,
+    this.enabled = true,
     required this.page,
     required this.totalPages,
     int visiblePages = 5,
@@ -56,7 +58,9 @@ class PaginationWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: TextButton(
-                  onPressed: index != page ? () => onPageChanged(index) : null,
+                  onPressed: enabled && index != page
+                      ? () => onPageChanged(index)
+                      : null,
                   child: Text(
                     '${index + 1}',
                     textScaler: TextScaler.linear(index == page ? 1.5 : 1),
@@ -104,7 +108,7 @@ class PaginationWidget extends StatelessWidget {
         iconData,
         color: invisible ? Colors.transparent : null,
       ),
-      onPressed: enabled ? onAction : null,
+      onPressed: this.enabled && enabled ? onAction : null,
     );
 
     if (invisible) {

@@ -5,9 +5,9 @@ import 'package:provider/provider.dart';
 
 import '../app/route_path.dart';
 import '../common/crypto.dart';
+import '../common/locator.dart';
 import '../service/auth_service.dart';
 import '../service/storage_service.dart';
-import 'todo.dart';
 import 'user.dart';
 
 abstract class Auth extends User {
@@ -31,28 +31,31 @@ class AuthState extends ChangeNotifier {
   Auth? get auth => _auth;
 
   static Future<AuthState> create({
-    required AuthService authService,
-    required StorageService storageService,
+    AuthService? authService,
+    StorageService? storageService,
     Auth? auth,
   }) async {
+    final authServ = authService ?? getService<AuthService>();
+    final storageServ = storageService ?? getService<StorageService>();
+
     if (auth != null) {
       return AuthState._(
-        authService: authService,
-        storageService: storageService,
+        authService: authServ,
+        storageService: storageServ,
         auth: auth,
       );
     }
-    final username = await storageService.loadString(_usernameKey);
+    final username = await storageServ.loadString(_usernameKey);
     Auth? savedAuth;
     if (username != null) {
-      var authJson = await storageService.loadString(_userJsonKey);
+      var authJson = await storageServ.loadString(_userJsonKey);
       authJson = decrypt(plainKey: username, base64Text: authJson!);
       final Map<String, dynamic> authMap = jsonDecode(authJson);
-      savedAuth = authService.parse(authMap);
+      savedAuth = authServ.parse(authMap);
     }
     return AuthState._(
-      authService: authService,
-      storageService: storageService,
+      authService: authServ,
+      storageService: storageServ,
       auth: savedAuth,
     );
   }
@@ -84,11 +87,8 @@ class AuthState extends ChangeNotifier {
     notifyListeners();
   }
 
-  static Future signOut(BuildContext context) async {
-    await AuthState.of(context).clear();
-    if (context.mounted) {
-      await TodoState.of(context).clear();
-    }
+  static Future signOut(BuildContext context) {
+    return AuthState.of(context).clear();
   }
 
   Future clear() async {
