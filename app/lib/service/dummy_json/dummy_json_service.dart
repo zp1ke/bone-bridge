@@ -50,6 +50,9 @@ class DummyJsonService implements AuthService, TodoService {
   }) async {
     final service = _chopper.getService<_ChopperService>();
     final skip = page * pageSize;
+
+    /// Intentional delay
+    await Future.delayed(const Duration(milliseconds: 100));
     final response = await service.fetchTodos(pageSize, skip);
     if (response.isSuccessful) {
       return _parseDataPage<Todo>(
@@ -75,7 +78,7 @@ class DummyJsonService implements AuthService, TodoService {
     return DataPage<T>(
       list: list.whereType<Map<String, dynamic>>().map((item) {
         return typeParser(item);
-      }),
+      }).toList(),
       page: page.toInt(),
       pageSize: limit.toInt(),
       totalCount: json['total'] ?? list.length,

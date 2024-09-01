@@ -11,6 +11,7 @@ class PaginatedListWidget<T> extends StatelessWidget {
   final DataPage<T> dataPage;
   final bool fetching;
   final ItemBuilder<T> itemBuilder;
+  final ScrollController scrollController;
   final Function(int) onPageChanged;
 
   const PaginatedListWidget({
@@ -18,6 +19,7 @@ class PaginatedListWidget<T> extends StatelessWidget {
     required this.dataPage,
     required this.fetching,
     required this.itemBuilder,
+    required this.scrollController,
     required this.onPageChanged,
   });
 
@@ -52,6 +54,7 @@ class PaginatedListWidget<T> extends StatelessWidget {
   Widget itemsList(BuildContext context) {
     final list = dataPage.list.toList();
     return ListView.separated(
+      controller: scrollController,
       itemBuilder: (context, index) {
         if (index == list.length) {
           return const ListTile(

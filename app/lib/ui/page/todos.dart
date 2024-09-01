@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/auth.dart';
+import '../../model/data_page.dart';
 import '../../model/todo.dart';
 import '../shell/page_state.dart';
 import '../widget/paginated_list.dart';
+import '../widget/responsive.dart';
 
 @AppPageRoute(path: '/todos', label: 'todos', iconCode: 'todos')
 class TodosPage extends StatefulWidget {
@@ -16,10 +18,16 @@ class TodosPage extends StatefulWidget {
 }
 
 class _TodosPageState extends PageState<TodosPage> {
-  late Auth auth;
+  final scrollController = ScrollController();
 
-  int page = 0;
-  int pageSize = 10; // TODO: config
+  late Auth auth;
+  var scrollPaginated = false;
+  var dataPage = DataPage<Todo>.empty();
+  var fetching = false;
+
+  var page = 0;
+  var pageSize = 15; // TODO: config
+  var lastPage = 10000;
 
   @override
   void initState() {
@@ -29,6 +37,17 @@ class _TodosPageState extends PageState<TodosPage> {
         auth = AuthState.of(context).auth!;
       });
       fetchPage();
+      scrollController.addListener(() async {
+        final scrollPosition = scrollController.position;
+        if (scrollPaginated &&
+            scrollPosition.pixels == scrollPosition.maxScrollExtent &&
+            page < lastPage) {
+          setState(() {
+            page += 1;
+          });
+          fetchPage();
+        }
+      });
     });
   }
 
@@ -46,16 +65,21 @@ class _TodosPageState extends PageState<TodosPage> {
     return Consumer<TodoState>(
       builder: (context, todoState, child) {
         if (todoState.todos != null) {
-          // return body(todoState.todos!, todoState.fetching);
-          return PaginatedListWidget<Todo>(
-            dataPage: todoState.todos!,
-            fetching: todoState.fetching,
-            itemBuilder: itemWidget,
-            onPageChanged: (value) {
-              setState(() {
-                page = value;
-              });
-              fetchPage();
+          lastPage = todoState.todos!.totalCount ~/ pageSize;
+          if (scrollPaginated) {
+            dataPage.add(todoState.todos!);
+          } else {
+            dataPage = todoState.todos!;
+          }
+          fetching = todoState.fetching;
+          return ResponsiveWidget(
+            small: (context) {
+              scrollPaginated = true;
+              return body();
+            },
+            medium: (context) {
+              scrollPaginated = false;
+              return body();
             },
           );
         }
@@ -64,6 +88,21 @@ class _TodosPageState extends PageState<TodosPage> {
       child: const Center(
         child: CircularProgressIndicator.adaptive(),
       ),
+    );
+  }
+
+  Widget body() {
+    return PaginatedListWidget<Todo>(
+      dataPage: dataPage,
+      fetching: fetching,
+      itemBuilder: itemWidget,
+      scrollController: scrollController,
+      onPageChanged: (value) {
+        setState(() {
+          page = value;
+        });
+        fetchPage();
+      },
     );
   }
 
@@ -78,16 +117,16 @@ class _TodosPageState extends PageState<TodosPage> {
       ),
       trailing: Checkbox(
         value: todo.isCompleted,
-        onChanged: (_) {},
+        onChanged: !fetching ? (_) {} : null,
       ),
     );
   }
 
   @override
-  bool get canAdd => true;
+  bool get canAdd => !fetching;
 
   @override
-  bool get canReload => true;
+  bool get canReload => !fetching;
 
   @override
   void onAdd() {
@@ -96,6 +135,15 @@ class _TodosPageState extends PageState<TodosPage> {
 
   @override
   void onReload() {
+    setState(() {
+      page = 0;
+    });
     fetchPage(force: true);
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 }

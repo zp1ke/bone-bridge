@@ -1,5 +1,5 @@
 class DataPage<T> {
-  final Iterable<T> list;
+  List<T> _list;
 
   final int page;
 
@@ -7,16 +7,24 @@ class DataPage<T> {
 
   final int totalCount;
 
+  List<T> get list => _list;
+
   DataPage({
-    required this.list,
+    required List<T> list,
     required this.page,
     required this.pageSize,
     required this.totalCount,
-  });
+  }) : _list = list;
 
   DataPage.empty()
-      : list = [],
+      : _list = [],
         page = -1,
         pageSize = 0,
         totalCount = 0;
+
+  void add(DataPage<T> other) {
+    var set = _list.toSet();
+    set.addAll(other._list);
+    _list = set.toList();
+  }
 }
