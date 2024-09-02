@@ -1,9 +1,11 @@
 import 'package:annotations/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../common/locator.dart';
 import '../../model/auth.dart';
 import '../../model/data_page.dart';
+import '../../model/route_state.dart';
 import '../../model/todo.dart';
 import '../../service/todo_service.dart';
 import '../shell/page_state.dart';
@@ -24,7 +26,6 @@ class _TodosPageState extends PageState<TodosPage> {
   late Auth auth;
   var scrollPaginated = false;
   var dataPages = <DataPage<Todo>>[];
-  var fetching = false;
 
   var page = 0;
   var pageSize = 10; // TODO: config
@@ -39,27 +40,34 @@ class _TodosPageState extends PageState<TodosPage> {
       setState(() {
         auth = AuthState.of(context).auth!;
       });
+      initRoute();
+      initScroll();
       fetchPage();
-      scrollController.addListener(() async {
-        final scrollPosition = scrollController.position;
-        if (scrollPaginated &&
-            scrollPosition.pixels == scrollPosition.maxScrollExtent &&
-            page < lastPage) {
-          setState(() {
-            page += 1;
-          });
-          fetchPage();
-        }
-      });
+    });
+  }
+
+  void initRoute() {
+    RouteState.of(context).canAddAndReload = true;
+  }
+
+  void initScroll() {
+    scrollController.addListener(() async {
+      final scrollPosition = scrollController.position;
+      if (scrollPaginated &&
+          scrollPosition.pixels == scrollPosition.maxScrollExtent &&
+          page < lastPage) {
+        setState(() {
+          page += 1;
+        });
+        fetchPage();
+      }
     });
   }
 
   void fetchPage({bool force = false}) async {
-    if (!fetching &&
-        (force || dataPages.isEmpty || page != dataPages.last.page)) {
-      setState(() {
-        fetching = true;
-      });
+    final routeState = RouteState.of(context);
+    if (force || dataPages.isEmpty || page != dataPages.last.page) {
+      routeState.fetching = true;
       final data = await todoService.fetchTodos(
         auth,
         page: page,
@@ -68,8 +76,8 @@ class _TodosPageState extends PageState<TodosPage> {
       setState(() {
         dataPages.add(data);
         lastPage = data.totalCount ~/ pageSize;
-        fetching = false;
       });
+      routeState.fetching = false;
     }
   }
 
@@ -94,21 +102,25 @@ class _TodosPageState extends PageState<TodosPage> {
   }
 
   Widget body() {
-    return PaginatedListWidget<Todo>(
-      dataPages: dataPages,
-      fetching: fetching,
-      itemBuilder: itemWidget,
-      scrollController: scrollController,
-      onPageChanged: (value) {
-        setState(() {
-          page = value;
-        });
-        fetchPage();
+    return Consumer<RouteState>(
+      builder: (context, routeState, _) {
+        return PaginatedListWidget<Todo>(
+          dataPages: dataPages,
+          fetching: routeState.fetching,
+          itemBuilder: (item) => itemWidget(item, routeState.fetching),
+          scrollController: scrollController,
+          onPageChanged: (value) {
+            setState(() {
+              page = value;
+            });
+            fetchPage();
+          },
+        );
       },
     );
   }
 
-  Widget itemWidget(Todo todo) {
+  Widget itemWidget(Todo todo, bool fetching) {
     return ListTile(
       title: Text(
         todo.description,
@@ -123,12 +135,6 @@ class _TodosPageState extends PageState<TodosPage> {
       ),
     );
   }
-
-  @override
-  bool get canAdd => !fetching;
-
-  @override
-  bool get canReload => !fetching;
 
   @override
   void onAdd() {

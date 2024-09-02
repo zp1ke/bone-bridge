@@ -3,8 +3,9 @@ import 'package:go_router/go_router.dart';
 
 import '../common/logger.dart';
 import '../model/auth.dart';
-import '../ui/shell/layout.dart';
+import '../model/route_state.dart';
 import '../ui/page/index.dart';
+import '../ui/shell/layout.dart';
 import 'route_path.dart';
 import 'routes.dart';
 
@@ -46,6 +47,9 @@ final appRouter = GoRouter(
       redirect: (context, state) async {
         final routePath = RoutePath.parse(state.matchedLocation);
         final redirectPath = AuthState.of(context).redirectPathFor(routePath);
+        final appRoute =
+            redirectPath == null ? _appRouteOf(state.matchedLocation) : null;
+        RouteState.of(context).route = appRoute;
         return redirectPath?.path;
       },
     ),
@@ -63,10 +67,14 @@ extension GoRouterHelper on BuildContext {
 
   AppRoute? get activeAppRoute {
     final activePath = GoRouterState.of(this).fullPath;
-    return activePath != null
-        ? appRoutes.where((routePath) {
-            return activePath.startsWith(routePath.path);
-          }).firstOrNull
-        : null;
+    return _appRouteOf(activePath);
   }
+}
+
+AppRoute? _appRouteOf(String? path) {
+  return path != null
+      ? appRoutes.where((routePath) {
+          return path.startsWith(routePath.path);
+        }).firstOrNull
+      : null;
 }

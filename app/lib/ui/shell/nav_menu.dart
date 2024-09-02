@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import '../../app/route_path.dart';
 import '../../app/router.dart';
 import '../../app/routes.dart';
-import '../../common/logger.dart';
 import '../../model/auth.dart';
+import '../../model/route_state.dart';
 import '../common/alert.dart';
 import '../common/icon.dart';
 
@@ -22,56 +22,55 @@ class NavMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = L10n.of(context);
-    var appRoute = context.activeAppRoute;
-    logDebug('Active route: ${appRoute?.path}', name: 'ui/component/nav_menu');
-
-    return SafeArea(
-      child: Column(
-        children: [
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                Consumer<AuthState>(
-                  builder: (context, authState, child) {
-                    if (authState.auth != null) {
-                      return _header(context, authState.auth!);
-                    }
-                    return child!;
-                  },
-                  child: const Center(
-                    child: CircularProgressIndicator.adaptive(),
+    return Consumer<RouteState>(builder: (context, routeState, _) {
+      final l10n = L10n.of(context);
+      return SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  Consumer<AuthState>(
+                    builder: (context, authState, child) {
+                      if (authState.auth != null) {
+                        return _header(context, authState.auth!);
+                      }
+                      return child!;
+                    },
+                    child: const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    ),
                   ),
-                ),
-                _menuItem(
-                  expanded: expanded,
-                  label: l10n.home,
-                  icon: AppIcons.home,
-                  path: '/',
-                  selected: appRoute == null,
-                  onNavigation: onNavigation,
-                ),
-                const Divider(),
-                ...appRoutes.map((route) {
-                  return _menuItem(
+                  _menuItem(
                     expanded: expanded,
-                    label: route.label(l10n),
-                    icon: route.iconData,
-                    path: route.path,
-                    selected: appRoute != null &&
-                        appRoute.path.startsWith(route.path),
+                    label: l10n.home,
+                    icon: AppIcons.home,
+                    path: '/',
+                    selected: routeState.route == null,
                     onNavigation: onNavigation,
-                  );
-                }),
-              ],
+                  ),
+                  const Divider(),
+                  ...appRoutes.map((route) {
+                    return _menuItem(
+                      expanded: expanded,
+                      label: route.label(l10n),
+                      icon: route.iconData,
+                      path: route.path,
+                      selected: routeState.route?.path.startsWith(route.path) ??
+                          false,
+                      onNavigation: onNavigation,
+                    );
+                  }),
+                ],
+              ),
             ),
-          ),
-          const Divider(),
-          _signOutItem(context),
-        ],
-      ),
-    );
+            const Divider(),
+            _signOutItem(context),
+          ],
+        ),
+      );
+    });
   }
 
   Widget _menuItem({
