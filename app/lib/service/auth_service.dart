@@ -6,6 +6,8 @@ abstract class AuthService {
   Future<Auth> authenticate(Credentials credentials);
 
   Auth? parse(Map<String, dynamic> authMap);
+
+  Future clear();
 }
 
 class UsernamePasswordCredentials implements Credentials {

@@ -44,3 +44,4 @@ app.*.map.json
 
 #Custom
 /l10n_errors.txt
+/lib/config.dart

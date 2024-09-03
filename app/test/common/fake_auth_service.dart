@@ -5,7 +5,7 @@ class EmptyCredentials implements Credentials {}
 
 class FakeAuthService implements AuthService {
   final Auth auth = FakeAuth(
-    id: 1,
+    id: '1',
     email: 'test@mail.com',
     username: 'username',
     token: 'token',
@@ -21,6 +21,11 @@ class FakeAuthService implements AuthService {
   Auth? parse(Map<String, dynamic> authMap) {
     return auth;
   }
+
+  @override
+  Future clear() {
+    return Future.value(null);
+  }
 }
 
 class FakeAuth extends Auth {
@@ -31,7 +36,7 @@ class FakeAuth extends Auth {
   final String? firstName;
 
   @override
-  int id;
+  String id;
 
   @override
   final String? image;

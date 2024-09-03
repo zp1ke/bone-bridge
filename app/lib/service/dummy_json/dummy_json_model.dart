@@ -12,20 +12,28 @@ part 'dummy_json_model.g.dart';
 @JsonSerializable()
 class DummyJsonUser extends User {
   @override
-  final int id;
+  String get id => userId.toString();
+
+  @JsonKey(name: 'id')
+  final int userId;
+
   @override
   final String email;
+
   @override
   final String username;
+
   @override
   final String? firstName;
+
   @override
   final String? lastName;
+
   @override
   final String? image;
 
   DummyJsonUser({
-    required this.id,
+    required this.userId,
     required this.email,
     required this.username,
     this.firstName,
@@ -47,7 +55,7 @@ class DummyJsonAuth extends DummyJsonUser implements Auth {
   final String refreshToken;
 
   DummyJsonAuth({
-    required super.id,
+    required super.userId,
     required super.email,
     required super.username,
     super.firstName,

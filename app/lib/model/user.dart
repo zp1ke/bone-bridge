@@ -1,5 +1,5 @@
 abstract class User {
-  int get id;
+  String get id;
 
   String get email;
 

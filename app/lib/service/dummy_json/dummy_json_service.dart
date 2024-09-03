@@ -93,6 +93,11 @@ class DummyJsonService implements AuthService, TodoService {
     return DummyJsonHttpError(
         statusCode: response.statusCode, message: errorMessage);
   }
+
+  @override
+  Future clear() {
+    return Future.value(null);
+  }
 }
 
 typedef _TypeParser<T> = T Function(Map<String, dynamic>);

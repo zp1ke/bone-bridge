@@ -16,6 +16,7 @@ dependencies:
     sdk: flutter
   annotations:
     path: ../annotations/
+  appwrite: ^13.0.0
   chopper: ^8.0.1+1
   cupertino_icons: ^1.0.8
   encrypt: ^5.0.3

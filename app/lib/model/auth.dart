@@ -92,6 +92,7 @@ class AuthState extends ChangeNotifier {
   }
 
   Future clear() async {
+    await _authService.clear();
     await _storageService.clear();
     _auth = null;
     notifyListeners();

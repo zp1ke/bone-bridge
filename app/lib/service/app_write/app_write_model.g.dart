@@ -1,14 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'dummy_json_model.dart';
+part of 'app_write_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-DummyJsonUser _$DummyJsonUserFromJson(Map<String, dynamic> json) =>
-    DummyJsonUser(
-      userId: (json['id'] as num).toInt(),
+AppWriteUser _$AppWriteUserFromJson(Map<String, dynamic> json) => AppWriteUser(
+      id: json['id'] as String,
       email: json['email'] as String,
       username: json['username'] as String,
       firstName: json['firstName'] as String?,
@@ -16,9 +15,9 @@ DummyJsonUser _$DummyJsonUserFromJson(Map<String, dynamic> json) =>
       image: json['image'] as String?,
     );
 
-Map<String, dynamic> _$DummyJsonUserToJson(DummyJsonUser instance) =>
+Map<String, dynamic> _$AppWriteUserToJson(AppWriteUser instance) =>
     <String, dynamic>{
-      'id': instance.userId,
+      'id': instance.id,
       'email': instance.email,
       'username': instance.username,
       'firstName': instance.firstName,
@@ -26,9 +25,8 @@ Map<String, dynamic> _$DummyJsonUserToJson(DummyJsonUser instance) =>
       'image': instance.image,
     };
 
-DummyJsonAuth _$DummyJsonAuthFromJson(Map<String, dynamic> json) =>
-    DummyJsonAuth(
-      userId: (json['id'] as num).toInt(),
+AppWriteAuth _$AppWriteAuthFromJson(Map<String, dynamic> json) => AppWriteAuth(
+      id: json['id'] as String,
       email: json['email'] as String,
       username: json['username'] as String,
       firstName: json['firstName'] as String?,
@@ -38,9 +36,9 @@ DummyJsonAuth _$DummyJsonAuthFromJson(Map<String, dynamic> json) =>
       refreshToken: json['refreshToken'] as String,
     );
 
-Map<String, dynamic> _$DummyJsonAuthToJson(DummyJsonAuth instance) =>
+Map<String, dynamic> _$AppWriteAuthToJson(AppWriteAuth instance) =>
     <String, dynamic>{
-      'id': instance.userId,
+      'id': instance.id,
       'email': instance.email,
       'username': instance.username,
       'firstName': instance.firstName,
@@ -48,18 +46,4 @@ Map<String, dynamic> _$DummyJsonAuthToJson(DummyJsonAuth instance) =>
       'image': instance.image,
       'token': instance.token,
       'refreshToken': instance.refreshToken,
-    };
-
-DummyJsonTodo _$DummyJsonTodoFromJson(Map<String, dynamic> json) =>
-    DummyJsonTodo(
-      id: (json['id'] as num).toInt(),
-      description: json['todo'] as String,
-      isCompleted: json['completed'] as bool? ?? false,
-    );
-
-Map<String, dynamic> _$DummyJsonTodoToJson(DummyJsonTodo instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'todo': instance.description,
-      'completed': instance.isCompleted,
     };
