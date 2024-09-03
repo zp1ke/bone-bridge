@@ -7,24 +7,41 @@ import '../service/dummy_json/dummy_json_service.dart';
 import '../service/shared_preferences/shared_preferences_storage_service.dart';
 import '../service/storage_service.dart';
 import '../service/todo_service.dart';
+import 'logger.dart';
 
 final _getIt = GetIt.instance;
 
 void setupServices() {
   AppWriteService? appWriteService;
-  if (AppConfig.appWriteProjectID.value.isNotEmpty) {
+  if (AppConfig.appWriteProjectID.isNotEmpty) {
     appWriteService = AppWriteService(
-      projectID: AppConfig.appWriteProjectID.value,
+      projectID: AppConfig.appWriteProjectID,
     );
   }
 
   final dummyJsonService = DummyJsonService();
 
-  _getIt.registerSingleton<AuthService>(appWriteService ?? dummyJsonService);
-  _getIt.registerSingleton<TodoService>(dummyJsonService);
+  final authService = appWriteService ?? dummyJsonService;
+  logDebug(
+    'AuthService: ${authService.runtimeType}',
+    name: 'common/locator',
+  );
+  _getIt.registerSingleton<AuthService>(authService);
+
+  final todoService = dummyJsonService;
+  logDebug(
+    'TodoService: ${todoService.runtimeType}',
+    name: 'common/locator',
+  );
+  _getIt.registerSingleton<TodoService>(todoService);
 
   _getIt.registerLazySingleton<StorageService>(() {
-    return SharedPreferencesStorageService();
+    final storageService = SharedPreferencesStorageService();
+    logDebug(
+      'StorageService: ${storageService.runtimeType}',
+      name: 'common/locator',
+    );
+    return storageService;
   });
 }
 
