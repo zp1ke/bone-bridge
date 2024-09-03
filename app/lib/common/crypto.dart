@@ -1,14 +1,24 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart' as crypto;
 import 'package:encrypt/encrypt.dart';
 
-String encrypt({required String plainKey, required String plainText}) {
-  final iv = IV.fromUtf8(plainKey);
-  return _encrypterOf(plainKey).encrypt(plainText, iv: iv).base64;
-}
+extension CryptoString on String {
+  String encrypt({required String plainKey}) {
+    final iv = IV.fromUtf8(plainKey);
+    return _encrypterOf(plainKey).encrypt(this, iv: iv).base64;
+  }
 
-String decrypt({required String plainKey, required String base64Text}) {
-  final iv = IV.fromUtf8(plainKey);
-  return _encrypterOf(plainKey)
-      .decrypt(Encrypted.fromBase64(base64Text), iv: iv);
+  String decrypt({required String plainKey}) {
+    final iv = IV.fromUtf8(plainKey);
+    return _encrypterOf(plainKey).decrypt(Encrypted.fromBase64(this), iv: iv);
+  }
+
+  String get sha256 {
+    final bytesToHash = utf8.encode(trim().toLowerCase());
+    final sha256Digest = crypto.sha256.convert(bytesToHash);
+    return sha256Digest.toString();
+  }
 }
 
 Encrypter _encrypterOf(String plainKey) {

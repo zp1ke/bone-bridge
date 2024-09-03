@@ -7,7 +7,7 @@ import '../../model/route_state.dart';
 import '../common/icon.dart';
 import '../widget/responsive.dart';
 import '../widget/split.dart';
-import 'nav_menu.dart';
+import 'menu.dart';
 
 class AppLayout extends StatefulWidget {
   final Widget child;
@@ -116,7 +116,7 @@ class _AppLayoutState extends State<AppLayout> {
   }
 
   Widget menu(BuildContext context, bool expanded) {
-    return NavMenu(
+    return AppMenu(
       expanded: expanded,
       onNavigation: (path) {
         if (key.currentState!.hasDrawer) {

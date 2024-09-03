@@ -10,11 +10,11 @@ import '../../model/route_state.dart';
 import '../common/alert.dart';
 import '../common/icon.dart';
 
-class NavMenu extends StatelessWidget {
+class AppMenu extends StatelessWidget {
   final bool expanded;
   final Function(String) onNavigation;
 
-  const NavMenu({
+  const AppMenu({
     super.key,
     required this.expanded,
     required this.onNavigation,
@@ -101,20 +101,20 @@ class NavMenu extends StatelessWidget {
       color: Theme.of(context).colorScheme.primaryContainer,
     );
 
+    final imageUrl = auth.image ?? auth.gravatarUrl;
+
     if (!expanded) {
       return DrawerHeader(
         decoration: decoration,
-        child: auth.image != null
-            ? CircleAvatar(
-                radius: 56,
-                backgroundImage: Image.network(
-                  auth.image!,
-                  width: 56,
-                  fit: BoxFit.scaleDown,
-                ).image,
-                backgroundColor: color,
-              )
-            : const Icon(AppIcons.user),
+        child: CircleAvatar(
+          radius: 56,
+          backgroundImage: Image.network(
+            imageUrl,
+            width: 56,
+            fit: BoxFit.scaleDown,
+          ).image,
+          backgroundColor: color,
+        ),
       );
     }
 
@@ -135,15 +135,13 @@ class NavMenu extends StatelessWidget {
           color: color,
         ),
       ),
-      currentAccountPicture: auth.image != null
-          ? CircleAvatar(
-              backgroundImage: Image.network(
-                auth.image!,
-                fit: BoxFit.cover,
-              ).image,
-              backgroundColor: color,
-            )
-          : null,
+      currentAccountPicture: CircleAvatar(
+        backgroundImage: Image.network(
+          imageUrl,
+          fit: BoxFit.cover,
+        ).image,
+        backgroundColor: color,
+      ),
       arrowColor: Theme.of(context).primaryColor,
       decoration: decoration,
     );

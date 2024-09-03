@@ -49,7 +49,7 @@ class AuthState extends ChangeNotifier {
     Auth? savedAuth;
     if (username != null) {
       var authJson = await storageServ.loadString(_userJsonKey);
-      authJson = decrypt(plainKey: username, base64Text: authJson!);
+      authJson = authJson!.decrypt(plainKey: username);
       final Map<String, dynamic> authMap = jsonDecode(authJson);
       savedAuth = authServ.parse(authMap);
     }
@@ -81,8 +81,7 @@ class AuthState extends ChangeNotifier {
   Future authenticate(Credentials credentials) async {
     _auth = await _authService.authenticate(credentials);
     await _storageService.saveString(key: _usernameKey, value: _auth!.username);
-    final authJson =
-        encrypt(plainKey: _auth!.username, plainText: _auth!.asJson);
+    final authJson = _auth!.asJson.encrypt(plainKey: _auth!.username);
     await _storageService.saveString(key: _userJsonKey, value: authJson);
     notifyListeners();
   }
