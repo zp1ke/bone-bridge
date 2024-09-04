@@ -38,8 +38,9 @@ class DummyJsonService implements AuthService, TodoService {
   }
 
   @override
-  Auth? parse(Map<String, dynamic> authMap) {
-    return DummyJsonAuth.fromJson(authMap);
+  Future<Auth?> setupAuth(Map<String, dynamic> authMap) {
+    final auth = DummyJsonAuth.fromJson(authMap);
+    return Future.value(auth);
   }
 
   @override
@@ -96,11 +97,6 @@ class DummyJsonService implements AuthService, TodoService {
 
   @override
   Future clear() {
-    return Future.value(null);
-  }
-
-  @override
-  Future setup(Auth? auth) {
     return Future.value(null);
   }
 }

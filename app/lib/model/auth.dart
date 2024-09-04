@@ -51,9 +51,8 @@ class AuthState extends ChangeNotifier {
       var authJson = await storageServ.loadString(_userJsonKey);
       authJson = authJson!.decrypt(plainKey: username);
       final Map<String, dynamic> authMap = jsonDecode(authJson);
-      savedAuth = authServ.parse(authMap);
+      savedAuth = await authServ.setupAuth(authMap);
     }
-    await authServ.setup(savedAuth);
     return AuthState._(
       authService: authServ,
       storageService: storageServ,

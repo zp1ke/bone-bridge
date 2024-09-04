@@ -75,18 +75,14 @@ class AppWriteService implements AuthService, TodoService {
   }
 
   @override
-  Auth? parse(Map<String, dynamic> authMap) {
-    return AppWriteAuth.fromJson(authMap);
+  Future<Auth?> setupAuth(Map<String, dynamic> authMap) {
+    final auth = AppWriteAuth.fromJson(authMap);
+    return Future.value(auth);
   }
 
   @override
   Future clear() {
     final account = Account(_client);
     return account.deleteSessions();
-  }
-
-  @override
-  Future setup(Auth? auth) {
-    return Future.value(null);
   }
 }

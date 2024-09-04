@@ -18,17 +18,12 @@ class FakeAuthService implements AuthService {
   }
 
   @override
-  Auth? parse(Map<String, dynamic> authMap) {
-    return auth;
+  Future<Auth?> setupAuth(Map<String, dynamic> authMap) {
+    return Future.value(auth);
   }
 
   @override
   Future clear() {
-    return Future.value(null);
-  }
-
-  @override
-  Future setup(Auth? auth) {
     return Future.value(null);
   }
 }
