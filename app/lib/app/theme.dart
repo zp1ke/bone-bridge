@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 const _scheme = FlexScheme.hippieBlue;
 const _surfaceMode = FlexSurfaceMode.levelSurfacesLowScaffold;
 final _visualDensity = FlexColorScheme.comfortablePlatformDensity;
+const _pageTransitionsTheme = PageTransitionsTheme(
+  builders: <TargetPlatform, PageTransitionsBuilder>{
+    TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+  },
+);
 
 // https://docs.flexcolorscheme.com/installing
 final appTheme = AppTheme(
@@ -22,6 +27,7 @@ final appTheme = AppTheme(
     visualDensity: _visualDensity,
     useMaterial3: true,
     swapLegacyOnMaterial3: true,
+    pageTransitionsTheme: _pageTransitionsTheme,
     // fontFamily: GoogleFonts.notoSans().fontFamily,
   ),
   dark: FlexThemeData.dark(
@@ -38,6 +44,7 @@ final appTheme = AppTheme(
     visualDensity: _visualDensity,
     useMaterial3: true,
     swapLegacyOnMaterial3: true,
+    pageTransitionsTheme: _pageTransitionsTheme,
     // fontFamily: GoogleFonts.notoSans().fontFamily,
   ),
 );
