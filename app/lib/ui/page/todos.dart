@@ -18,9 +18,12 @@ class TodosPage extends StatefulWidget {
 }
 
 class _TodosPageState extends PageState<TodosPage> {
+  final crudKey = GlobalKey<CrudState>();
+
   @override
   Widget build(BuildContext context) {
     return CrudPage<Todo>(
+      key: crudKey,
       routeConfigurer: () => RouteConfig(canAddData: true, canReloadData: true),
       dataFetcher: fetchPage,
       itemBuilder: itemWidget,
@@ -60,6 +63,6 @@ class _TodosPageState extends PageState<TodosPage> {
 
   @override
   void onReload() {
-    // TODO: implement onReload
+    crudKey.currentState?.fetchPage(force: true);
   }
 }

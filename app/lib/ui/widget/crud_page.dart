@@ -6,6 +6,10 @@ import '../../model/route_state.dart';
 import 'paginated_list.dart';
 import 'responsive.dart';
 
+abstract class CrudState<T extends StatefulWidget> extends State<T> {
+  void fetchPage({bool force = false});
+}
+
 class CrudPage<T> extends StatefulWidget {
   final int pageSize;
   final RouteConfigurer routeConfigurer;
@@ -24,7 +28,7 @@ class CrudPage<T> extends StatefulWidget {
   State<StatefulWidget> createState() => _CrudState<T>();
 }
 
-class _CrudState<T> extends State<CrudPage<T>> {
+class _CrudState<T> extends CrudState<CrudPage<T>> {
   final scrollController = ScrollController();
 
   var scrollPaginated = false;
@@ -72,6 +76,7 @@ class _CrudState<T> extends State<CrudPage<T>> {
     });
   }
 
+  @override
   void fetchPage({bool force = false}) async {
     if (!mounted) {
       return;
