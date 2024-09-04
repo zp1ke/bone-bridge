@@ -25,7 +25,7 @@ class _TodosPageState extends PageState<TodosPage> {
 
   late Auth auth;
   var scrollPaginated = false;
-  var dataPages = <DataPage<Todo>>[];
+  var dataPages = <DataPage<Todo>>{};
 
   var page = 0;
   var pageSize = 10; // TODO: config
@@ -73,11 +73,12 @@ class _TodosPageState extends PageState<TodosPage> {
         page: page,
         pageSize: pageSize,
       );
-      setState(() {
-        dataPages.add(data);
-        lastPage = data.totalCount ~/ pageSize;
-      });
       routeState.fetching = false;
+      dataPages.add(data);
+      lastPage = data.totalCount ~/ pageSize;
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 
@@ -105,7 +106,7 @@ class _TodosPageState extends PageState<TodosPage> {
     return Consumer<RouteState>(
       builder: (context, routeState, _) {
         return PaginatedListWidget<Todo>(
-          dataPages: dataPages,
+          dataPages: dataPages.toList(),
           fetching: routeState.fetching,
           itemBuilder: (item) => itemWidget(item, routeState.fetching),
           scrollController: scrollController,

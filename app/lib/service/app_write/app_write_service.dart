@@ -13,9 +13,6 @@ class AppWriteService implements AuthService, TodoService {
   final String todosDatabaseID;
   final String todosCollectionID;
 
-  late Account _account;
-  late Databases _databases;
-
   AppWriteService({
     required String projectID,
     required this.todosDatabaseID,
@@ -26,9 +23,11 @@ class AppWriteService implements AuthService, TodoService {
         .setProject(projectID)
         // For self signed certificates, only use for development
         .setSelfSigned(status: true);
-    _account = Account(_client);
-    _databases = Databases(_client);
   }
+
+  Account get _account => Account(_client);
+
+  Databases get _databases => Databases(_client);
 
   bool get canHandleTodos =>
       todosDatabaseID.isNotEmpty && todosCollectionID.isNotEmpty;
