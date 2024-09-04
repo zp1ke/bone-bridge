@@ -129,7 +129,6 @@ class _AppLayoutState extends State<AppLayout> {
 
   Widget fabAddButton(BuildContext context, RouteState routeState) {
     return FloatingActionButton(
-      mini: true,
       onPressed: routeState.pageState?.onAdd,
       child: const Icon(AppIcons.add),
     );
