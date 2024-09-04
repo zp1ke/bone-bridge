@@ -25,10 +25,6 @@ class AppWriteService implements AuthService, TodoService {
         .setSelfSigned(status: true);
   }
 
-  Account get _account => Account(_client);
-
-  Databases get _databases => Databases(_client);
-
   bool get canHandleTodos =>
       todosDatabaseID.isNotEmpty && todosCollectionID.isNotEmpty;
 
@@ -38,13 +34,14 @@ class AppWriteService implements AuthService, TodoService {
       throw UnimplementedError();
     }
 
-    final session = await _account.createEmailPasswordSession(
+    final account = Account(_client);
+    final session = await account.createEmailPasswordSession(
       email: credentials.username,
       password: credentials.password,
     );
-    final user = await _account.get();
+    final user = await account.get();
     return AppWriteAuth(
-      id: session.userId,
+      id: session.$id,
       email: user.email,
       username: user.name,
       firstName: user.name,
@@ -59,7 +56,8 @@ class AppWriteService implements AuthService, TodoService {
     required int page,
     required int pageSize,
   }) async {
-    final documents = await _databases.listDocuments(
+    final databases = Databases(_client);
+    final documents = await databases.listDocuments(
       databaseId: todosDatabaseID,
       collectionId: todosCollectionID,
       queries: [
@@ -83,6 +81,12 @@ class AppWriteService implements AuthService, TodoService {
 
   @override
   Future clear() {
-    return _account.deleteSessions();
+    final account = Account(_client);
+    return account.deleteSessions();
+  }
+
+  @override
+  Future setup(Auth? auth) {
+    return Future.value(null);
   }
 }

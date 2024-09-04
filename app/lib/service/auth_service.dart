@@ -3,6 +3,8 @@ import '../model/auth.dart';
 abstract class Credentials {}
 
 abstract class AuthService {
+  Future setup(Auth? auth);
+
   Future<Auth> authenticate(Credentials credentials);
 
   Auth? parse(Map<String, dynamic> authMap);

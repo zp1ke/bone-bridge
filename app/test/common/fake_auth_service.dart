@@ -26,6 +26,11 @@ class FakeAuthService implements AuthService {
   Future clear() {
     return Future.value(null);
   }
+
+  @override
+  Future setup(Auth? auth) {
+    return Future.value(null);
+  }
 }
 
 class FakeAuth extends Auth {

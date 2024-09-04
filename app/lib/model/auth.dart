@@ -53,6 +53,7 @@ class AuthState extends ChangeNotifier {
       final Map<String, dynamic> authMap = jsonDecode(authJson);
       savedAuth = authServ.parse(authMap);
     }
+    await authServ.setup(savedAuth);
     return AuthState._(
       authService: authServ,
       storageService: storageServ,
