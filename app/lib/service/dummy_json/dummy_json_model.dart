@@ -78,7 +78,10 @@ class DummyJsonAuth extends DummyJsonUser implements Auth {
 @JsonSerializable()
 class DummyJsonTodo extends Todo {
   @override
-  final int id;
+  String get id => todoId.toString();
+
+  @JsonKey(name: 'id')
+  final int todoId;
 
   @JsonKey(name: 'todo')
   @override
@@ -89,7 +92,7 @@ class DummyJsonTodo extends Todo {
   final bool isCompleted;
 
   DummyJsonTodo({
-    required this.id,
+    required this.todoId,
     required this.description,
     this.isCompleted = false,
   });

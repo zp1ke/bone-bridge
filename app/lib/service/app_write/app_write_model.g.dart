@@ -47,3 +47,16 @@ Map<String, dynamic> _$AppWriteAuthToJson(AppWriteAuth instance) =>
       'token': instance.token,
       'refreshToken': instance.refreshToken,
     };
+
+AppWriteTodo _$AppWriteTodoFromJson(Map<String, dynamic> json) => AppWriteTodo(
+      id: json['id'] as String,
+      description: json['description'] as String,
+      isCompleted: json['completed'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$AppWriteTodoToJson(AppWriteTodo instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'description': instance.description,
+      'completed': instance.isCompleted,
+    };

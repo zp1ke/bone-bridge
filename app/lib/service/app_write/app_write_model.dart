@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:appwrite/models.dart' as models;
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../model/auth.dart';
+import '../../model/todo.dart';
 import '../../model/user.dart';
 
 part 'app_write_model.g.dart';
@@ -68,4 +70,34 @@ class AppWriteAuth extends AppWriteUser implements Auth {
 
   @override
   String get asJson => jsonEncode(toJson());
+}
+
+@JsonSerializable()
+class AppWriteTodo extends Todo {
+  @override
+  final String id;
+
+  @override
+  final String description;
+
+  @JsonKey(name: 'completed')
+  @override
+  final bool isCompleted;
+
+  AppWriteTodo({
+    required this.id,
+    required this.description,
+    this.isCompleted = false,
+  });
+
+  factory AppWriteTodo.fromJson(Map<String, dynamic> json) =>
+      _$AppWriteTodoFromJson(json);
+
+  factory AppWriteTodo.fromDocument(models.Document document) {
+    final map = document.data;
+    map['id'] = document.$id;
+    return AppWriteTodo.fromJson(map);
+  }
+
+  Map<String, dynamic> toJson() => _$AppWriteTodoToJson(this);
 }

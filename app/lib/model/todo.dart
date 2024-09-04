@@ -1,5 +1,5 @@
 abstract class Todo {
-  int get id;
+  String get id;
 
   String get description;
 

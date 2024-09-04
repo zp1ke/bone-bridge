@@ -52,14 +52,14 @@ Map<String, dynamic> _$DummyJsonAuthToJson(DummyJsonAuth instance) =>
 
 DummyJsonTodo _$DummyJsonTodoFromJson(Map<String, dynamic> json) =>
     DummyJsonTodo(
-      id: (json['id'] as num).toInt(),
+      todoId: (json['id'] as num).toInt(),
       description: json['todo'] as String,
       isCompleted: json['completed'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$DummyJsonTodoToJson(DummyJsonTodo instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'id': instance.todoId,
       'todo': instance.description,
       'completed': instance.isCompleted,
     };

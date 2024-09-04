@@ -12,29 +12,35 @@ import 'logger.dart';
 final _getIt = GetIt.instance;
 
 void setupServices() {
+  // app-write
   AppWriteService? appWriteService;
   if (AppConfig.appWriteProjectID.isNotEmpty) {
+    // TODO: appwrite custom config
     appWriteService = AppWriteService(
       projectID: AppConfig.appWriteProjectID,
+      todosDatabaseID: AppConfig.appWriteTodosDatabaseID,
+      todosCollectionID: AppConfig.appWriteTodosCollectionID,
     );
   }
-
+  // dummy-json
   final dummyJsonService = DummyJsonService();
-
-  final authService = appWriteService ?? dummyJsonService;
+  // auth-service
+  final AuthService authService = appWriteService ?? dummyJsonService;
   logDebug(
     'AuthService: ${authService.runtimeType}',
     name: 'common/locator',
   );
   _getIt.registerSingleton<AuthService>(authService);
-
-  final todoService = dummyJsonService;
+  // todos-service
+  final TodoService todoService = (appWriteService?.canHandleTodos ?? false)
+      ? appWriteService!
+      : dummyJsonService;
   logDebug(
     'TodoService: ${todoService.runtimeType}',
     name: 'common/locator',
   );
   _getIt.registerSingleton<TodoService>(todoService);
-
+  // storage-service
   _getIt.registerLazySingleton<StorageService>(() {
     final storageService = SharedPreferencesStorageService();
     logDebug(
