@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../app/route_path.dart';
-import '../common/crypto.dart';
+import '../common/string.dart';
 import '../common/locator.dart';
 import '../service/auth_service.dart';
 import '../service/storage_service.dart';

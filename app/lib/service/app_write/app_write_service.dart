@@ -1,9 +1,10 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 
-import '../../state/auth.dart';
+import '../../common/string.dart';
 import '../../model/data_page.dart';
 import '../../model/todo.dart';
+import '../../state/auth.dart';
 import '../auth_service.dart';
 import '../todo_service.dart';
 import 'app_write_model.dart';
@@ -100,6 +101,7 @@ class AppWriteService implements AuthService, TodoService {
 
     final databases = Databases(_client);
     Document document;
+    final todoMap = todo.toJson();
     final permissions = <String>[
       Permission.read(Role.user(auth.id)),
       Permission.update(Role.user(auth.id)),
@@ -109,8 +111,8 @@ class AppWriteService implements AuthService, TodoService {
       document = await databases.createDocument(
         databaseId: todosDatabaseID,
         collectionId: todosCollectionID,
-        documentId: 'todo${DateTime.now().millisecondsSinceEpoch}',
-        data: todo.toJson(),
+        documentId: randomUID(),
+        data: todoMap,
         permissions: permissions,
       );
     } else {
@@ -118,7 +120,7 @@ class AppWriteService implements AuthService, TodoService {
         databaseId: todosDatabaseID,
         collectionId: todosCollectionID,
         documentId: todo.id,
-        data: todo.toJson(),
+        data: todoMap,
         permissions: permissions,
       );
     }

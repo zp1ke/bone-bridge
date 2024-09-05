@@ -56,7 +56,6 @@ AppWriteTodo _$AppWriteTodoFromJson(Map<String, dynamic> json) => AppWriteTodo(
 
 Map<String, dynamic> _$AppWriteTodoToJson(AppWriteTodo instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'description': instance.description,
       'completed': instance.isCompleted,
     };

@@ -147,6 +147,7 @@ class _CrudState<T> extends CrudState<T> {
     RouteState.of(context).adding = true;
     final item = await showModalBottomSheet<T>(
       context: context,
+      useSafeArea: true,
       builder: (context) {
         return widget.editItemBuilder(context, value);
       },

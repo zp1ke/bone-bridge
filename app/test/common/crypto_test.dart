@@ -1,4 +1,4 @@
-import 'package:app/common/crypto.dart';
+import 'package:app/common/string.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

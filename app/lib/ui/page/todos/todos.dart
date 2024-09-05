@@ -65,12 +65,8 @@ class _TodosPageState extends PageState<TodosPage> {
   Widget editItemWidget(BuildContext context, Todo? item) {
     final todo = item ?? getService<TodoService>().createTodo();
     return Container(
-      height: 260,
       alignment: Alignment.center,
-      child: TodosEditWidget(
-        todo: todo,
-        onDone: save,
-      ),
+      child: TodosEditWidget(todo: todo, onDone: save),
     );
   }
 
@@ -85,8 +81,7 @@ class _TodosPageState extends PageState<TodosPage> {
   }
 
   void editTodo([Todo? value]) async {
-    final todo = await crudKey.currentState?.editItem(value);
-    debugPrint('TODO edited = ${todo?.id} - ${todo?.description}');
+    await crudKey.currentState?.editItem(value);
   }
 
   Future save(Todo todo) async {
@@ -94,7 +89,8 @@ class _TodosPageState extends PageState<TodosPage> {
     await getService<TodoService>().saveTodo(auth, todo);
     if (mounted) {
       context.pop(todo);
-      crudKey.currentState?.fetchPage(reset: true);
+      final isNew = todo.isNew;
+      crudKey.currentState?.fetchPage(force: !isNew, reset: isNew);
     }
     return Future.value(null);
   }

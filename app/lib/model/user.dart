@@ -1,4 +1,4 @@
-import '../common/crypto.dart';
+import '../common/string.dart';
 
 abstract class User {
   String get id;

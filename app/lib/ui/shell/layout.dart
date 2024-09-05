@@ -64,7 +64,6 @@ class _AppLayoutState extends State<AppLayout> {
             );
 
       final canAdd = routeState.canAdd && !routeState.adding;
-      logDebug('routestate adding = ${routeState.adding}');
       return Scaffold(
         key: key,
         appBar: AppBar(

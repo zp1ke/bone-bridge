@@ -38,12 +38,12 @@ class _TodosEditState extends State<TodosEditWidget> {
 
   @override
   Widget build(BuildContext context) {
-    const verticalSeparatorSize = 16.0;
+    const verticalSeparatorSize = 12.0;
     return Form(
       key: formKey,
       autovalidateMode: formAutovalidateMode,
       child: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
         children: [
           title(),
           const SizedBox(height: verticalSeparatorSize),
@@ -81,6 +81,8 @@ class _TodosEditState extends State<TodosEditWidget> {
         icon: const Icon(AppIcons.todoDescription),
       ),
       textInputAction: TextInputAction.done,
+      maxLines: 3,
+      maxLength: 255,
       validator: (value) {
         if (value == null || value.length < 2) {
           return L10n.of(context).invalidTextLength(2);
@@ -140,7 +142,7 @@ class _TodosEditState extends State<TodosEditWidget> {
       await widget.onDone(todo);
     } on HttpError catch (e) {
       if (context.mounted) {
-        showError(context, e.message ?? L10n.of(context).errorSigningIn);
+        showError(context, e.message ?? L10n.of(context).errorSaving);
       }
       setState(() {
         processing = false;
@@ -153,7 +155,7 @@ class _TodosEditState extends State<TodosEditWidget> {
         stack: stack,
       );
       if (context.mounted) {
-        showError(context, L10n.of(context).errorSigningIn);
+        showError(context, L10n.of(context).errorSaving);
       }
       setState(() {
         processing = false;

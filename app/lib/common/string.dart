@@ -2,6 +2,11 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:encrypt/encrypt.dart';
+import 'package:uuid/uuid.dart';
+
+String randomUID() {
+  return const Uuid().v4().replaceAll('-', '').substring(0, 20);
+}
 
 extension CryptoString on String {
   String encrypt({required String plainKey}) {

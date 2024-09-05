@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:appwrite/models.dart' as models;
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../state/auth.dart';
 import '../../model/todo.dart';
 import '../../model/user.dart';
+import '../../state/auth.dart';
 
 part 'app_write_model.g.dart';
 
@@ -74,6 +74,7 @@ class AppWriteAuth extends AppWriteUser implements Auth {
 
 @JsonSerializable()
 class AppWriteTodo extends Todo {
+  @JsonKey(includeToJson: false)
   @override
   final String id;
 
