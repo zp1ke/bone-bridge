@@ -7,7 +7,7 @@ import 'paginated_list.dart';
 import 'responsive.dart';
 
 abstract class CrudState<T extends StatefulWidget> extends State<T> {
-  void fetchPage({bool force = false});
+  void fetchPage({bool force = false, bool reset = false});
 }
 
 class CrudPage<T> extends StatefulWidget {
@@ -77,12 +77,15 @@ class _CrudState<T> extends CrudState<CrudPage<T>> {
   }
 
   @override
-  void fetchPage({bool force = false}) async {
+  void fetchPage({bool force = false, bool reset = false}) async {
     if (!mounted) {
       return;
     }
     final routeState = RouteState.of(context);
-    if (force || dataPages.isEmpty || page != dataPages.last.page) {
+    if (force || reset || dataPages.isEmpty || page != dataPages.last.page) {
+      if (reset) {
+        page = 0;
+      }
       routeState.fetching = true;
       final data = await widget.dataFetcher(page: page, pageSize: pageSize);
       routeState.fetching = false;

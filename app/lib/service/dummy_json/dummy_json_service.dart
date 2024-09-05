@@ -67,6 +67,37 @@ class DummyJsonService implements AuthService, TodoService {
     throw _error(response);
   }
 
+  @override
+  Future clear() {
+    return Future.value(null);
+  }
+
+  @override
+  Todo createTodo() {
+    return DummyJsonTodo(todoId: 0, description: '');
+  }
+
+  @override
+  Future<Todo> saveTodo(Auth auth, Todo todo) async {
+    if (todo is! DummyJsonTodo) {
+      throw UnimplementedError();
+    }
+
+    final service = _chopper.getService<_ChopperService>();
+    final map = todo.toJson();
+    map['userId'] = auth.id;
+    Response response;
+    if (todo.isNew) {
+      response = await service.addTodo(map);
+    } else {
+      response = await service.editTodo(todo.todoId, map);
+    }
+    if (response.isSuccessful) {
+      return DummyJsonTodo.fromJson(response.body);
+    }
+    throw _error(response);
+  }
+
   DataPage<T> _parseDataPage<T>(
     Map<String, dynamic> json, {
     required String listKey,
@@ -94,16 +125,6 @@ class DummyJsonService implements AuthService, TodoService {
     return DummyJsonHttpError(
         statusCode: response.statusCode, message: errorMessage);
   }
-
-  @override
-  Future clear() {
-    return Future.value(null);
-  }
-
-  @override
-  Todo createTodo() {
-    return DummyJsonTodo(todoId: 0, description: '');
-  }
 }
 
 typedef _TypeParser<T> = T Function(Map<String, dynamic>);
@@ -118,4 +139,10 @@ abstract class _ChopperService extends ChopperService {
 
   @Get(path: '/todos')
   Future<Response> fetchTodos(@Query() int limit, @Query() int skip);
+
+  @Post(path: '/todos/add')
+  Future<Response> addTodo(@Body() Map<String, dynamic> body);
+
+  @Put(path: '/todos/{id}')
+  Future<Response> editTodo(@Path() int id, @Body() Map<String, dynamic> body);
 }

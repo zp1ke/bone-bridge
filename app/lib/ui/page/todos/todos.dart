@@ -72,15 +72,22 @@ class _TodosPageState extends PageState<TodosPage> {
           alignment: Alignment.center,
           child: TodosEditWidget(
             todo: todo,
-            onDone: (todo) {
-              context.pop(todo);
-              return Future.value(null);
-            },
+            onDone: save,
           ),
         );
       },
     );
     debugPrint('TODO edited = ${todo?.description}');
+  }
+
+  Future save(Todo todo) async {
+    final auth = AuthState.of(context).auth!;
+    await getService<TodoService>().saveTodo(auth, todo);
+    if (mounted) {
+      context.pop(todo);
+      crudKey.currentState?.fetchPage(reset: true);
+    }
+    return Future.value(null);
   }
 
   @override

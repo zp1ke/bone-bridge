@@ -10,4 +10,6 @@ abstract class TodoService {
   });
 
   Todo createTodo();
+
+  Future<Todo> saveTodo(Auth auth, Todo todo);
 }
