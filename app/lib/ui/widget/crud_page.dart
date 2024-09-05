@@ -6,29 +6,33 @@ import '../../state/route.dart';
 import 'paginated_list.dart';
 import 'responsive.dart';
 
-abstract class CrudState<T extends StatefulWidget> extends State<T> {
+abstract class CrudState<T> extends State<CrudPage<T>> {
   void fetchPage({bool force = false, bool reset = false});
+
+  Future<T?> editItem([T? value]);
 }
 
 class CrudPage<T> extends StatefulWidget {
   final int pageSize;
   final RouteConfigurer routeConfigurer;
   final DataFetcher<DataPage<T>> dataFetcher;
-  final ItemBuilder<T> itemBuilder;
+  final ListItemBuilder<T> listItemBuilder;
+  final EditItemBuilder<T> editItemBuilder;
 
   const CrudPage({
     super.key,
     this.pageSize = 10,
     required this.routeConfigurer,
     required this.dataFetcher,
-    required this.itemBuilder,
+    required this.listItemBuilder,
+    required this.editItemBuilder,
   });
 
   @override
   State<StatefulWidget> createState() => _CrudState<T>();
 }
 
-class _CrudState<T> extends CrudState<CrudPage<T>> {
+class _CrudState<T> extends CrudState<T> {
   final scrollController = ScrollController();
 
   var scrollPaginated = false;
@@ -123,7 +127,9 @@ class _CrudState<T> extends CrudState<CrudPage<T>> {
         return PaginatedListWidget<T>(
           dataPages: dataPages.toList(),
           fetching: routeState.fetching,
-          itemBuilder: (item) => widget.itemBuilder(item, routeState.fetching),
+          itemBuilder: (item) {
+            return widget.listItemBuilder(context, item, routeState.fetching);
+          },
           scrollController: scrollController,
           onPageChanged: (value) {
             setState(() {
@@ -134,6 +140,21 @@ class _CrudState<T> extends CrudState<CrudPage<T>> {
         );
       },
     );
+  }
+
+  @override
+  Future<T?> editItem([T? value]) async {
+    RouteState.of(context).adding = true;
+    final item = await showModalBottomSheet<T>(
+      context: context,
+      builder: (context) {
+        return widget.editItemBuilder(context, value);
+      },
+    );
+    if (mounted) {
+      RouteState.of(context).adding = false;
+    }
+    return item;
   }
 
   @override
@@ -150,7 +171,13 @@ typedef DataFetcher<T> = Future<T> Function({
   required int pageSize,
 });
 
-typedef ItemBuilder<T> = Widget Function(T item, bool fetching);
+typedef ListItemBuilder<T> = Widget Function(
+  BuildContext context,
+  T item,
+  bool fetching,
+);
+
+typedef EditItemBuilder<T> = Widget Function(BuildContext context, T? item);
 
 class RouteConfig {
   final bool canAddData;

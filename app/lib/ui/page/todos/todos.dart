@@ -7,7 +7,6 @@ import '../../../model/data_page.dart';
 import '../../../model/todo.dart';
 import '../../../service/todo_service.dart';
 import '../../../state/auth.dart';
-import '../../../state/route.dart';
 import '../../shell/page_state.dart';
 import '../../widget/crud_page.dart';
 import 'todos_edit.dart';
@@ -21,7 +20,7 @@ class TodosPage extends StatefulWidget {
 }
 
 class _TodosPageState extends PageState<TodosPage> {
-  final crudKey = GlobalKey<CrudState>();
+  final crudKey = GlobalKey<CrudState<Todo>>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,8 @@ class _TodosPageState extends PageState<TodosPage> {
       key: crudKey,
       routeConfigurer: () => RouteConfig(canAddData: true, canReloadData: true),
       dataFetcher: fetchPage,
-      itemBuilder: itemWidget,
+      listItemBuilder: listItemWidget,
+      editItemBuilder: editItemWidget,
     );
   }
 
@@ -43,7 +43,7 @@ class _TodosPageState extends PageState<TodosPage> {
     );
   }
 
-  Widget itemWidget(Todo todo, bool fetching) {
+  Widget listItemWidget(BuildContext context, Todo todo, bool fetching) {
     return ListTile(
       title: Text(
         todo.description,
@@ -62,26 +62,30 @@ class _TodosPageState extends PageState<TodosPage> {
     );
   }
 
-  void editTodo([Todo? value]) async {
-    // TODO: move this to crud
-    RouteState.of(context).adding = true;
-    final todo = await showModalBottomSheet<Todo>(
-      context: context,
-      builder: (context) {
-        final todo = value ?? getService<TodoService>().createTodo();
-        return Container(
-          height: 260,
-          alignment: Alignment.center,
-          child: TodosEditWidget(
-            todo: todo,
-            onDone: save,
-          ),
-        );
-      },
+  Widget editItemWidget(BuildContext context, Todo? item) {
+    final todo = item ?? getService<TodoService>().createTodo();
+    return Container(
+      height: 260,
+      alignment: Alignment.center,
+      child: TodosEditWidget(
+        todo: todo,
+        onDone: save,
+      ),
     );
-    if (mounted) {
-      RouteState.of(context).adding = false;
-    }
+  }
+
+  @override
+  void onAdd() {
+    editTodo();
+  }
+
+  @override
+  void onReload() {
+    crudKey.currentState?.fetchPage(force: true);
+  }
+
+  void editTodo([Todo? value]) async {
+    final todo = await crudKey.currentState?.editItem(value);
     debugPrint('TODO edited = ${todo?.id} - ${todo?.description}');
   }
 
@@ -93,15 +97,5 @@ class _TodosPageState extends PageState<TodosPage> {
       crudKey.currentState?.fetchPage(reset: true);
     }
     return Future.value(null);
-  }
-
-  @override
-  void onAdd() {
-    editTodo();
-  }
-
-  @override
-  void onReload() {
-    crudKey.currentState?.fetchPage(force: true);
   }
 }
