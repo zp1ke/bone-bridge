@@ -3,7 +3,6 @@ import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:provider/provider.dart';
 
 import '../../app/router.dart';
-import '../../common/logger.dart';
 import '../../state/route.dart';
 import '../common/icon.dart';
 import '../widget/responsive.dart';

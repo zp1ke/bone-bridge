@@ -17,7 +17,7 @@ dependencies:
   annotations:
     path: ../annotations/
   appwrite: ^13.0.0
-  chopper: ^8.0.1+1
+  chopper: ^8.0.2
   crypto: ^3.0.5
   cupertino_icons: ^1.0.8
   encrypt: ^5.0.3
@@ -35,7 +35,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: any
-  chopper_generator: ^8.0.1
+  chopper_generator: ^8.0.2
   flutter_lints: ^4.0.0
   generators:
     path: ../generators/
