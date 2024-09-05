@@ -65,6 +65,10 @@ extension GoRouterHelper on BuildContext {
     GoRouter.of(this).go(routePath.path, extra: extra);
   }
 
+  void pop<T extends Object?>([T? result]) {
+    GoRouter.of(this).pop(result);
+  }
+
   AppRoute? get activeAppRoute {
     final activePath = GoRouterState.of(this).fullPath;
     return _appRouteOf(activePath);

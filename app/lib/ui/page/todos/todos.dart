@@ -1,13 +1,15 @@
 import 'package:annotations/annotations.dart';
 import 'package:flutter/material.dart';
 
-import '../../common/locator.dart';
-import '../../model/auth.dart';
-import '../../model/data_page.dart';
-import '../../model/todo.dart';
-import '../../service/todo_service.dart';
-import '../shell/page_state.dart';
-import '../widget/crud_page.dart';
+import '../../../app/router.dart';
+import '../../../common/locator.dart';
+import '../../../model/auth.dart';
+import '../../../model/data_page.dart';
+import '../../../model/todo.dart';
+import '../../../service/todo_service.dart';
+import '../../shell/page_state.dart';
+import '../../widget/crud_page.dart';
+import 'todos_edit.dart';
 
 @AppPageRoute(path: '/todos', label: 'todos', iconCode: 'todos')
 class TodosPage extends StatefulWidget {
@@ -53,12 +55,37 @@ class _TodosPageState extends PageState<TodosPage> {
         value: todo.isCompleted,
         onChanged: !fetching ? (_) {} : null,
       ),
+      onTap: () {
+        editTodo(todo);
+      },
     );
+  }
+
+  void editTodo([Todo? value]) async {
+    final todo = await showModalBottomSheet<Todo>(
+      elevation: 10,
+      context: context,
+      builder: (context) {
+        final todo = value ?? getService<TodoService>().createTodo();
+        return Container(
+          height: 250,
+          alignment: Alignment.center,
+          child: TodosEditWidget(
+            todo: todo,
+            onDone: (todo) {
+              context.pop(todo);
+              return Future.value(null);
+            },
+          ),
+        );
+      },
+    );
+    debugPrint('TODO edited = ${todo?.description}');
   }
 
   @override
   void onAdd() {
-    // TODO: implement onAdd
+    editTodo();
   }
 
   @override

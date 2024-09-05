@@ -85,4 +85,9 @@ class AppWriteService implements AuthService, TodoService {
     final account = Account(_client);
     return account.deleteSessions();
   }
+
+  @override
+  Todo createTodo() {
+    return AppWriteTodo(id: '', description: '');
+  }
 }

@@ -78,11 +78,14 @@ class AppWriteTodo extends Todo {
   final String id;
 
   @override
-  final String description;
+  bool get isNew => id.isEmpty;
+
+  @override
+  String description;
 
   @JsonKey(name: 'completed')
   @override
-  final bool isCompleted;
+  bool isCompleted;
 
   AppWriteTodo({
     required this.id,

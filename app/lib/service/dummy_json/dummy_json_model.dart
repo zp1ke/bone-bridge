@@ -80,16 +80,19 @@ class DummyJsonTodo extends Todo {
   @override
   String get id => todoId.toString();
 
+  @override
+  bool get isNew => todoId < 1;
+
   @JsonKey(name: 'id')
   final int todoId;
 
   @JsonKey(name: 'todo')
   @override
-  final String description;
+  String description;
 
   @JsonKey(name: 'completed')
   @override
-  final bool isCompleted;
+  bool isCompleted;
 
   DummyJsonTodo({
     required this.todoId,

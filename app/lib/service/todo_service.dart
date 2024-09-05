@@ -8,4 +8,6 @@ abstract class TodoService {
     required int page,
     required int pageSize,
   });
+
+  Todo createTodo();
 }

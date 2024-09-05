@@ -99,6 +99,11 @@ class DummyJsonService implements AuthService, TodoService {
   Future clear() {
     return Future.value(null);
   }
+
+  @override
+  Todo createTodo() {
+    return DummyJsonTodo(todoId: 0, description: '');
+  }
 }
 
 typedef _TypeParser<T> = T Function(Map<String, dynamic>);

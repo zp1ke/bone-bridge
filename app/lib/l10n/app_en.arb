@@ -2,6 +2,22 @@
   "@@locale": "en",
   "appTitle": "Bone Bridge",
   "cancel": "Cancel",
+  "createItem": "Create {item}",
+  "@createItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "editItem": "Edit {item}",
+  "@editItem": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
   "errorSigningIn": "An error occurs signing you in.",
   "goFirstPage": "Goto first page",
   "goLastPage": "Goto last page",
@@ -18,9 +34,12 @@
   },
   "ok": "Ok",
   "password": "Password",
+  "save": "Save",
   "signIn": "Sign In",
   "signOut": "Sign Out",
   "signOutConfirmation": "Confirm to sign out.",
+  "todoDescription": "What To Do?",
+  "todoIsCompleted": "Is completed",
   "todos": "TODOs",
   "username": "Username"
 }
