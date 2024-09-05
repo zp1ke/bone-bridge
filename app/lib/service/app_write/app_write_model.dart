@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:appwrite/models.dart' as models;
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../model/auth.dart';
+import '../../state/auth.dart';
 import '../../model/todo.dart';
 import '../../model/user.dart';
 

@@ -1,5 +1,5 @@
 import 'package:app/app/route_path.dart';
-import 'package:app/model/auth.dart';
+import 'package:app/state/auth.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../common/fake_auth_service.dart';

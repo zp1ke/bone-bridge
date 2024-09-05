@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/l10n.dart';
 import '../../app/route_path.dart';
 import '../../app/router.dart';
 import '../../common/logger.dart';
-import '../../model/auth.dart';
+import '../../state/auth.dart';
 import '../../model/http_error.dart';
 import '../../service/auth_service.dart';
 import '../common/alert.dart';

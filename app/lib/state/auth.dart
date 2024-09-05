@@ -8,7 +8,7 @@ import '../common/crypto.dart';
 import '../common/locator.dart';
 import '../service/auth_service.dart';
 import '../service/storage_service.dart';
-import 'user.dart';
+import '../model/user.dart';
 
 abstract class Auth extends User {
   String get token;

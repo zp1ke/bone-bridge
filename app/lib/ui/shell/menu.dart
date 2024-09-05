@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import '../../app/route_path.dart';
 import '../../app/router.dart';
 import '../../app/routes.dart';
-import '../../model/auth.dart';
-import '../../model/route_state.dart';
+import '../../state/auth.dart';
+import '../../state/route.dart';
 import '../common/alert.dart';
 import '../common/icon.dart';
 

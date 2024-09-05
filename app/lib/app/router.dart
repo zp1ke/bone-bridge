@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../common/logger.dart';
-import '../model/auth.dart';
-import '../model/route_state.dart';
+import '../state/auth.dart';
+import '../state/route.dart';
 import '../ui/page/index.dart';
 import '../ui/shell/layout.dart';
 import 'route_path.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/data_page.dart';
-import '../../model/route_state.dart';
+import '../../state/route.dart';
 import 'paginated_list.dart';
 import 'responsive.dart';
 

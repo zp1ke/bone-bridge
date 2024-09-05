@@ -1,4 +1,4 @@
-import '../model/auth.dart';
+import '../state/auth.dart';
 
 abstract class Credentials {}
 

@@ -3,7 +3,8 @@ import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:provider/provider.dart';
 
 import '../../app/router.dart';
-import '../../model/route_state.dart';
+import '../../common/logger.dart';
+import '../../state/route.dart';
 import '../common/icon.dart';
 import '../widget/responsive.dart';
 import '../widget/split.dart';
@@ -62,6 +63,8 @@ class _AppLayoutState extends State<AppLayout> {
               leftWidth: menuExpanded ? menuExpandedSize : 52,
             );
 
+      final canAdd = routeState.canAdd && !routeState.adding;
+      logDebug('routestate adding = ${routeState.adding}');
       return Scaffold(
         key: key,
         appBar: AppBar(
@@ -71,16 +74,14 @@ class _AppLayoutState extends State<AppLayout> {
             onPressed: onToggleMenu,
           ),
           actions: [
-            if (hasAddAction && routeState.canAdd)
-              addAction(context, routeState),
+            if (hasAddAction && canAdd) addAction(context, routeState),
             if (routeState.canReload) refreshAction(context, routeState),
           ],
         ),
         body: SafeArea(child: body),
         drawer: hasDrawer ? Drawer(child: menu(context, true)) : null,
-        floatingActionButton: hasFab && routeState.canAdd
-            ? fabAddButton(context, routeState)
-            : null,
+        floatingActionButton:
+            hasFab && canAdd ? fabAddButton(context, routeState) : null,
       );
     });
   }
@@ -143,7 +144,7 @@ class _AppLayoutState extends State<AppLayout> {
 
   Widget refreshAction(BuildContext context, RouteState routeState) {
     return IconButton(
-      onPressed: !routeState.fetching && routeState.canReload
+      onPressed: !routeState.processing && routeState.canReload
           ? routeState.pageState?.onReload
           : null,
       icon: const Icon(AppIcons.refresh),

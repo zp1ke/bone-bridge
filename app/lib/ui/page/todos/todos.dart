@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 
 import '../../../app/router.dart';
 import '../../../common/locator.dart';
-import '../../../model/auth.dart';
 import '../../../model/data_page.dart';
 import '../../../model/todo.dart';
 import '../../../service/todo_service.dart';
+import '../../../state/auth.dart';
+import '../../../state/route.dart';
 import '../../shell/page_state.dart';
 import '../../widget/crud_page.dart';
 import 'todos_edit.dart';
@@ -62,13 +63,14 @@ class _TodosPageState extends PageState<TodosPage> {
   }
 
   void editTodo([Todo? value]) async {
+    // TODO: move this to crud
+    RouteState.of(context).adding = true;
     final todo = await showModalBottomSheet<Todo>(
-      elevation: 10,
       context: context,
       builder: (context) {
         final todo = value ?? getService<TodoService>().createTodo();
         return Container(
-          height: 250,
+          height: 260,
           alignment: Alignment.center,
           child: TodosEditWidget(
             todo: todo,
@@ -77,7 +79,10 @@ class _TodosPageState extends PageState<TodosPage> {
         );
       },
     );
-    debugPrint('TODO edited = ${todo?.description}');
+    if (mounted) {
+      RouteState.of(context).adding = false;
+    }
+    debugPrint('TODO edited = ${todo?.id} - ${todo?.description}');
   }
 
   Future save(Todo todo) async {

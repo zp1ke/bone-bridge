@@ -5,8 +5,8 @@ import '../app/routes.dart';
 import '../ui/shell/page_state.dart';
 
 class RouteState extends ChangeNotifier {
-  AppRoute? route;
-
+  AppRoute? _route;
+  bool _adding = false;
   bool _fetching = false;
   bool _canAdd = false;
   bool _canReload = false;
@@ -15,8 +15,25 @@ class RouteState extends ChangeNotifier {
     return Provider.of<RouteState>(context, listen: listen);
   }
 
+  AppRoute? get route => _route;
+
+  set route(AppRoute? value) {
+    _route = value;
+    _adding = false;
+    _fetching = false;
+  }
+
   PageState? get pageState =>
-      (route?.widgetKey as GlobalKey<PageState>?)?.currentState;
+      (_route?.widgetKey as GlobalKey<PageState>?)?.currentState;
+
+  bool get processing => _adding || _fetching;
+
+  bool get adding => _adding;
+
+  set adding(bool value) {
+    _adding = value;
+    notifyListeners();
+  }
 
   bool get fetching => _fetching;
 
@@ -25,14 +42,14 @@ class RouteState extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool get canAdd => route != null && _canAdd;
+  bool get canAdd => _route != null && _canAdd;
 
   set canAdd(bool value) {
     _canAdd = value;
     notifyListeners();
   }
 
-  bool get canReload => route != null && _canReload;
+  bool get canReload => _route != null && _canReload;
 
   set canReload(bool value) {
     _canReload = value;
