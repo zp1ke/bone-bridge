@@ -1,4 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/l10n.dart';
 
 import '../common/icon.dart';
 import 'pagination.dart';
@@ -14,25 +16,42 @@ class PaginatedListWidget<T> extends StatelessWidget {
   final ScrollController scrollController;
   final Function(int) onPageChanged;
 
-  const PaginatedListWidget({
+  PaginatedListWidget({
     super.key,
-    required this.dataPages,
+    required List<DataPage<T>> dataPages,
     required this.fetching,
     required this.itemBuilder,
     required this.scrollController,
     required this.onPageChanged,
-  });
+  }) : dataPages = dataPages.sortedBy<num>((dataPage) => dataPage.page);
 
   @override
   Widget build(BuildContext context) {
     if (dataPages.isEmpty) {
-      return const Center(
-        child: Text('Nothing here :( TODO L10N'),
-      );
+      return emptyBody(context);
     }
     return ResponsiveWidget(
       small: (context) => itemsList(context),
       medium: (context) => paginationList(context),
+    );
+  }
+
+  Widget emptyBody(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          L10n.of(context).nothingHere,
+          textScaler: const TextScaler.linear(1.5),
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: Text(L10n.of(context).goAddContent),
+        ),
+      ],
     );
   }
 

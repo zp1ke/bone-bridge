@@ -93,7 +93,9 @@ class _CrudState<T> extends CrudState<T> {
       routeState.fetching = true;
       final data = await widget.dataFetcher(page: page, pageSize: pageSize);
       routeState.fetching = false;
-      dataPages.add(data);
+      if (data.isNotEmpty) {
+        dataPages.add(data);
+      }
       lastPage = data.totalCount ~/ pageSize;
       if (mounted) {
         setState(() {});
@@ -103,12 +105,6 @@ class _CrudState<T> extends CrudState<T> {
 
   @override
   Widget build(BuildContext context) {
-    if (dataPages.isEmpty) {
-      return const Center(
-        child: CircularProgressIndicator.adaptive(),
-      );
-    }
-
     return ResponsiveWidget(
       small: (context) {
         scrollPaginated = true;
@@ -124,6 +120,12 @@ class _CrudState<T> extends CrudState<T> {
   Widget body() {
     return Consumer<RouteState>(
       builder: (context, routeState, _) {
+        if (dataPages.isEmpty && routeState.fetching) {
+          return const Center(
+            child: CircularProgressIndicator.adaptive(),
+          );
+        }
+
         return PaginatedListWidget<T>(
           dataPages: dataPages.toList(),
           fetching: routeState.fetching,

@@ -20,6 +20,7 @@
   },
   "errorSaving": "An error occurs saving the data.",
   "errorSigningIn": "An error occurs signing you in.",
+  "goAddContent": "Go add some content...",
   "goFirstPage": "Goto first page",
   "goLastPage": "Goto last page",
   "goNextPage": "Next page",
@@ -33,6 +34,7 @@
       }
     }
   },
+  "nothingHere": "Nothing here :( ... yet!",
   "ok": "Ok",
   "password": "Password",
   "save": "Save",

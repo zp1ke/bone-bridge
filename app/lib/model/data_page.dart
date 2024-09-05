@@ -1,4 +1,4 @@
-class DataPage<T> {
+class DataPage<T> implements Comparable<DataPage<T>> {
   final List<T> list;
 
   final int page;
@@ -14,6 +14,8 @@ class DataPage<T> {
     required this.totalCount,
   });
 
+  bool get isNotEmpty => list.isNotEmpty;
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -24,4 +26,9 @@ class DataPage<T> {
 
   @override
   int get hashCode => page.hashCode ^ pageSize.hashCode;
+
+  @override
+  int compareTo(DataPage<T> other) {
+    return page.compareTo(other.page);
+  }
 }

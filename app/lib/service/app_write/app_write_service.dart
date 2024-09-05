@@ -1,6 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 
+import '../../common/logger.dart';
 import '../../common/string.dart';
 import '../../model/data_page.dart';
 import '../../model/todo.dart';
@@ -42,14 +43,7 @@ class AppWriteService implements AuthService, TodoService {
       password: credentials.password,
     );
     final user = await account.get();
-    return AppWriteAuth(
-      id: user.$id,
-      email: user.email,
-      username: user.name,
-      firstName: user.name,
-      token: session.providerAccessToken,
-      refreshToken: session.providerRefreshToken,
-    );
+    return _authOf(session, user);
   }
 
   @override
@@ -78,15 +72,32 @@ class AppWriteService implements AuthService, TodoService {
   }
 
   @override
-  Future<Auth?> setupAuth(Map<String, dynamic> authMap) {
-    final auth = AppWriteAuth.fromJson(authMap);
+  Future<Auth?> setupAuth(Map<String, dynamic> authMap) async {
+    Auth? auth;
+    try {
+      final account = Account(_client);
+      final session =
+          await account.getSession(sessionId: authMap['token'] ?? '');
+      final user = await account.get();
+      return _authOf(session, user);
+    } catch (e) {
+      logError(
+        'Could not load session user',
+        name: '/service/app_write/app_write_service',
+        error: e,
+      );
+      await clear();
+    }
     return Future.value(auth);
   }
 
   @override
-  Future clear() {
-    final account = Account(_client);
-    return account.deleteSessions();
+  Future clear() async {
+    try {
+      final account = Account(_client);
+      await account.deleteSessions();
+    } catch (_) {}
+    return Future.value(null);
   }
 
   @override
@@ -126,5 +137,16 @@ class AppWriteService implements AuthService, TodoService {
       );
     }
     return AppWriteTodo.fromDocument(document);
+  }
+
+  Auth _authOf(Session session, User user) {
+    return AppWriteAuth(
+      id: user.$id,
+      email: user.email,
+      username: user.name,
+      firstName: user.name,
+      token: session.$id,
+      refreshToken: session.providerRefreshToken,
+    );
   }
 }
