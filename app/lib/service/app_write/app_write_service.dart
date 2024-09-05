@@ -65,6 +65,7 @@ class AppWriteService implements AuthService, TodoService {
       queries: [
         Query.limit(pageSize),
         Query.offset(page * pageSize),
+        Query.orderDesc('\$createdAt'),
       ],
     );
     final list = documents.documents.map(AppWriteTodo.fromDocument).toList();
