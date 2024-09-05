@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'app/app.dart';
@@ -11,6 +13,7 @@ import 'platform/common.dart'
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  _setupLicense();
   setupPlatform();
   setupServices();
 
@@ -25,4 +28,11 @@ Future main() async {
       child: const App(),
     ),
   );
+}
+
+void _setupLicense() {
+  LicenseRegistry.addLicense(() async* {
+    final license = await rootBundle.loadString('assets/license.txt');
+    yield LicenseEntryWithLineBreaks([' Bone Bridge app'], license);
+  });
 }

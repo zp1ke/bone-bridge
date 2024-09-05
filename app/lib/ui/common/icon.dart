@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 class AppIcons {
   AppIcons._();
 
+  static const IconData about = FluentIcons.info_24_filled;
+
   static const IconData add = FluentIcons.add_24_filled;
 
   static const IconData hidePassword = FluentIcons.eye_off_24_filled;

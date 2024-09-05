@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../app/route_path.dart';
 import '../../app/router.dart';
 import '../../app/routes.dart';
+import '../../model/app_info.dart';
 import '../../state/auth.dart';
 import '../../state/route.dart';
 import '../common/alert.dart';
@@ -12,11 +13,13 @@ import '../common/icon.dart';
 
 class AppMenu extends StatelessWidget {
   final bool expanded;
+  final AppInfo? appInfo;
   final Function(String) onNavigation;
 
   const AppMenu({
     super.key,
     required this.expanded,
+    required this.appInfo,
     required this.onNavigation,
   });
 
@@ -65,6 +68,8 @@ class AppMenu extends StatelessWidget {
                 ],
               ),
             ),
+            if (appInfo != null) const Divider(),
+            if (appInfo != null) _aboutItem(context),
             const Divider(),
             _signOutItem(context),
           ],
@@ -147,26 +152,58 @@ class AppMenu extends StatelessWidget {
     );
   }
 
-  Widget _signOutItem(BuildContext context) {
-    final signOutColor = Theme.of(context).colorScheme.error;
-    final signOutIcon = Icon(
-      AppIcons.signOut,
-      color: signOutColor,
+  Widget _aboutItem(BuildContext context) {
+    final color = Theme.of(context).disabledColor;
+    final icon = Icon(
+      AppIcons.about,
+      color: color,
     );
 
     return ListTile(
       dense: !expanded,
       contentPadding: !expanded ? EdgeInsets.zero : null,
-      leading: expanded ? signOutIcon : null,
+      leading: expanded ? icon : null,
+      title: expanded
+          ? Text(
+              '${L10n.of(context).appTitle} v${appInfo?.version}',
+              style: TextStyle(color: color),
+            )
+          : icon,
+      onTap: () => _showLicenses(context),
+    );
+  }
+
+  Widget _signOutItem(BuildContext context) {
+    final color = Theme.of(context).colorScheme.error;
+    final icon = Icon(
+      AppIcons.signOut,
+      color: color,
+    );
+
+    return ListTile(
+      dense: !expanded,
+      contentPadding: !expanded ? EdgeInsets.zero : null,
+      leading: expanded ? icon : null,
       title: expanded
           ? Text(
               L10n.of(context).signOut,
-              style: TextStyle(color: signOutColor),
+              style: TextStyle(color: color),
             )
-          : signOutIcon,
+          : icon,
       onTap: () {
         _onSignOut(context);
       },
+    );
+  }
+
+  void _showLicenses(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AboutDialog(
+        applicationIcon: const Icon(AppIcons.about),
+        applicationName: L10n.of(context).appTitle,
+        applicationVersion: appInfo?.version,
+      ),
     );
   }
 

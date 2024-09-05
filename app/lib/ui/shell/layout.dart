@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:provider/provider.dart';
 
 import '../../app/router.dart';
+import '../../model/app_info.dart';
 import '../../state/route.dart';
 import '../common/icon.dart';
 import '../widget/responsive.dart';
@@ -25,6 +26,16 @@ class _AppLayoutState extends State<AppLayout> {
   final GlobalKey<ScaffoldState> key = GlobalKey();
 
   bool menuExpanded = true;
+  AppInfo? appInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () async {
+      appInfo = await AppInfo.create();
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +128,7 @@ class _AppLayoutState extends State<AppLayout> {
   Widget menu(BuildContext context, bool expanded) {
     return AppMenu(
       expanded: expanded,
+      appInfo: appInfo,
       onNavigation: (path) {
         if (key.currentState!.hasDrawer) {
           key.currentState!.closeDrawer();
