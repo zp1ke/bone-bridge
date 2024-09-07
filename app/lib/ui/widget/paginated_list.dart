@@ -11,6 +11,7 @@ typedef ItemBuilder<T> = Widget Function(T);
 
 class PaginatedListWidget<T> extends StatelessWidget {
   final List<DataPage<T>> dataPages;
+  final int pageIndex;
   final bool fetching;
   final ItemBuilder<T> itemBuilder;
   final ScrollController scrollController;
@@ -19,6 +20,7 @@ class PaginatedListWidget<T> extends StatelessWidget {
   PaginatedListWidget({
     super.key,
     required List<DataPage<T>> dataPages,
+    required this.pageIndex,
     required this.fetching,
     required this.itemBuilder,
     required this.scrollController,
@@ -32,7 +34,8 @@ class PaginatedListWidget<T> extends StatelessWidget {
     }
     return ResponsiveWidget(
       small: (context) => itemsList(context),
-      medium: (context) => paginationList(context),
+      medium: (context) => paginationList(context, 3),
+      large: (context) => paginationList(context, 2),
     );
   }
 
@@ -56,10 +59,14 @@ class PaginatedListWidget<T> extends StatelessWidget {
   }
 
   Widget itemsList(BuildContext context, [DataPage<T>? dataPage]) {
-    final list = dataPage?.list ??
-        dataPages
-            .map((dataPage) => dataPage.list)
-            .reduce((dataPage1, dataPage2) => dataPage1 + dataPage2);
+    final list = <T>[];
+    if (dataPage != null) {
+      list.addAll(dataPage.list);
+    } else if (dataPages.isNotEmpty) {
+      for (var dataPage in dataPages) {
+        list.addAll(dataPage.list);
+      }
+    }
     return ListView.separated(
       controller: scrollController,
       itemBuilder: (context, index) {
@@ -78,8 +85,8 @@ class PaginatedListWidget<T> extends StatelessWidget {
     );
   }
 
-  Widget paginationList(BuildContext context) {
-    final dataPage = dataPages.last;
+  Widget paginationList(BuildContext context, int visiblePages) {
+    final dataPage = dataPages[pageIndex];
     return Column(
       children: [
         Expanded(
@@ -88,7 +95,8 @@ class PaginatedListWidget<T> extends StatelessWidget {
         PaginationWidget(
           enabled: !fetching,
           page: dataPage.page,
-          totalPages: dataPage.totalCount ~/ dataPage.pageSize,
+          totalPages: dataPage.totalCount ~/ dataPage.pageSize - 1,
+          visiblePages: visiblePages,
           onPageChanged: onPageChanged,
         ),
       ],

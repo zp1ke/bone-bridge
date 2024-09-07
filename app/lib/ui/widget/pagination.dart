@@ -1,27 +1,28 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 
+import '../../model/page_range.dart';
 import '../common/icon.dart';
 
 class PaginationWidget extends StatelessWidget {
   final bool enabled;
   final int page;
   final int totalPages;
-  final _PageRange _pageRange;
+  final PageRange _pageRange;
   final Function(int) onPageChanged;
   final MainAxisAlignment mainAxisAlignment;
 
   PaginationWidget({
     super.key,
     this.enabled = true,
-    required this.page,
-    required this.totalPages,
-    int visiblePages = 5,
+    required int page,
+    required int totalPages,
+    required int visiblePages,
     required this.onPageChanged,
     this.mainAxisAlignment = MainAxisAlignment.center,
-  }) : _pageRange = _PageRange.create(
+  })  : page = page + 1,
+        totalPages = totalPages + 1,
+        _pageRange = PageRange.create(
           page: page,
           totalPages: totalPages,
           visiblePages: visiblePages,
@@ -30,6 +31,7 @@ class PaginationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = L10n.of(context);
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
       child: Row(
@@ -38,7 +40,7 @@ class PaginationWidget extends StatelessWidget {
           /// First page button
           tooltipButton(
             message: l10n.goFirstPage,
-            enabled: _pageRange.start > 0,
+            enabled: _pageRange.start > 1,
             iconData: AppIcons.paginationGoFirst,
             onAction: () => onPageChanged(0),
             invisibleIfDisabled: true,
@@ -47,9 +49,9 @@ class PaginationWidget extends StatelessWidget {
           /// Previous button
           tooltipButton(
             message: l10n.goPreviousPage,
-            enabled: page > 0,
+            enabled: page > 1,
             iconData: AppIcons.paginationPrev,
-            onAction: () => onPageChanged(page - 1),
+            onAction: () => onPageChanged(page - 2),
           ),
 
           for (int index = _pageRange.start; index <= _pageRange.end; index++)
@@ -57,17 +59,22 @@ class PaginationWidget extends StatelessWidget {
               duration: const Duration(milliseconds: 200),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: TextButton(
-                  onPressed: enabled && index != page
-                      ? () => onPageChanged(index)
-                      : null,
-                  child: Text(
-                    '${index + 1}',
-                    textScaler: TextScaler.linear(index == page ? 1.5 : 1),
-                    style: TextStyle(
-                      fontWeight:
-                          index == page ? FontWeight.w700 : FontWeight.normal,
-                      textBaseline: TextBaseline.ideographic,
+                child: CircleAvatar(
+                  backgroundColor: index != page
+                      ? Colors.transparent
+                      : theme.disabledColor,
+                  child: IconButton(
+                    onPressed: enabled && index != page
+                        ? () => onPageChanged(index - 1)
+                        : null,
+                    icon: Text(
+                      '$index',
+                      style: TextStyle(
+                        fontWeight: index == page
+                            ? FontWeight.w700
+                            : FontWeight.normal,
+                        textBaseline: TextBaseline.ideographic,
+                      ),
                     ),
                   ),
                 ),
@@ -79,13 +86,13 @@ class PaginationWidget extends StatelessWidget {
             message: l10n.goNextPage,
             enabled: page < totalPages,
             iconData: AppIcons.paginationNext,
-            onAction: () => onPageChanged(page + 1),
+            onAction: () => onPageChanged(page),
           ),
 
           /// Last page button
           tooltipButton(
             message: l10n.goLastPage,
-            enabled: _pageRange.end < totalPages - 1,
+            enabled: _pageRange.end < totalPages,
             iconData: AppIcons.paginationGoLast,
             onAction: () => onPageChanged(totalPages - 1),
             invisibleIfDisabled: true,
@@ -121,30 +128,5 @@ class PaginationWidget extends StatelessWidget {
         child: button,
       ),
     );
-  }
-}
-
-class _PageRange {
-  final int start;
-  final int end;
-
-  _PageRange({required this.start, required this.end});
-
-  static _PageRange create({
-    required int page,
-    required int totalPages,
-    required int visiblePages,
-  }) {
-    final halfPagesWindow = visiblePages ~/ 2;
-    var start = max(0, page - halfPagesWindow);
-    var end = min(totalPages - 1, page + halfPagesWindow);
-    while (end - start < visiblePages) {
-      if (end < totalPages - 1) {
-        end += 1;
-      } else if (start > 0) {
-        start -= 1;
-      }
-    }
-    return _PageRange(start: start, end: end);
   }
 }

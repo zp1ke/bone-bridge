@@ -21,7 +21,7 @@ class CrudPage<T> extends StatefulWidget {
 
   const CrudPage({
     super.key,
-    this.pageSize = 10,
+    this.pageSize = 2,
     required this.routeConfigurer,
     required this.dataFetcher,
     required this.listItemBuilder,
@@ -39,7 +39,7 @@ class _CrudState<T> extends CrudState<T> {
   var dataPages = <DataPage<T>>{};
 
   var page = 0;
-  var pageSize = 10;
+  late int pageSize;
   var lastPage = 10000;
 
   @override
@@ -81,22 +81,21 @@ class _CrudState<T> extends CrudState<T> {
   }
 
   @override
-  void fetchPage({bool force = false, bool reset = false}) async {
+  void fetchPage({bool force = false, bool reset = false, int? toPage}) async {
     if (!mounted) {
       return;
     }
     final routeState = RouteState.of(context);
-    if (force || reset || dataPages.isEmpty || page != dataPages.last.page) {
-      if (reset) {
-        page = 0;
-      }
+    final loadPage = reset ? 0 : toPage ?? page;
+    if (force || reset || dataPages.isEmpty || loadPage != page) {
       routeState.fetching = true;
-      final data = await widget.dataFetcher(page: page, pageSize: pageSize);
-      routeState.fetching = false;
+      final data = await widget.dataFetcher(page: loadPage, pageSize: pageSize);
       if (data.isNotEmpty) {
         dataPages.add(data);
       }
+      page = loadPage;
       lastPage = data.totalCount ~/ pageSize;
+      routeState.fetching = false;
       if (mounted) {
         setState(() {});
       }
@@ -128,16 +127,14 @@ class _CrudState<T> extends CrudState<T> {
 
         return PaginatedListWidget<T>(
           dataPages: dataPages.toList(),
+          pageIndex: page,
           fetching: routeState.fetching,
           itemBuilder: (item) {
             return widget.listItemBuilder(context, item, routeState.fetching);
           },
           scrollController: scrollController,
           onPageChanged: (value) {
-            setState(() {
-              page = value;
-            });
-            fetchPage();
+            fetchPage(toPage: value);
           },
         );
       },
