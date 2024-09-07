@@ -14,6 +14,8 @@ abstract class CrudState<T> extends State<CrudPage<T>> {
 
 class CrudPage<T> extends StatefulWidget {
   final int pageSize;
+  final String itemLabel;
+  final List<int> pageSizes;
   final RouteConfigurer routeConfigurer;
   final DataFetcher<DataPage<T>> dataFetcher;
   final ListItemBuilder<T> listItemBuilder;
@@ -21,7 +23,9 @@ class CrudPage<T> extends StatefulWidget {
 
   const CrudPage({
     super.key,
-    this.pageSize = 2,
+    this.pageSize = 10,
+    required this.itemLabel,
+    required this.pageSizes,
     required this.routeConfigurer,
     required this.dataFetcher,
     required this.listItemBuilder,
@@ -129,6 +133,8 @@ class _CrudState<T> extends CrudState<T> {
           dataPages: dataPages.toList(),
           pageIndex: page,
           fetching: routeState.fetching,
+          itemLabel: widget.itemLabel,
+          pageSizes: widget.pageSizes,
           itemBuilder: (item) {
             return widget.listItemBuilder(context, item, routeState.fetching);
           },

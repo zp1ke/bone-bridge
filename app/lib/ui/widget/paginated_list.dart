@@ -13,6 +13,8 @@ class PaginatedListWidget<T> extends StatelessWidget {
   final List<DataPage<T>> dataPages;
   final int pageIndex;
   final bool fetching;
+  final String itemLabel;
+  final List<int> pageSizes;
   final ItemBuilder<T> itemBuilder;
   final ScrollController scrollController;
   final Function(int) onPageChanged;
@@ -22,6 +24,8 @@ class PaginatedListWidget<T> extends StatelessWidget {
     required List<DataPage<T>> dataPages,
     required this.pageIndex,
     required this.fetching,
+    required this.itemLabel,
+    required this.pageSizes,
     required this.itemBuilder,
     required this.scrollController,
     required this.onPageChanged,
@@ -34,8 +38,8 @@ class PaginatedListWidget<T> extends StatelessWidget {
     }
     return ResponsiveWidget(
       small: (context) => itemsList(context),
-      medium: (context) => paginationList(context, 3),
-      large: (context) => paginationList(context, 2),
+      medium: (context) => paginationList(context, 2),
+      large: (context) => paginationList(context, 3),
     );
   }
 
@@ -95,7 +99,11 @@ class PaginatedListWidget<T> extends StatelessWidget {
         PaginationWidget(
           enabled: !fetching,
           page: dataPage.page,
-          totalPages: dataPage.totalCount ~/ dataPage.pageSize - 1,
+          totalCount: dataPage.totalCount,
+          pageSize: dataPage.pageSize,
+          pageSizes: pageSizes,
+          totalPages: dataPage.totalPages,
+          itemLabel: itemLabel,
           visiblePages: visiblePages,
           onPageChanged: onPageChanged,
         ),

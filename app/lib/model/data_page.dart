@@ -27,6 +27,17 @@ class DataPage<T> implements Comparable<DataPage<T>> {
   @override
   int get hashCode => page.hashCode ^ pageSize.hashCode;
 
+  int get totalPages {
+    if (totalCount == 0 || pageSize == 0) {
+      return 0;
+    }
+    final totalPages = totalCount ~/ pageSize;
+    if (totalCount % pageSize != 0) {
+      return totalPages + 1;
+    }
+    return totalPages;
+  }
+
   @override
   int compareTo(DataPage<T> other) {
     return page.compareTo(other.page);

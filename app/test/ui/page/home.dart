@@ -10,10 +10,12 @@ class HomeTestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveWidget(
-      small: _small,
-      medium: _medium,
-      large: _large,
+    return Scaffold(
+      body: ResponsiveWidget(
+        small: _small,
+        medium: _medium,
+        large: _large,
+      ),
     );
   }
 

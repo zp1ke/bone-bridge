@@ -36,6 +36,17 @@
   },
   "nothingHere": "Nothing here :( ... yet!",
   "ok": "Ok",
+  "paginationPerPageAndTotalCount": "{item} per page. Total results: {totalCount}",
+  "@paginationPerPageAndTotalCount": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      },
+      "totalCount": {
+        "type": "int"
+      }
+    }
+  },
   "password": "Password",
   "save": "Save",
   "signIn": "Sign In",

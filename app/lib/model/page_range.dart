@@ -11,9 +11,9 @@ class PageRange {
     required int totalPages,
     required int visiblePages,
   }) {
-    final halfPagesWindow = visiblePages ~/ 2;
-    var start = max(1, page - halfPagesWindow);
-    var end = max(1, min(totalPages, page + halfPagesWindow));
+    final pagesHalfWindow = visiblePages ~/ 2;
+    var start = max(1, page - pagesHalfWindow);
+    var end = max(1, min(totalPages, page + pagesHalfWindow));
     while (end - start < visiblePages - 1) {
       if (end < totalPages) {
         end += 1;

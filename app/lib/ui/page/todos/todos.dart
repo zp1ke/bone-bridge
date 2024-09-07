@@ -1,5 +1,6 @@
 import 'package:annotations/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/l10n.dart';
 
 import '../../../app/router.dart';
 import '../../../common/locator.dart';
@@ -26,6 +27,10 @@ class _TodosPageState extends PageState<TodosPage> {
   Widget build(BuildContext context) {
     return CrudPage<Todo>(
       key: crudKey,
+      itemLabel: L10n.of(context).todos,
+      pageSize: 10,
+      // TODO: from config
+      pageSizes: const <int>[10, 20],
       routeConfigurer: () => RouteConfig(canAddData: true, canReloadData: true),
       dataFetcher: fetchPage,
       listItemBuilder: listItemWidget,
