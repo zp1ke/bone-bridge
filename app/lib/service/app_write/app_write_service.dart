@@ -5,9 +5,11 @@ import '../../common/logger.dart';
 import '../../common/string.dart';
 import '../../config.dart';
 import '../../model/data_page.dart';
+import '../../model/profile.dart';
 import '../../model/todo.dart';
 import '../../state/auth.dart';
 import '../auth_service.dart';
+import '../profile_service.dart';
 import '../todo_service.dart';
 import 'app_write_model.dart';
 
@@ -15,26 +17,37 @@ class AppWriteConfig {
   final String projectID;
   final String todosDbId;
   final String todosLotId;
+  final String profilesDbId;
+  final String profilesLotId;
 
   AppWriteConfig._({
     required this.projectID,
     required this.todosDbId,
     required this.todosLotId,
+    required this.profilesDbId,
+    required this.profilesLotId,
   });
 
   factory AppWriteConfig.create() => AppWriteConfig._(
         projectID: AppConfig.appwritProjectID,
         todosDbId: AppConfig.appwritTodosDbID,
         todosLotId: AppConfig.appwritTodosLotID,
+        profilesDbId: AppConfig.appwritProfilesDbID,
+        profilesLotId: AppConfig.appwritProfilesLotID,
       );
 
   bool get isValid => projectID.isNotEmpty;
 
   bool get canHandleTodos => todosDbId.isNotEmpty && todosLotId.isNotEmpty;
+
+  bool get canHandleProfiles =>
+      profilesDbId.isNotEmpty && profilesLotId.isNotEmpty;
 }
 
+const _userIdKey = 'user_id';
+
 // https://appwrite.io/docs
-class AppWriteService implements AuthService, TodoService {
+class AppWriteService implements AuthService, TodoService, ProfileService {
   final Client _client;
   final AppWriteConfig config;
 
@@ -47,6 +60,8 @@ class AppWriteService implements AuthService, TodoService {
   }
 
   bool get canHandleTodos => config.canHandleTodos;
+
+  bool get canHandleProfiles => config.canHandleProfiles;
 
   @override
   Future<Auth> authenticate(Credentials credentials) async {
@@ -77,6 +92,7 @@ class AppWriteService implements AuthService, TodoService {
         Query.limit(pageSize),
         Query.offset(page * pageSize),
         Query.orderDesc('\$createdAt'),
+        Query.equal(_userIdKey, auth.id),
       ],
     );
     final list = documents.documents.map(AppWriteTodo.fromDocument).toList();
@@ -131,6 +147,7 @@ class AppWriteService implements AuthService, TodoService {
     final databases = Databases(_client);
     Document document;
     final todoMap = todo.toJson();
+    todoMap[_userIdKey] = auth.id;
     final permissions = <String>[
       Permission.read(Role.user(auth.id)),
       Permission.update(Role.user(auth.id)),
@@ -165,5 +182,64 @@ class AppWriteService implements AuthService, TodoService {
       token: session.$id,
       refreshToken: session.providerRefreshToken,
     );
+  }
+
+  @override
+  Future<Profile?> fetchProfile(Auth auth) async {
+    final databases = Databases(_client);
+    final documents = await databases.listDocuments(
+      databaseId: config.profilesDbId,
+      collectionId: config.profilesLotId,
+      queries: [
+        Query.limit(1),
+        Query.offset(0),
+        Query.orderAsc('\$createdAt'),
+        Query.equal(_userIdKey, auth.id),
+      ],
+    );
+    if (documents.documents.isNotEmpty) {
+      return AppWriteProfile.fromDocument(documents.documents.first);
+    }
+    return null;
+  }
+
+  @override
+  Profile createProfile() {
+    return AppWriteProfile(id: '', username: '', isPublic: false);
+  }
+
+  @override
+  Future<Profile> saveProfile(Auth auth, Profile profile) async {
+    if (profile is! AppWriteProfile) {
+      throw UnimplementedError();
+    }
+
+    final databases = Databases(_client);
+    Document document;
+    final profileMap = profile.toJson();
+    profileMap[_userIdKey] = auth.id;
+    final permissions = <String>[
+      Permission.read(Role.user(auth.id)),
+      Permission.update(Role.user(auth.id)),
+      Permission.delete(Role.user(auth.id)),
+    ];
+    if (profile.isNew) {
+      document = await databases.createDocument(
+        databaseId: config.profilesDbId,
+        collectionId: config.profilesLotId,
+        documentId: randomUID(),
+        data: profileMap,
+        permissions: permissions,
+      );
+    } else {
+      document = await databases.updateDocument(
+        databaseId: config.profilesDbId,
+        collectionId: config.profilesLotId,
+        documentId: profile.id,
+        data: profileMap,
+        permissions: permissions,
+      );
+    }
+    return AppWriteProfile.fromDocument(document);
   }
 }
