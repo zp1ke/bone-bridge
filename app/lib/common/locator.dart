@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
 
-import '../config.dart';
 import '../service/app_write/app_write_service.dart';
 import '../service/auth_service.dart';
 import '../service/dummy_json/dummy_json_service.dart';
@@ -14,13 +13,9 @@ final _getIt = GetIt.instance;
 void setupServices() {
   // app-write
   AppWriteService? appWriteService;
-  if (AppConfig.appWriteProjectID.isNotEmpty) {
-    // TODO: appwrite custom config
-    appWriteService = AppWriteService(
-      projectID: AppConfig.appWriteProjectID,
-      todosDatabaseID: AppConfig.appWriteTodosDatabaseID,
-      todosCollectionID: AppConfig.appWriteTodosCollectionID,
-    );
+  final appWriteConfig = AppWriteConfig.create();
+  if (appWriteConfig.isValid) {
+    appWriteService = AppWriteService(appWriteConfig);
   }
   // dummy-json
   final dummyJsonService = DummyJsonService();

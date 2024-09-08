@@ -28,12 +28,14 @@ class _TodosEditState extends State<TodosEditWidget> {
   final formKey = GlobalKey<FormState>();
 
   AutovalidateMode formAutovalidateMode = AutovalidateMode.disabled;
+  bool isCompleted = false;
   bool processing = false;
 
   @override
   void initState() {
     super.initState();
     descriptionCtrl.text = widget.todo.description;
+    isCompleted = widget.todo.isCompleted;
   }
 
   @override
@@ -103,7 +105,16 @@ class _TodosEditState extends State<TodosEditWidget> {
           L10n.of(context).todoIsCompleted,
           textAlign: TextAlign.end,
         )),
-        Checkbox(value: false, onChanged: (_) {}),
+        Checkbox(
+          value: isCompleted,
+          onChanged: (value) {
+            if (value != null) {
+              setState(() {
+                isCompleted = value;
+              });
+            }
+          },
+        ),
       ],
     );
   }
@@ -137,7 +148,7 @@ class _TodosEditState extends State<TodosEditWidget> {
     });
     final todo = widget.todo
       ..description = descriptionCtrl.text
-      ..isCompleted = false; //TODO
+      ..isCompleted = isCompleted;
     try {
       await widget.onDone(todo);
     } on HttpError catch (e) {

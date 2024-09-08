@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/l10n.dart';
 
 import '../../../app/router.dart';
 import '../../../common/locator.dart';
+import '../../../config.dart';
 import '../../../model/data_page.dart';
 import '../../../model/todo.dart';
 import '../../../service/todo_service.dart';
@@ -28,9 +29,8 @@ class _TodosPageState extends PageState<TodosPage> {
     return CrudPage<Todo>(
       key: crudKey,
       itemLabel: L10n.of(context).todos,
-      pageSize: 10,
-      // TODO: from config
-      pageSizes: const <int>[10, 20],
+      pageSize: AppConfig.defaultPaginationSize,
+      pageSizes: AppConfig.paginationSizes,
       routeConfigurer: () => RouteConfig(canAddData: true, canReloadData: true),
       dataFetcher: fetchPage,
       listItemBuilder: listItemWidget,
@@ -59,7 +59,14 @@ class _TodosPageState extends PageState<TodosPage> {
       ),
       trailing: Checkbox(
         value: todo.isCompleted,
-        onChanged: !fetching ? (_) {} : null,
+        onChanged: !fetching
+            ? (value) {
+                if (value != null) {
+                  todo.isCompleted = value;
+                  save(todo, popOnDone: false);
+                }
+              }
+            : null,
       ),
       onTap: () {
         editTodo(todo);
@@ -71,7 +78,10 @@ class _TodosPageState extends PageState<TodosPage> {
     final todo = item ?? getService<TodoService>().createTodo();
     return Container(
       alignment: Alignment.center,
-      child: TodosEditWidget(todo: todo, onDone: save),
+      child: TodosEditWidget(
+        todo: todo,
+        onDone: (todo) => save(todo, popOnDone: true),
+      ),
     );
   }
 
@@ -89,13 +99,14 @@ class _TodosPageState extends PageState<TodosPage> {
     await crudKey.currentState?.editItem(value);
   }
 
-  Future save(Todo todo) async {
+  Future save(Todo todo, {required bool popOnDone}) async {
     final auth = AuthState.of(context).auth!;
     await getService<TodoService>().saveTodo(auth, todo);
     if (mounted) {
-      context.pop(todo);
-      final isNew = todo.isNew;
-      crudKey.currentState?.fetchPage(force: !isNew, reset: isNew);
+      if (popOnDone) {
+        context.pop(todo);
+      }
+      crudKey.currentState?.fetchPage(force: true, reset: todo.isNew);
     }
     return Future.value(null);
   }

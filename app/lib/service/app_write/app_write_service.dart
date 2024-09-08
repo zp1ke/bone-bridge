@@ -3,6 +3,7 @@ import 'package:appwrite/models.dart';
 
 import '../../common/logger.dart';
 import '../../common/string.dart';
+import '../../config.dart';
 import '../../model/data_page.dart';
 import '../../model/todo.dart';
 import '../../state/auth.dart';
@@ -10,26 +11,42 @@ import '../auth_service.dart';
 import '../todo_service.dart';
 import 'app_write_model.dart';
 
+class AppWriteConfig {
+  final String projectID;
+  final String todosDbId;
+  final String todosLotId;
+
+  AppWriteConfig._({
+    required this.projectID,
+    required this.todosDbId,
+    required this.todosLotId,
+  });
+
+  factory AppWriteConfig.create() => AppWriteConfig._(
+        projectID: AppConfig.appwritProjectID,
+        todosDbId: AppConfig.appwritTodosDbID,
+        todosLotId: AppConfig.appwritTodosLotID,
+      );
+
+  bool get isValid => projectID.isNotEmpty;
+
+  bool get canHandleTodos => todosDbId.isNotEmpty && todosLotId.isNotEmpty;
+}
+
 // https://appwrite.io/docs
 class AppWriteService implements AuthService, TodoService {
   final Client _client;
-  final String todosDatabaseID;
-  final String todosCollectionID;
+  final AppWriteConfig config;
 
-  AppWriteService({
-    required String projectID,
-    required this.todosDatabaseID,
-    required this.todosCollectionID,
-  }) : _client = Client() {
+  AppWriteService(this.config) : _client = Client() {
     _client
         .setEndpoint('https://cloud.appwrite.io/v1')
-        .setProject(projectID)
+        .setProject(config.projectID)
         // For self signed certificates, only use for development
         .setSelfSigned(status: true);
   }
 
-  bool get canHandleTodos =>
-      todosDatabaseID.isNotEmpty && todosCollectionID.isNotEmpty;
+  bool get canHandleTodos => config.canHandleTodos;
 
   @override
   Future<Auth> authenticate(Credentials credentials) async {
@@ -54,8 +71,8 @@ class AppWriteService implements AuthService, TodoService {
   }) async {
     final databases = Databases(_client);
     final documents = await databases.listDocuments(
-      databaseId: todosDatabaseID,
-      collectionId: todosCollectionID,
+      databaseId: config.todosDbId,
+      collectionId: config.todosLotId,
       queries: [
         Query.limit(pageSize),
         Query.offset(page * pageSize),
@@ -121,16 +138,16 @@ class AppWriteService implements AuthService, TodoService {
     ];
     if (todo.isNew) {
       document = await databases.createDocument(
-        databaseId: todosDatabaseID,
-        collectionId: todosCollectionID,
+        databaseId: config.todosDbId,
+        collectionId: config.todosLotId,
         documentId: randomUID(),
         data: todoMap,
         permissions: permissions,
       );
     } else {
       document = await databases.updateDocument(
-        databaseId: todosDatabaseID,
-        collectionId: todosCollectionID,
+        databaseId: config.todosDbId,
+        collectionId: config.todosLotId,
         documentId: todo.id,
         data: todoMap,
         permissions: permissions,
