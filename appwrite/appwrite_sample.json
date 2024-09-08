@@ -1,0 +1,66 @@
+{
+    "projectId": "PROJECT_ID",
+    "databases": [
+        {
+            "$id": "DATABASE_ID",
+            "name": "database",
+            "enabled": true
+        }
+    ],
+    "collections": [
+        {
+            "$id": "COLLECTION_ID",
+            "$permissions": [
+                "create(\"users\")",
+                "read(\"users\")",
+                "update(\"users\")",
+                "delete(\"users\")"
+            ],
+            "databaseId": "DATABASE_ID",
+            "name": "todos",
+            "enabled": true,
+            "documentSecurity": true,
+            "attributes": [
+                {
+                    "key": "description",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 255,
+                    "default": null
+                },
+                {
+                    "key": "completed",
+                    "type": "boolean",
+                    "required": true,
+                    "array": false,
+                    "default": null
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "description_search",
+                    "type": "fulltext",
+                    "status": "available",
+                    "attributes": [
+                        "description"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                },
+                {
+                    "key": "completed_index",
+                    "type": "key",
+                    "status": "available",
+                    "attributes": [
+                        "completed"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                }
+            ]
+        }
+    ]
+}
