@@ -17,12 +17,14 @@ class DataPage<T> implements Comparable<DataPage<T>> {
   bool get isNotEmpty => list.isNotEmpty;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is DataPage &&
-          runtimeType == other.runtimeType &&
-          page == other.page &&
-          pageSize == other.pageSize;
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    return other is DataPage &&
+            runtimeType == other.runtimeType &&
+            page == other.page;
+  }
 
   @override
   int get hashCode => page.hashCode ^ pageSize.hashCode;
@@ -41,5 +43,10 @@ class DataPage<T> implements Comparable<DataPage<T>> {
   @override
   int compareTo(DataPage<T> other) {
     return page.compareTo(other.page);
+  }
+
+  @override
+  String toString() {
+    return 'DataPage{page: $page, size: $pageSize, total: $totalCount}';
   }
 }

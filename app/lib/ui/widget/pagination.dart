@@ -22,6 +22,7 @@ class PaginationWidget extends StatelessWidget {
   final String itemLabel;
   final PageRange _pageRange;
   final Function(int) onPageChanged;
+  final Function(int) onPageSizeChanged;
   final String buttonsKeyPrefix;
 
   PaginationWidget({
@@ -36,6 +37,7 @@ class PaginationWidget extends StatelessWidget {
     required this.itemLabel,
     required int visiblePages,
     required this.onPageChanged,
+    required this.onPageSizeChanged,
     this.buttonsKeyPrefix = 'pagination',
   })  : page = page + (zeroBased ? 1 : 0),
         pageSizes = _pagesSizesOf(pageSize, pageSizes),
@@ -80,8 +82,10 @@ class PaginationWidget extends StatelessWidget {
               )
               .toList(),
           onChanged: enabled
-              ? (value) {
-                  // TODO: onChangePageSize
+              ? (pageSize) {
+                  if (pageSize != null) {
+                    onPageSizeChanged(pageSize);
+                  }
                 }
               : null,
         ),

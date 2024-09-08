@@ -53,8 +53,8 @@ class _TodosPageState extends PageState<TodosPage> {
       title: Text(
         todo.description,
         style: TextStyle(
-          fontStyle: todo.isCompleted ? FontStyle.italic : null,
           color: todo.isCompleted ? Theme.of(context).disabledColor : null,
+          decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
         ),
       ),
       trailing: Checkbox(

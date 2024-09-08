@@ -18,6 +18,7 @@ class PaginatedListWidget<T> extends StatelessWidget {
   final ItemBuilder<T> itemBuilder;
   final ScrollController scrollController;
   final Function(int) onPageChanged;
+  final Function(int) onPageSizeChanged;
 
   PaginatedListWidget({
     super.key,
@@ -29,6 +30,7 @@ class PaginatedListWidget<T> extends StatelessWidget {
     required this.itemBuilder,
     required this.scrollController,
     required this.onPageChanged,
+    required this.onPageSizeChanged,
   }) : dataPages = dataPages.sortedBy<num>((dataPage) => dataPage.page);
 
   @override
@@ -106,6 +108,7 @@ class PaginatedListWidget<T> extends StatelessWidget {
           itemLabel: itemLabel,
           visiblePages: visiblePages,
           onPageChanged: onPageChanged,
+          onPageSizeChanged: onPageSizeChanged,
         ),
       ],
     );

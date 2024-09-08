@@ -24,6 +24,7 @@ void main() {
         onPageChanged: (value) {
           pageChanged = value;
         },
+        onPageSizeChanged: (_) {},
         buttonsKeyPrefix: buttonsKeyPrefix,
       ),
     ));
@@ -78,6 +79,7 @@ void main() {
         onPageChanged: (value) {
           pageChanged = value;
         },
+        onPageSizeChanged: (_) {},
         buttonsKeyPrefix: buttonsKeyPrefix,
       ),
     ));

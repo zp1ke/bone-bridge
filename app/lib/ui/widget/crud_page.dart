@@ -95,6 +95,7 @@ class _CrudState<T> extends CrudState<T> {
       routeState.fetching = true;
       final data = await widget.dataFetcher(page: loadPage, pageSize: pageSize);
       if (data.isNotEmpty) {
+        dataPages.removeWhere((dataPage) => dataPage.page == data.page);
         dataPages.add(data);
       }
       page = loadPage;
@@ -141,6 +142,12 @@ class _CrudState<T> extends CrudState<T> {
           scrollController: scrollController,
           onPageChanged: (value) {
             fetchPage(toPage: value);
+          },
+          onPageSizeChanged: (value) {
+            setState(() {
+              pageSize = value;
+            });
+            fetchPage(force: true);
           },
         );
       },
