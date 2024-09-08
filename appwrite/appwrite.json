@@ -72,6 +72,14 @@
                     "required": true,
                     "array": false,
                     "default": null
+                },
+                {
+                    "key": "user_id",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 100,
+                    "default": null
                 }
             ],
             "indexes": [
@@ -92,6 +100,17 @@
                     "status": "available",
                     "attributes": [
                         "completed"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                },
+                {
+                    "key": "todos_user_id",
+                    "type": "key",
+                    "status": "available",
+                    "attributes": [
+                        "user_id"
                     ],
                     "orders": [
                         "ASC"
@@ -126,6 +145,14 @@
                     "required": true,
                     "array": false,
                     "default": null
+                },
+                {
+                    "key": "user_id",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 100,
+                    "default": null
                 }
             ],
             "indexes": [
@@ -146,6 +173,17 @@
                     "status": "available",
                     "attributes": [
                         "username"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                },
+                {
+                    "key": "profiles_user_id",
+                    "type": "unique",
+                    "status": "available",
+                    "attributes": [
+                        "user_id"
                     ],
                     "orders": [
                         "ASC"
