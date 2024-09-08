@@ -60,13 +60,10 @@ class _CrudState<T> extends CrudState<T> {
   void initRoute() {
     if (mounted) {
       final config = widget.routeConfigurer();
-      final routeState = RouteState.of(context);
-      if (config.canAddData == config.canReloadData) {
-        routeState.canAddAndReload = config.canAddData;
-      } else {
-        routeState.canAdd = config.canAddData;
-        routeState.canReload = config.canReloadData;
-      }
+      RouteState.of(context).setFeatures(
+        canAdd: config.canAddData,
+        canReload: config.canReloadData,
+      );
     }
   }
 

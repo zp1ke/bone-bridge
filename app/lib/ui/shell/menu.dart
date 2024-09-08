@@ -116,7 +116,7 @@ class AppMenu extends StatelessWidget {
           backgroundImage: Image.network(
             imageUrl,
             width: 56,
-            fit: BoxFit.scaleDown,
+            fit: BoxFit.fitWidth,
           ).image,
           backgroundColor: color,
         ),

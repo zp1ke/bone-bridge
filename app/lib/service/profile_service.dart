@@ -1,0 +1,10 @@
+import '../model/profile.dart';
+import '../state/auth.dart';
+
+abstract class ProfileService {
+  Future<Profile?> fetchProfile(Auth auth);
+
+  Profile createProfile();
+
+  Future<Profile> saveProfile(Auth auth, Profile profile);
+}

@@ -33,7 +33,11 @@ class AppIcons {
 
   static const IconData password = FluentIcons.password_24_filled;
 
+  static const IconData profile = FluentIcons.slide_text_person_24_filled;
+
   static const IconData refresh = FluentIcons.arrow_clockwise_24_filled;
+
+  static const IconData save = FluentIcons.save_24_filled;
 
   static const IconData showPassword = FluentIcons.eye_24_filled;
 

@@ -4,13 +4,12 @@
 import 'package:app/ui/common/icon.dart';
 import 'package:app/ui/shell/page_state.dart';
 import 'package:app/ui/page/todos/todos.dart';
+import 'package:app/ui/page/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:go_router/go_router.dart';
 
-final appRoutes = <AppRoute>[
-  pageRouteTodosPage
-];
+final appRoutes = <AppRoute>[pageRouteTodosPage, pageRouteProfilePage];
 
 final pageRouteTodosPage = AppRoute(
   iconData: AppIcons.todos,
@@ -18,6 +17,14 @@ final pageRouteTodosPage = AppRoute(
   label: (l10n) => l10n.todos,
   widgetKey: GlobalKey<PageState<TodosPage>>(),
   routeBuilder: (context, state, key) => TodosPage(key: key),
+);
+
+final pageRouteProfilePage = AppRoute(
+  iconData: AppIcons.profile,
+  path: '/profile',
+  label: (l10n) => l10n.profile,
+  widgetKey: GlobalKey<PageState<ProfilePage>>(),
+  routeBuilder: (context, state, key) => ProfilePage(key: key),
 );
 
 typedef L10nFunction = String Function(L10n);

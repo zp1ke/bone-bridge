@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:appwrite/models.dart' as models;
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../model/profile.dart';
 import '../../model/todo.dart';
 import '../../model/user.dart';
 import '../../state/auth.dart';
@@ -104,4 +105,41 @@ class AppWriteTodo extends Todo {
   }
 
   Map<String, dynamic> toJson() => _$AppWriteTodoToJson(this);
+}
+
+@JsonSerializable()
+class AppWriteProfile extends Profile {
+  @JsonKey(includeToJson: false)
+  @override
+  final String id;
+
+  @override
+  bool get isNew => id.isEmpty;
+
+  @override
+  String username;
+
+  @JsonKey(name: 'is_public')
+  @override
+  bool isPublic;
+
+  AppWriteProfile({
+    required this.id,
+    required this.username,
+    required this.isPublic,
+  });
+
+  factory AppWriteProfile.fromJson(Map<String, dynamic> json) =>
+      _$AppWriteProfileFromJson(json);
+
+  factory AppWriteProfile.fromDocument(models.Document document) {
+    final map = document.data;
+    map['id'] = document.$id;
+    return AppWriteProfile.fromJson(map);
+  }
+
+  Map<String, dynamic> toJson() => _$AppWriteProfileToJson(this);
+
+  @override
+  String get asJson => jsonEncode(toJson());
 }

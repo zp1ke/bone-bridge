@@ -66,6 +66,7 @@ class _SignInPageState extends State<SignInPage> {
       controller: usernameCtrl,
       autofocus: true,
       autocorrect: false,
+      maxLength: 100,
       decoration: InputDecoration(
         labelText: L10n.of(context).username,
         icon: const Icon(AppIcons.username),
@@ -89,6 +90,7 @@ class _SignInPageState extends State<SignInPage> {
       controller: passwordCtrl,
       autocorrect: false,
       obscureText: passwordHidden,
+      maxLength: 100,
       decoration: InputDecoration(
         labelText: L10n.of(context).password,
         icon: const Icon(AppIcons.password),

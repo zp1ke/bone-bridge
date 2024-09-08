@@ -13,4 +13,8 @@ class AppConfig {
   static const appwritProjectID = String.fromEnvironment('appwriteProjectID');
   static const appwritTodosDbID = String.fromEnvironment('appwriteTodosDbID');
   static const appwritTodosLotID = String.fromEnvironment('appwriteTodosLotID');
+  static const appwritProfilesDbID =
+      String.fromEnvironment('appwriteProfilesDbID');
+  static const appwritProfilesLotID =
+      String.fromEnvironment('appwriteProfilesLotID');
 }

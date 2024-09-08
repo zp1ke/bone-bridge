@@ -44,21 +44,14 @@ class RouteState extends ChangeNotifier {
 
   bool get canAdd => _route != null && _canAdd;
 
-  set canAdd(bool value) {
-    _canAdd = value;
-    notifyListeners();
-  }
-
   bool get canReload => _route != null && _canReload;
 
-  set canReload(bool value) {
-    _canReload = value;
-    notifyListeners();
-  }
-
-  set canAddAndReload(bool value) {
-    _canAdd = value;
-    _canReload = value;
+  void setFeatures({
+    required bool canAdd,
+    required bool canReload,
+  }) {
+    _canAdd = canAdd;
+    _canReload = canReload;
     notifyListeners();
   }
 }

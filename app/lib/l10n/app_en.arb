@@ -20,6 +20,7 @@
   },
   "errorSaving": "An error occurs saving the data.",
   "errorSigningIn": "An error occurs signing you in.",
+  "featureNotAvailable": "This feature is not available for now.",
   "goAddContent": "Go add some content...",
   "goFirstPage": "Goto first page",
   "goLastPage": "Goto last page",
@@ -34,6 +35,7 @@
       }
     }
   },
+  "noProfileSaved": "You have not created your profile",
   "nothingHere": "Nothing here :( ... yet!",
   "ok": "Ok",
   "paginationPerPageAndTotalCount": "{item} per page. Total results: {totalCount}",
@@ -48,6 +50,8 @@
     }
   },
   "password": "Password",
+  "profile": "Profile",
+  "profileIsPublic": "Profile is public",
   "save": "Save",
   "signIn": "Sign In",
   "signOut": "Sign Out",
