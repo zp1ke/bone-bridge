@@ -7,4 +7,6 @@ abstract class ProfileService {
   Profile createProfile();
 
   Future<Profile> saveProfile(Auth auth, Profile profile);
+
+  Future<Profile?> fetchPublicProfile(String username);
 }

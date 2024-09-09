@@ -14,6 +14,7 @@ import '../todo_service.dart';
 import 'app_write_model.dart';
 
 class AppWriteConfig {
+  final String serverUrl;
   final String projectID;
   final String todosDbId;
   final String todosLotId;
@@ -21,6 +22,7 @@ class AppWriteConfig {
   final String profilesLotId;
 
   AppWriteConfig._({
+    required this.serverUrl,
     required this.projectID,
     required this.todosDbId,
     required this.todosLotId,
@@ -29,6 +31,7 @@ class AppWriteConfig {
   });
 
   factory AppWriteConfig.create() => AppWriteConfig._(
+        serverUrl: 'https://cloud.appwrite.io/v1',
         projectID: AppConfig.appwritProjectID,
         todosDbId: AppConfig.appwritTodosDbID,
         todosLotId: AppConfig.appwritTodosLotID,
@@ -45,6 +48,7 @@ class AppWriteConfig {
 }
 
 const _userIdKey = 'user_id';
+const _createdAtKey = '\$createdAt';
 
 // https://appwrite.io/docs
 class AppWriteService implements AuthService, TodoService, ProfileService {
@@ -53,7 +57,7 @@ class AppWriteService implements AuthService, TodoService, ProfileService {
 
   AppWriteService(this.config) : _client = Client() {
     _client
-        .setEndpoint('https://cloud.appwrite.io/v1')
+        .setEndpoint(config.serverUrl)
         .setProject(config.projectID)
         // For self signed certificates, only use for development
         .setSelfSigned(status: true);
@@ -91,7 +95,7 @@ class AppWriteService implements AuthService, TodoService, ProfileService {
       queries: [
         Query.limit(pageSize),
         Query.offset(page * pageSize),
-        Query.orderDesc('\$createdAt'),
+        Query.orderDesc(_createdAtKey),
         Query.equal(_userIdKey, auth.id),
       ],
     );
@@ -193,7 +197,7 @@ class AppWriteService implements AuthService, TodoService, ProfileService {
       queries: [
         Query.limit(1),
         Query.offset(0),
-        Query.orderAsc('\$createdAt'),
+        Query.orderAsc(_createdAtKey),
         Query.equal(_userIdKey, auth.id),
       ],
     );
@@ -223,6 +227,12 @@ class AppWriteService implements AuthService, TodoService, ProfileService {
       Permission.update(Role.user(auth.id)),
       Permission.delete(Role.user(auth.id)),
     ];
+    if (profile.isPublic) {
+      permissions.addAll([
+        Permission.read(Role.guests()),
+        Permission.read(Role.users()),
+      ]);
+    }
     if (profile.isNew) {
       document = await databases.createDocument(
         databaseId: config.profilesDbId,
@@ -241,5 +251,25 @@ class AppWriteService implements AuthService, TodoService, ProfileService {
       );
     }
     return AppWriteProfile.fromDocument(document);
+  }
+
+  @override
+  Future<Profile?> fetchPublicProfile(String username) async {
+    final databases = Databases(_client);
+    final documents = await databases.listDocuments(
+      databaseId: config.profilesDbId,
+      collectionId: config.profilesLotId,
+      queries: [
+        Query.limit(1),
+        Query.offset(0),
+        Query.orderAsc(_createdAtKey),
+        Query.equal(AppWriteProfile.usernameKey, username),
+        Query.equal(AppWriteProfile.isPublicKey, true),
+      ],
+    );
+    if (documents.documents.isNotEmpty) {
+      return AppWriteProfile.fromDocument(documents.documents.first);
+    }
+    return null;
   }
 }

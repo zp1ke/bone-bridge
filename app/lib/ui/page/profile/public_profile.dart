@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/l10n.dart';
+
+import '../../../common/locator.dart';
+import '../../../model/profile.dart';
+import '../../../service/profile_service.dart';
 
 class PublicProfilePage extends StatefulWidget {
   final String username;
@@ -13,6 +18,27 @@ class PublicProfilePage extends StatefulWidget {
 }
 
 class _PublicProfilePageState extends State<PublicProfilePage> {
+  var loading = true;
+  Profile? profile;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      initProfile();
+    });
+  }
+
+  void initProfile() async {
+    if (getOptionalService<ProfileService>() != null) {
+      final profileService = getService<ProfileService>();
+      profile = await profileService.fetchPublicProfile(widget.username);
+    }
+    setState(() {
+      loading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,27 +57,48 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
     );
   }
 
-  Widget title() {
-    return Text(
-      widget.username,
-      textScaler: const TextScaler.linear(0.6),
-      style: TextStyle(
-        color: Theme.of(context).disabledColor,
-        fontWeight: FontWeight.w300,
-      ),
-    );
+  Widget? title() {
+    if (profile != null) {
+      return Text(
+        widget.username,
+        textScaler: const TextScaler.linear(0.6),
+        style: TextStyle(
+          color: Theme.of(context).disabledColor,
+          fontWeight: FontWeight.w300,
+        ),
+      );
+    }
+    return null;
   }
 
   Widget body() {
-    return ListView(
-      children: [
-        headerCard(),
-      ].map((item) => card(child: item)).toList(),
-    );
+    if (loading) {
+      return const Center(child: CircularProgressIndicator.adaptive());
+    }
+    if (profile != null) {
+      return ListView(
+        children: [
+          headerCard(),
+        ].map((item) => card(child: item)).toList(),
+      );
+    }
+    return nothingHereBody();
   }
 
   Widget headerCard() {
-    return const Text('HEADER');
+    return Text(profile!.username);
+  }
+
+  Widget nothingHereBody() {
+    return Center(
+      child: Text(
+        L10n.of(context).nothingHere,
+        textScaler: const TextScaler.linear(1.5),
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
   }
 
   Widget card({required Widget child}) {

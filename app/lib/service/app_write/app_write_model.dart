@@ -109,6 +109,9 @@ class AppWriteTodo extends Todo {
 
 @JsonSerializable()
 class AppWriteProfile extends Profile {
+  static const usernameKey = 'username';
+  static const isPublicKey = 'is_public';
+
   @JsonKey(includeToJson: false)
   @override
   final String id;
@@ -119,7 +122,7 @@ class AppWriteProfile extends Profile {
   @override
   String username;
 
-  @JsonKey(name: 'is_public')
+  @JsonKey(name: isPublicKey)
   @override
   bool isPublic;
 
