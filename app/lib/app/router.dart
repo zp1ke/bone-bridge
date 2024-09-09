@@ -18,6 +18,13 @@ final appRouter = GoRouter(
         return const SignInPage();
       },
     ),
+    GoRoute(
+      path: '${RoutePath.profile.path}/:username',
+      builder: (context, state) {
+        final username = state.pathParameters['username'] ?? '-';
+        return Center(child: Text('TODO el public profile = $username'));
+      },
+    ),
     ShellRoute(
       builder: (context, state, child) {
         return AppLayout(child: child);

@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:provider/provider.dart';
 
+import '../../../app/route_path.dart';
 import '../../../common/locator.dart';
+import '../../../config.dart';
 import '../../../model/profile.dart';
 import '../../../service/profile_service.dart';
 import '../../../state/auth.dart';
 import '../../../state/route.dart';
+import '../../common/alert.dart';
 import '../../common/icon.dart';
 import '../../shell/page_state.dart';
 
@@ -80,6 +83,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
                 ? Text(l10n.noProfileSaved)
                 : null,
             actions: [
+              if (profile?.isPublic ?? false) shareAction(routeState),
               saveAction(routeState),
             ],
           ),
@@ -107,6 +111,14 @@ class _ProfilePageState extends PageState<ProfilePage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget shareAction(RouteState routeState) {
+    return TextButton.icon(
+      icon: const Icon(AppIcons.share),
+      label: Text(L10n.of(context).share),
+      onPressed: enabled(routeState) ? onShare : null,
     );
   }
 
@@ -180,6 +192,15 @@ class _ProfilePageState extends PageState<ProfilePage> {
       return profile;
     }
     return null;
+  }
+
+  void onShare() {
+    final url =
+        '${AppConfig.webBaseUrl}${RoutePath.profile.path}/${profile!.username}';
+    shareContent(
+      subject: L10n.of(context).profileOf(profile!.username),
+      content: url,
+    );
   }
 
   void onSave() {

@@ -52,7 +52,16 @@
   "password": "Password",
   "profile": "Profile",
   "profileIsPublic": "Profile is public",
+  "profileOf": "Profile of {username}",
+  "@profileOf": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
   "save": "Save",
+  "share": "Share",
   "signIn": "Sign In",
   "signOut": "Sign Out",
   "signOutConfirmation": "Confirm to sign out.",

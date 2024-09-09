@@ -17,6 +17,14 @@ To change default pagination sizes:
 }
 ```
 
+To change web base url:
+
+```json
+{
+  "webBaseUrl": "https://domain"
+}
+```
+
 To use authentication with [appwrite backend](https://appwrite.io/docs):
 
 ```json

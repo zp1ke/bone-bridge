@@ -8,6 +8,8 @@ class AppConfig {
           .split(' ')
           .map((size) => int.parse(size))
           .toList();
+  static const webBaseUrl = String.fromEnvironment('webBaseUrl',
+      defaultValue: 'https://sp1ke.dev/bone-bridge');
 
   // appwrite
   static const appwritProjectID = String.fromEnvironment('appwriteProjectID');

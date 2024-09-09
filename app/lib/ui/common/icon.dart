@@ -39,6 +39,8 @@ class AppIcons {
 
   static const IconData save = FluentIcons.save_24_filled;
 
+  static const IconData share = FluentIcons.share_24_filled;
+
   static const IconData showPassword = FluentIcons.eye_24_filled;
 
   static const IconData signOut = FluentIcons.sign_out_24_filled;

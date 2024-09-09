@@ -1,6 +1,7 @@
 enum RoutePath {
   signIn('/sign-in', anonymous: true),
-  home('/');
+  home('/'),
+  profile('/p', anonymous: true);
 
   final String path;
   final bool anonymous;
