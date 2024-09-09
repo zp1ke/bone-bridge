@@ -76,7 +76,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
       builder: (context, routeState, _) {
         return Scaffold(
           appBar: AppBar(
-            leading: Container(),
+            automaticallyImplyLeading: false,
             elevation: 0,
             backgroundColor: Colors.transparent,
             title: profile == null && enabled(routeState)

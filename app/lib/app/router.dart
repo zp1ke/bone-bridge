@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 import '../common/logger.dart';
 import '../state/auth.dart';
 import '../state/route.dart';
-import '../ui/page/index.dart';
+import '../ui/page/home.dart';
+import '../ui/page/profile/public_profile.dart';
+import '../ui/page/sign_in.dart';
 import '../ui/shell/layout.dart';
 import 'route_path.dart';
 import 'routes.dart';
@@ -22,7 +24,7 @@ final appRouter = GoRouter(
       path: '${RoutePath.profile.path}/:username',
       builder: (context, state) {
         final username = state.pathParameters['username'] ?? '-';
-        return Center(child: Text('TODO el public profile = $username'));
+        return PublicProfilePage(username: username);
       },
     ),
     ShellRoute(
