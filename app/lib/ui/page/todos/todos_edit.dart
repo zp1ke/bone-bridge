@@ -40,21 +40,25 @@ class _TodosEditState extends State<TodosEditWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final items = <Widget>[
+      title(),
+      descriptionField(),
+      isCompletedField(),
+      actionButton(),
+    ];
     const verticalSeparatorSize = 12.0;
     return Form(
       key: formKey,
       autovalidateMode: formAutovalidateMode,
       child: ListView(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-        children: [
-          title(),
-          const SizedBox(height: verticalSeparatorSize),
-          descriptionField(),
-          const SizedBox(height: verticalSeparatorSize),
-          isCompletedField(),
-          const SizedBox(height: verticalSeparatorSize),
-          actionButton(),
-        ],
+        children: items
+            .map(
+              (item) => const Padding(
+                padding: EdgeInsets.only(bottom: verticalSeparatorSize),
+              ),
+            )
+            .toList(),
       ),
     );
   }

@@ -12,11 +12,14 @@ class AppConfig {
       defaultValue: 'https://sp1ke.dev/bone-bridge');
 
   // appwrite
-  static const appwritProjectID = String.fromEnvironment('appwriteProjectID');
-  static const appwritTodosDbID = String.fromEnvironment('appwriteTodosDbID');
-  static const appwritTodosLotID = String.fromEnvironment('appwriteTodosLotID');
-  static const appwritProfilesDbID =
+  static const appwriteProjectID = String.fromEnvironment('appwriteProjectID');
+  static const appwriteTodosDbID = String.fromEnvironment('appwriteTodosDbID');
+  static const appwriteTodosLotID =
+      String.fromEnvironment('appwriteTodosLotID');
+  static const appwriteProfilesDbID =
       String.fromEnvironment('appwriteProfilesDbID');
-  static const appwritProfilesLotID =
+  static const appwriteProfilesLotID =
       String.fromEnvironment('appwriteProfilesLotID');
+  static const appwriteStorageBucket =
+      String.fromEnvironment('appwriteStorageBucket');
 }

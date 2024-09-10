@@ -1,5 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../common/logger.dart';
 import '../../common/string.dart';
@@ -10,6 +11,7 @@ import '../../model/todo.dart';
 import '../../state/auth.dart';
 import '../auth_service.dart';
 import '../profile_service.dart';
+import '../storage_service.dart';
 import '../todo_service.dart';
 import 'app_write_model.dart';
 
@@ -20,6 +22,7 @@ class AppWriteConfig {
   final String todosLotId;
   final String profilesDbId;
   final String profilesLotId;
+  final String storageBucket;
 
   AppWriteConfig._({
     required this.serverUrl,
@@ -28,15 +31,17 @@ class AppWriteConfig {
     required this.todosLotId,
     required this.profilesDbId,
     required this.profilesLotId,
+    required this.storageBucket,
   });
 
   factory AppWriteConfig.create() => AppWriteConfig._(
         serverUrl: 'https://cloud.appwrite.io/v1',
-        projectID: AppConfig.appwritProjectID,
-        todosDbId: AppConfig.appwritTodosDbID,
-        todosLotId: AppConfig.appwritTodosLotID,
-        profilesDbId: AppConfig.appwritProfilesDbID,
-        profilesLotId: AppConfig.appwritProfilesLotID,
+        projectID: AppConfig.appwriteProjectID,
+        todosDbId: AppConfig.appwriteTodosDbID,
+        todosLotId: AppConfig.appwriteTodosLotID,
+        profilesDbId: AppConfig.appwriteProfilesDbID,
+        profilesLotId: AppConfig.appwriteProfilesLotID,
+        storageBucket: AppConfig.appwriteStorageBucket,
       );
 
   bool get isValid => projectID.isNotEmpty;
@@ -45,13 +50,16 @@ class AppWriteConfig {
 
   bool get canHandleProfiles =>
       profilesDbId.isNotEmpty && profilesLotId.isNotEmpty;
+
+  bool get canHandleStorage => storageBucket.isNotEmpty;
 }
 
 const _userIdKey = 'user_id';
 const _createdAtKey = '\$createdAt';
 
 // https://appwrite.io/docs
-class AppWriteService implements AuthService, TodoService, ProfileService {
+class AppWriteService
+    implements AuthService, TodoService, ProfileService, StorageService {
   final Client _client;
   final AppWriteConfig config;
 
@@ -66,6 +74,8 @@ class AppWriteService implements AuthService, TodoService, ProfileService {
   bool get canHandleTodos => config.canHandleTodos;
 
   bool get canHandleProfiles => config.canHandleProfiles;
+
+  bool get canHandleStorage => config.canHandleStorage;
 
   @override
   Future<Auth> authenticate(Credentials credentials) async {
@@ -228,12 +238,7 @@ class AppWriteService implements AuthService, TodoService, ProfileService {
         collectionId: config.profilesLotId,
         documentId: randomUID(),
         data: profileMap,
-        permissions: [
-          Permission.read(Role.guests()),
-          Permission.read(Role.users()),
-          Permission.update(Role.user(auth.id)),
-          Permission.delete(Role.user(auth.id)),
-        ],
+        permissions: permissionsOf(auth),
       );
     } else {
       document = await databases.updateDocument(
@@ -265,4 +270,39 @@ class AppWriteService implements AuthService, TodoService, ProfileService {
     }
     return null;
   }
+
+  @override
+  Future saveFile(
+    Auth auth, {
+    required String key,
+    required String name,
+    required Uint8List bytes,
+  }) async {
+    final storage = Storage(_client);
+    final list = await storage.listFiles(
+      bucketId: config.storageBucket,
+      queries: [
+        Query.equal('name', name),
+      ],
+    );
+    if (list.total > 0) {
+      await storage.deleteFile(
+        bucketId: config.storageBucket,
+        fileId: key,
+      );
+    }
+    await storage.createFile(
+      bucketId: config.storageBucket,
+      fileId: key,
+      file: InputFile.fromBytes(bytes: bytes.toList(), filename: name),
+      permissions: permissionsOf(auth),
+    );
+  }
 }
+
+List<String> permissionsOf(Auth auth) => [
+      Permission.read(Role.guests()),
+      Permission.read(Role.users()),
+      Permission.update(Role.user(auth.id)),
+      Permission.delete(Role.user(auth.id)),
+    ];

@@ -97,7 +97,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
         CircleAvatar(
           radius: imgRadius,
           backgroundImage: Image.network(
-            'https://dummyjson.com/icon/${profile!.username}/${imgRadius * 2}',
+            Profile.imageUrl(profile: profile, radius: imgRadius),
             fit: BoxFit.cover,
           ).image,
         ),

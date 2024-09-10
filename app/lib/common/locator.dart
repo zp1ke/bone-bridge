@@ -6,6 +6,7 @@ import '../service/dummy_json/dummy_json_service.dart';
 import '../service/preferences_service.dart';
 import '../service/profile_service.dart';
 import '../service/shared_preferences/shared_preferences_service.dart';
+import '../service/storage_service.dart';
 import '../service/todo_service.dart';
 import 'logger.dart';
 
@@ -36,14 +37,14 @@ void setupServices() {
     name: 'common/locator',
   );
   _getIt.registerSingleton<TodoService>(todoService);
-  // storage-service
+  // preferences-service
   _getIt.registerLazySingleton<PreferencesService>(() {
-    final storageService = SharedPreferencesService();
+    final preferencesService = SharedPreferencesService();
     logDebug(
-      'StorageService: ${storageService.runtimeType}',
+      'PreferencesService: ${preferencesService.runtimeType}',
       name: 'common/locator',
     );
-    return storageService;
+    return preferencesService;
   });
   // profiles-service
   final ProfileService? profileService =
@@ -54,6 +55,16 @@ void setupServices() {
   );
   if (profileService != null) {
     _getIt.registerSingleton<ProfileService>(profileService);
+  }
+  // storage-service
+  final StorageService? storageService =
+      (appWriteService?.canHandleStorage ?? false) ? appWriteService! : null;
+  logDebug(
+    'StorageService: ${storageService?.runtimeType}',
+    name: 'common/locator',
+  );
+  if (storageService != null) {
+    _getIt.registerSingleton<StorageService>(storageService);
   }
 }
 

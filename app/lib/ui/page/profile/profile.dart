@@ -8,9 +8,11 @@ import '../../../common/locator.dart';
 import '../../../config.dart';
 import '../../../model/profile.dart';
 import '../../../service/profile_service.dart';
+import '../../../service/storage_service.dart';
 import '../../../state/auth.dart';
 import '../../../state/route.dart';
 import '../../common/alert.dart';
+import '../../common/file.dart';
 import '../../common/icon.dart';
 import '../../shell/page_state.dart';
 
@@ -102,6 +104,13 @@ class _ProfilePageState extends PageState<ProfilePage> {
   }
 
   Widget body(RouteState routeState) {
+    final items = <Widget>[
+      usernameField(routeState),
+      isPublicField(routeState),
+      imageField(routeState),
+      nameField(routeState),
+      summaryField(routeState),
+    ];
     const verticalSeparatorSize = 16.0;
     return Form(
       key: formKey,
@@ -111,15 +120,13 @@ class _ProfilePageState extends PageState<ProfilePage> {
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              usernameField(routeState),
-              const SizedBox(height: verticalSeparatorSize),
-              isPublicField(routeState),
-              const SizedBox(height: verticalSeparatorSize),
-              nameField(routeState),
-              const SizedBox(height: verticalSeparatorSize),
-              summaryField(routeState),
-            ],
+            children: items
+                .map(
+                  (item) => const Padding(
+                    padding: EdgeInsets.only(bottom: verticalSeparatorSize),
+                  ),
+                )
+                .toList(),
           ),
         ),
       ),
@@ -193,6 +200,26 @@ class _ProfilePageState extends PageState<ProfilePage> {
     );
   }
 
+  Widget imageField(RouteState routeState) {
+    const imgRadius = 30.0;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        CircleAvatar(
+          radius: imgRadius,
+          backgroundImage: Image.network(
+            Profile.imageUrl(username: usernameCtrl.text, radius: imgRadius),
+            fit: BoxFit.cover,
+          ).image,
+        ),
+        TextButton(
+          onPressed: enabled(routeState) ? uploadImage : null,
+          child: Text(L10n.of(context).uploadImage),
+        ),
+      ],
+    );
+  }
+
   Widget nameField(RouteState routeState) {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 450),
@@ -259,6 +286,25 @@ class _ProfilePageState extends PageState<ProfilePage> {
     });
     if (formKey.currentState!.validate()) {
       saveData();
+    }
+  }
+
+  void uploadImage() async {
+    final imageBytes = await pickImage();
+    if (imageBytes != null && mounted) {
+      processing = true;
+      final routeState = RouteState.of(context);
+      routeState.fetching = true;
+
+      final auth = AuthState.of(context).auth!;
+      await getService<StorageService>().saveFile(
+        auth,
+        key: Profile.imageKey(auth),
+        name: Profile.imageName(auth),
+        bytes: imageBytes,
+      );
+      processing = false;
+      routeState.fetching = false;
     }
   }
 

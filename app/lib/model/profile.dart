@@ -1,3 +1,6 @@
+import '../common/string.dart';
+import '../state/auth.dart';
+
 abstract class Profile {
   String get id;
 
@@ -27,4 +30,24 @@ abstract class Profile {
     String? name,
     String? summary,
   });
+
+  static String imageKey(Auth auth) {
+    return '${auth.id}-image';
+  }
+
+  static String imageName(Auth auth) {
+    return '${auth.id}-image.png';
+  }
+
+  static String imageUrl({
+    Profile? profile,
+    String? username,
+    required double radius,
+  }) {
+    var key = profile?.username ?? username ?? randomUID();
+    if (key.isEmpty) {
+      key = randomUID();
+    }
+    return 'https://dummyjson.com/icon/$key/${radius * 2}';
+  }
 }

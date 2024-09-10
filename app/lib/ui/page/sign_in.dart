@@ -43,19 +43,24 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   Widget body(BuildContext context) {
+    final items = <Widget>[
+      usernameField(context),
+      passwordField(context),
+      actionButton(context),
+    ];
     const verticalSeparatorSize = 16.0;
     return Form(
       key: formKey,
       autovalidateMode: formAutovalidateMode,
       child: ListView(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-        children: [
-          usernameField(context),
-          const SizedBox(height: verticalSeparatorSize),
-          passwordField(context),
-          const SizedBox(height: verticalSeparatorSize),
-          actionButton(context),
-        ],
+        children: items
+            .map(
+              (item) => const Padding(
+                padding: EdgeInsets.only(bottom: verticalSeparatorSize),
+              ),
+            )
+            .toList(),
       ),
     );
   }
