@@ -222,24 +222,18 @@ class AppWriteService implements AuthService, TodoService, ProfileService {
     Document document;
     final profileMap = profile.toJson();
     profileMap[_userIdKey] = auth.id;
-    final permissions = <String>[
-      Permission.read(Role.user(auth.id)),
-      Permission.update(Role.user(auth.id)),
-      Permission.delete(Role.user(auth.id)),
-    ];
-    if (profile.isPublic) {
-      permissions.addAll([
-        Permission.read(Role.guests()),
-        Permission.read(Role.users()),
-      ]);
-    }
     if (profile.isNew) {
       document = await databases.createDocument(
         databaseId: config.profilesDbId,
         collectionId: config.profilesLotId,
         documentId: randomUID(),
         data: profileMap,
-        permissions: permissions,
+        permissions: [
+          Permission.read(Role.guests()),
+          Permission.read(Role.users()),
+          Permission.update(Role.user(auth.id)),
+          Permission.delete(Role.user(auth.id)),
+        ],
       );
     } else {
       document = await databases.updateDocument(
@@ -247,7 +241,6 @@ class AppWriteService implements AuthService, TodoService, ProfileService {
         collectionId: config.profilesLotId,
         documentId: profile.id,
         data: profileMap,
-        permissions: permissions,
       );
     }
     return AppWriteProfile.fromDocument(document);

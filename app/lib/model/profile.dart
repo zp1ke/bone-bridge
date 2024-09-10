@@ -11,5 +11,20 @@ abstract class Profile {
 
   set isPublic(bool value);
 
+  String get name;
+
+  set name(String value);
+
+  String get summary;
+
+  set summary(String value);
+
   String get asJson;
+
+  Profile copyWith({
+    String? username,
+    bool? isPublic,
+    String? name,
+    String? summary,
+  });
 }

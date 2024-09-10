@@ -22,6 +22,8 @@ class AppIcons {
 
   static const IconData menu = FluentIcons.navigation_24_filled;
 
+  static const IconData name = FluentIcons.person_info_24_filled;
+
   static const IconData paginationGoFirst =
       FluentIcons.arrow_previous_24_filled;
 
@@ -44,6 +46,8 @@ class AppIcons {
   static const IconData showPassword = FluentIcons.eye_24_filled;
 
   static const IconData signOut = FluentIcons.sign_out_24_filled;
+
+  static const IconData summary = FluentIcons.document_24_filled;
 
   static const IconData todoDescription =
       FluentIcons.text_description_24_filled;

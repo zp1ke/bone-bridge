@@ -65,10 +65,14 @@ AppWriteProfile _$AppWriteProfileFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       username: json['username'] as String,
       isPublic: json['is_public'] as bool,
+      name: json['name'] as String? ?? '',
+      summary: json['summary'] as String? ?? '',
     );
 
 Map<String, dynamic> _$AppWriteProfileToJson(AppWriteProfile instance) =>
     <String, dynamic>{
       'username': instance.username,
       'is_public': instance.isPublic,
+      'name': instance.name,
+      'summary': instance.summary,
     };

@@ -24,6 +24,10 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends PageState<ProfilePage> {
   final usernameCtrl = TextEditingController();
+  final nameCtrl = TextEditingController();
+  final nameFocus = FocusNode();
+  final summaryCtrl = TextEditingController();
+  final summaryFocus = FocusNode();
   final formKey = GlobalKey<FormState>();
 
   var active = false;
@@ -52,8 +56,12 @@ class _ProfilePageState extends PageState<ProfilePage> {
 
   void initProfile() async {
     profile = await fetchData();
-    usernameCtrl.text = profile?.username ?? '';
-    isPublic = profile?.isPublic ?? false;
+    if (profile != null) {
+      usernameCtrl.text = profile!.username;
+      isPublic = profile!.isPublic;
+      nameCtrl.text = profile!.name;
+      summaryCtrl.text = profile!.summary;
+    }
   }
 
   bool enabled(RouteState routeState) => !processing && !routeState.fetching;
@@ -107,6 +115,10 @@ class _ProfilePageState extends PageState<ProfilePage> {
               usernameField(routeState),
               const SizedBox(height: verticalSeparatorSize),
               isPublicField(routeState),
+              const SizedBox(height: verticalSeparatorSize),
+              nameField(routeState),
+              const SizedBox(height: verticalSeparatorSize),
+              summaryField(routeState),
             ],
           ),
         ),
@@ -138,7 +150,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
         controller: usernameCtrl,
         autofocus: profile == null,
         autocorrect: false,
-        maxLength: 100,
+        maxLength: 50,
         decoration: InputDecoration(
           labelText: L10n.of(context).username,
           icon: const Icon(AppIcons.username),
@@ -151,7 +163,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
           return null;
         },
         onFieldSubmitted: (_) {
-          // .requestFocus();
+          nameFocus.requestFocus();
         },
       ),
     );
@@ -178,6 +190,44 @@ class _ProfilePageState extends PageState<ProfilePage> {
               : null,
         ),
       ],
+    );
+  }
+
+  Widget nameField(RouteState routeState) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 450),
+      child: TextFormField(
+        enabled: enabled(routeState),
+        controller: nameCtrl,
+        autocorrect: false,
+        maxLength: 150,
+        decoration: InputDecoration(
+          labelText: L10n.of(context).name,
+          icon: const Icon(AppIcons.name),
+        ),
+        textInputAction: TextInputAction.next,
+        onFieldSubmitted: (_) {
+          summaryFocus.requestFocus();
+        },
+      ),
+    );
+  }
+
+  Widget summaryField(RouteState routeState) {
+    return TextFormField(
+      enabled: enabled(routeState),
+      controller: summaryCtrl,
+      autocorrect: false,
+      maxLength: 500,
+      maxLines: 4,
+      decoration: InputDecoration(
+        labelText: L10n.of(context).summary,
+        icon: const Icon(AppIcons.summary),
+      ),
+      textInputAction: TextInputAction.next,
+      onFieldSubmitted: (_) {
+        // .requestFocus();
+      },
     );
   }
 
@@ -221,8 +271,12 @@ class _ProfilePageState extends PageState<ProfilePage> {
       final auth = AuthState.of(context).auth!;
       final profileService = getService<ProfileService>();
       profile ??= profileService.createProfile();
-      profile!.username = usernameCtrl.text;
-      profile!.isPublic = isPublic;
+      profile = profile!.copyWith(
+        username: usernameCtrl.text,
+        isPublic: isPublic,
+        name: nameCtrl.text,
+        summary: summaryCtrl.text,
+      );
       profile = await profileService.saveProfile(auth, profile!);
       processing = false;
       routeState.fetching = false;

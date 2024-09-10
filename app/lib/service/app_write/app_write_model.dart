@@ -126,10 +126,18 @@ class AppWriteProfile extends Profile {
   @override
   bool isPublic;
 
+  @override
+  String name;
+
+  @override
+  String summary;
+
   AppWriteProfile({
     required this.id,
     required this.username,
     required this.isPublic,
+    this.name = '',
+    this.summary = '',
   });
 
   factory AppWriteProfile.fromJson(Map<String, dynamic> json) =>
@@ -145,4 +153,19 @@ class AppWriteProfile extends Profile {
 
   @override
   String get asJson => jsonEncode(toJson());
+
+  @override
+  Profile copyWith({
+    String? username,
+    bool? isPublic,
+    String? name,
+    String? summary,
+  }) =>
+      AppWriteProfile(
+        id: id,
+        username: username ?? this.username,
+        isPublic: isPublic ?? this.isPublic,
+        name: name ?? this.name,
+        summary: summary ?? this.summary,
+      );
 }
