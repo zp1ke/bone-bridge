@@ -35,7 +35,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    active = getOptionalService<ProfileService>() != null;
+    active = hasService<ProfileService>();
     Future.delayed(Duration.zero, () {
       initRoute();
       if (active) {

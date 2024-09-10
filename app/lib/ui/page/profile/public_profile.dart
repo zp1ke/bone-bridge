@@ -30,7 +30,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
   }
 
   void initProfile() async {
-    if (getOptionalService<ProfileService>() != null) {
+    if (hasService<ProfileService>()) {
       final profileService = getService<ProfileService>();
       profile = await profileService.fetchPublicProfile(widget.username);
     }

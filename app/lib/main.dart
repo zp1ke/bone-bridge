@@ -5,11 +5,11 @@ import 'package:provider/provider.dart';
 
 import 'app/app.dart';
 import 'common/locator.dart';
-import 'state/auth.dart';
-import 'state/route.dart';
 import 'platform/common.dart'
     if (dart.library.html) 'platform/web.dart'
     if (dart.library.io) 'platform/common.dart';
+import 'state/auth.dart';
+import 'state/route.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

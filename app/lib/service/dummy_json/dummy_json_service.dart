@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:chopper/chopper.dart';
 
-import '../../state/auth.dart';
 import '../../model/data_page.dart';
 import '../../model/todo.dart';
+import '../../state/auth.dart';
 import '../auth_service.dart';
 import '../todo_service.dart';
 import 'dummy_json_model.dart';

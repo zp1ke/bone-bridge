@@ -3,9 +3,9 @@ import 'package:get_it/get_it.dart';
 import '../service/app_write/app_write_service.dart';
 import '../service/auth_service.dart';
 import '../service/dummy_json/dummy_json_service.dart';
+import '../service/preferences_service.dart';
 import '../service/profile_service.dart';
-import '../service/shared_preferences/shared_preferences_storage_service.dart';
-import '../service/storage_service.dart';
+import '../service/shared_preferences/shared_preferences_service.dart';
 import '../service/todo_service.dart';
 import 'logger.dart';
 
@@ -37,8 +37,8 @@ void setupServices() {
   );
   _getIt.registerSingleton<TodoService>(todoService);
   // storage-service
-  _getIt.registerLazySingleton<StorageService>(() {
-    final storageService = SharedPreferencesStorageService();
+  _getIt.registerLazySingleton<PreferencesService>(() {
+    final storageService = SharedPreferencesService();
     logDebug(
       'StorageService: ${storageService.runtimeType}',
       name: 'common/locator',
@@ -61,9 +61,6 @@ T getService<T extends Object>() {
   return _getIt.get<T>();
 }
 
-T? getOptionalService<T extends Object>() {
-  if (_getIt.isRegistered<T>()) {
-    return _getIt.get<T>();
-  }
-  return null;
+bool hasService<T extends Object>() {
+  return _getIt.isRegistered<T>();
 }

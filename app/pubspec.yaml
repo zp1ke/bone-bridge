@@ -18,7 +18,7 @@ dependencies:
     path: ../annotations/
   appwrite: ^13.0.0
   chopper: ^8.0.2
-  collection: ^1.18.0
+  collection: any
   crypto: ^3.0.5
   cupertino_icons: ^1.0.8
   encrypt: ^5.0.3

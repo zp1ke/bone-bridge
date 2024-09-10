@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../state/auth.dart';
 import '../../model/http_error.dart';
 import '../../model/todo.dart';
 import '../../model/user.dart';
+import '../../state/auth.dart';
 
 part 'dummy_json_model.g.dart';
 

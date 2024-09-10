@@ -22,8 +22,8 @@ class DataPage<T> implements Comparable<DataPage<T>> {
       return true;
     }
     return other is DataPage &&
-            runtimeType == other.runtimeType &&
-            page == other.page;
+        runtimeType == other.runtimeType &&
+        page == other.page;
   }
 
   @override

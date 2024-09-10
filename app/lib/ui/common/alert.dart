@@ -51,7 +51,8 @@ void showConfirmation(
   );
 }
 
-Future<bool> shareContent({required String subject, required String content}) async {
+Future<bool> shareContent(
+    {required String subject, required String content}) async {
   final result = await Share.share(content, subject: subject);
   return Future.value(result.status == ShareResultStatus.success);
 }

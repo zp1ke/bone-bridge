@@ -1,6 +1,6 @@
-import '../state/auth.dart';
 import '../model/data_page.dart';
 import '../model/todo.dart';
+import '../state/auth.dart';
 
 abstract class TodoService {
   Future<DataPage<Todo>> fetchTodos(

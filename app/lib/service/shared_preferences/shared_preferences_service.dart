@@ -1,11 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../storage_service.dart';
+import '../preferences_service.dart';
 
-class SharedPreferencesStorageService implements StorageService {
+class SharedPreferencesService implements PreferencesService {
   final SharedPreferencesAsync _asyncPrefs;
 
-  SharedPreferencesStorageService() : _asyncPrefs = SharedPreferencesAsync();
+  SharedPreferencesService() : _asyncPrefs = SharedPreferencesAsync();
 
   @override
   Future<String?> loadString(String key) {

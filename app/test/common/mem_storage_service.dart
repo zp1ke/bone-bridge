@@ -1,6 +1,6 @@
-import 'package:app/service/storage_service.dart';
+import 'package:app/service/preferences_service.dart';
 
-class MemoryStorageService implements StorageService {
+class MemoryStorageService implements PreferencesService {
   final _map = <String, String>{};
 
   @override

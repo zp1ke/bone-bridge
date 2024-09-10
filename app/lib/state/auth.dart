@@ -4,11 +4,11 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../app/route_path.dart';
-import '../common/string.dart';
 import '../common/locator.dart';
-import '../service/auth_service.dart';
-import '../service/storage_service.dart';
+import '../common/string.dart';
 import '../model/user.dart';
+import '../service/auth_service.dart';
+import '../service/preferences_service.dart';
 
 abstract class Auth extends User {
   String get token;
@@ -21,7 +21,7 @@ const _userJsonKey = 'auth_json';
 
 class AuthState extends ChangeNotifier {
   final AuthService _authService;
-  final StorageService _storageService;
+  final PreferencesService _storageService;
   Auth? _auth;
 
   static AuthState of(BuildContext context, {bool listen = false}) {
@@ -32,11 +32,11 @@ class AuthState extends ChangeNotifier {
 
   static Future<AuthState> create({
     AuthService? authService,
-    StorageService? storageService,
+    PreferencesService? storageService,
     Auth? auth,
   }) async {
     final authServ = authService ?? getService<AuthService>();
-    final storageServ = storageService ?? getService<StorageService>();
+    final storageServ = storageService ?? getService<PreferencesService>();
 
     if (auth != null) {
       return AuthState._(
@@ -62,7 +62,7 @@ class AuthState extends ChangeNotifier {
 
   AuthState._({
     required AuthService authService,
-    required StorageService storageService,
+    required PreferencesService storageService,
     Auth? auth,
   })  : _auth = auth,
         _authService = authService,
