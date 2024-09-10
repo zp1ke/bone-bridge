@@ -5,7 +5,7 @@ Flutter showcase app.
 ## Configuration
 
 Non configured TODOs backend will fallback to [dummyjson backend](https://dummyjson.com/docs).
-Non configured Profiles backend will not show the feature.
+Non configured Profiles or Storage backend will not enable these features.
 
 Create *config.json* file.
 
@@ -48,5 +48,13 @@ To use Profiles with [appwrite backend](https://appwrite.io/docs):
 {
   "appwriteProfilesDbID": "profiles_database_id",
   "appwriteProfilesLotID": "profiles_collection_id"
+}
+```
+
+To use Storage with [appwrite backend](https://appwrite.io/docs):
+
+```json
+{
+  "appwriteStorageBucket": "storage_bucket"
 }
 ```

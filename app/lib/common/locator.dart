@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 
 import '../service/app_write/app_write_service.dart';
+import '../service/app_write/appwrite_config.dart';
 import '../service/auth_service.dart';
 import '../service/dummy_json/dummy_json_service.dart';
 import '../service/preferences_service.dart';

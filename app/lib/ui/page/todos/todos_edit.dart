@@ -54,8 +54,9 @@ class _TodosEditState extends State<TodosEditWidget> {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
         children: items
             .map(
-              (item) => const Padding(
-                padding: EdgeInsets.only(bottom: verticalSeparatorSize),
+              (item) => Padding(
+                padding: const EdgeInsets.only(bottom: verticalSeparatorSize),
+                child: item,
               ),
             )
             .toList(),

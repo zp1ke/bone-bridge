@@ -56,8 +56,9 @@ class _SignInPageState extends State<SignInPage> {
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
         children: items
             .map(
-              (item) => const Padding(
-                padding: EdgeInsets.only(bottom: verticalSeparatorSize),
+              (item) => Padding(
+                padding: const EdgeInsets.only(bottom: verticalSeparatorSize),
+                child: item,
               ),
             )
             .toList(),

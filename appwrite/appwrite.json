@@ -207,5 +207,25 @@
                 }
             ]
         }
+    ],
+    "buckets": [
+        {
+            "$id": "bone-bridge-users-files",
+            "$permissions": [
+                "read(\"guests\")",
+                "create(\"users\")",
+                "read(\"users\")",
+                "update(\"users\")",
+                "delete(\"users\")"
+            ],
+            "fileSecurity": true,
+            "name": "users-files",
+            "enabled": true,
+            "maximumFileSize": 50000000,
+            "allowedFileExtensions": [],
+            "compression": "none",
+            "encryption": true,
+            "antivirus": true
+        }
     ]
 }

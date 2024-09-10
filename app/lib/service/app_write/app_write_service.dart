@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 
 import '../../common/logger.dart';
 import '../../common/string.dart';
-import '../../config.dart';
 import '../../model/data_page.dart';
 import '../../model/profile.dart';
 import '../../model/todo.dart';
@@ -14,45 +13,7 @@ import '../profile_service.dart';
 import '../storage_service.dart';
 import '../todo_service.dart';
 import 'app_write_model.dart';
-
-class AppWriteConfig {
-  final String serverUrl;
-  final String projectID;
-  final String todosDbId;
-  final String todosLotId;
-  final String profilesDbId;
-  final String profilesLotId;
-  final String storageBucket;
-
-  AppWriteConfig._({
-    required this.serverUrl,
-    required this.projectID,
-    required this.todosDbId,
-    required this.todosLotId,
-    required this.profilesDbId,
-    required this.profilesLotId,
-    required this.storageBucket,
-  });
-
-  factory AppWriteConfig.create() => AppWriteConfig._(
-        serverUrl: 'https://cloud.appwrite.io/v1',
-        projectID: AppConfig.appwriteProjectID,
-        todosDbId: AppConfig.appwriteTodosDbID,
-        todosLotId: AppConfig.appwriteTodosLotID,
-        profilesDbId: AppConfig.appwriteProfilesDbID,
-        profilesLotId: AppConfig.appwriteProfilesLotID,
-        storageBucket: AppConfig.appwriteStorageBucket,
-      );
-
-  bool get isValid => projectID.isNotEmpty;
-
-  bool get canHandleTodos => todosDbId.isNotEmpty && todosLotId.isNotEmpty;
-
-  bool get canHandleProfiles =>
-      profilesDbId.isNotEmpty && profilesLotId.isNotEmpty;
-
-  bool get canHandleStorage => storageBucket.isNotEmpty;
-}
+import 'appwrite_config.dart';
 
 const _userIdKey = 'user_id';
 const _createdAtKey = '\$createdAt';

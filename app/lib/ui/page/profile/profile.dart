@@ -122,8 +122,10 @@ class _ProfilePageState extends PageState<ProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: items
                 .map(
-                  (item) => const Padding(
-                    padding: EdgeInsets.only(bottom: verticalSeparatorSize),
+                  (item) => Padding(
+                    padding:
+                        const EdgeInsets.only(bottom: verticalSeparatorSize),
+                    child: item,
                   ),
                 )
                 .toList(),
@@ -201,7 +203,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
   }
 
   Widget imageField(RouteState routeState) {
-    const imgRadius = 30.0;
+    const imgRadius = 40.0;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -212,9 +214,12 @@ class _ProfilePageState extends PageState<ProfilePage> {
             fit: BoxFit.cover,
           ).image,
         ),
-        TextButton(
-          onPressed: enabled(routeState) ? uploadImage : null,
-          child: Text(L10n.of(context).uploadImage),
+        Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: TextButton(
+            onPressed: enabled(routeState) ? uploadImage : null,
+            child: Text(L10n.of(context).uploadImage),
+          ),
         ),
       ],
     );
