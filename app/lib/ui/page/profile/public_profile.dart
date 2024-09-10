@@ -45,6 +45,8 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
       appBar: AppBar(
         title: title(),
         centerTitle: false,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
       ),
       body: SafeArea(
         child: Center(
@@ -86,7 +88,44 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
   }
 
   Widget headerCard() {
-    return Text(profile!.username);
+    final name = profile!.name.isNotEmpty ? profile!.name : profile!.username;
+    const imgRadius = 60.0;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CircleAvatar(
+          radius: imgRadius,
+          backgroundImage: Image.network(
+            'https://dummyjson.com/icon/${profile!.username}/${imgRadius * 2}',
+            fit: BoxFit.cover,
+          ).image,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Text(
+            name,
+            textScaler: const TextScaler.linear(1.8),
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        if (profile!.summary.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Text(
+              profile!.summary,
+              textScaler: const TextScaler.linear(1.2),
+              textAlign: TextAlign.justify,
+              style: const TextStyle(
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+          ),
+      ],
+    );
   }
 
   Widget nothingHereBody() {
@@ -105,8 +144,9 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Card(
+        elevation: 10,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 12),
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 30),
           child: child,
         ),
       ),
