@@ -35,10 +35,6 @@ abstract class Profile {
     return '${auth.id}-image';
   }
 
-  static String imageName(Auth auth) {
-    return '${auth.id}-image.png';
-  }
-
   static String imageUrl({
     Profile? profile,
     String? username,

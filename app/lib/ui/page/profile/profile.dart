@@ -295,18 +295,19 @@ class _ProfilePageState extends PageState<ProfilePage> {
   }
 
   void uploadImage() async {
-    final imageBytes = await pickImage();
-    if (imageBytes != null && mounted) {
+    final file = await pickImage();
+    if (file != null && mounted) {
       processing = true;
       final routeState = RouteState.of(context);
       routeState.fetching = true;
 
       final auth = AuthState.of(context).auth!;
+      final imageKey = Profile.imageKey(auth);
       await getService<StorageService>().saveFile(
         auth,
-        key: Profile.imageKey(auth),
-        name: Profile.imageName(auth),
-        bytes: imageBytes,
+        key: imageKey,
+        name: '$imageKey.${file.extension}',
+        bytes: file.bytes,
       );
       processing = false;
       routeState.fetching = false;

@@ -240,18 +240,12 @@ class AppWriteService
     required Uint8List bytes,
   }) async {
     final storage = Storage(_client);
-    final list = await storage.listFiles(
-      bucketId: config.storageBucket,
-      queries: [
-        Query.equal('name', name),
-      ],
-    );
-    if (list.total > 0) {
+    try {
       await storage.deleteFile(
         bucketId: config.storageBucket,
         fileId: key,
       );
-    }
+    } catch (_) {}
     await storage.createFile(
       bucketId: config.storageBucket,
       fileId: key,
