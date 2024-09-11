@@ -15,6 +15,7 @@ import '../../common/alert.dart';
 import '../../common/file.dart';
 import '../../common/icon.dart';
 import '../../shell/page_state.dart';
+import '../../widget/brand_icon_select.dart';
 import '../../widget/profile_image.dart';
 
 @AppPageRoute(path: '/profile', label: 'profile', iconCode: 'profile')
@@ -86,32 +87,33 @@ class _ProfilePageState extends PageState<ProfilePage> {
     }
     return Consumer<RouteState>(
       builder: (context, routeState, _) {
+        final isEnabled = enabled(routeState);
         return Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
             elevation: 0,
             backgroundColor: Colors.transparent,
-            title: profile == null && enabled(routeState)
-                ? Text(l10n.noProfileSaved)
-                : null,
+            title:
+                profile == null && isEnabled ? Text(l10n.noProfileSaved) : null,
             actions: [
-              if (profile?.isPublic ?? false) shareAction(routeState),
-              saveAction(routeState),
+              if (profile?.isPublic ?? false) shareAction(isEnabled),
+              saveAction(isEnabled),
             ],
           ),
-          body: body(routeState),
+          body: body(isEnabled),
         );
       },
     );
   }
 
-  Widget body(RouteState routeState) {
+  Widget body(bool isEnabled) {
     final items = <Widget>[
-      usernameField(routeState),
-      isPublicField(routeState),
-      imageField(routeState),
-      nameField(routeState),
-      summaryField(routeState),
+      usernameField(isEnabled),
+      isPublicField(isEnabled),
+      imageField(isEnabled),
+      nameField(isEnabled),
+      summaryField(isEnabled),
+      linksField(isEnabled),
     ];
     const verticalSeparatorSize = 16.0;
     return Form(
@@ -137,27 +139,27 @@ class _ProfilePageState extends PageState<ProfilePage> {
     );
   }
 
-  Widget shareAction(RouteState routeState) {
+  Widget shareAction(bool enabled) {
     return TextButton.icon(
       icon: const Icon(AppIcons.share),
       label: Text(L10n.of(context).share),
-      onPressed: enabled(routeState) ? onShare : null,
+      onPressed: enabled ? onShare : null,
     );
   }
 
-  Widget saveAction(RouteState routeState) {
+  Widget saveAction(bool enabled) {
     return TextButton.icon(
       icon: processing ? AppIcons.loadingSmall : const Icon(AppIcons.save),
       label: Text(L10n.of(context).save),
-      onPressed: enabled(routeState) ? onSave : null,
+      onPressed: enabled ? onSave : null,
     );
   }
 
-  Widget usernameField(RouteState routeState) {
+  Widget usernameField(bool enabled) {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 450),
       child: TextFormField(
-        enabled: enabled(routeState),
+        enabled: enabled,
         controller: usernameCtrl,
         autofocus: profile == null,
         autocorrect: false,
@@ -180,7 +182,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
     );
   }
 
-  Widget isPublicField(RouteState routeState) {
+  Widget isPublicField(bool enabled) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -191,7 +193,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
         ),
         Checkbox(
           value: isPublic,
-          onChanged: enabled(routeState)
+          onChanged: enabled
               ? (value) {
                   if (value != null) {
                     setState(() {
@@ -205,7 +207,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
     );
   }
 
-  Widget imageField(RouteState routeState) {
+  Widget imageField(bool enabled) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -218,7 +220,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
         Padding(
           padding: const EdgeInsets.only(left: 10),
           child: TextButton(
-            onPressed: enabled(routeState) ? uploadImage : null,
+            onPressed: enabled ? uploadImage : null,
             child: Text(L10n.of(context).uploadImage),
           ),
         ),
@@ -226,11 +228,11 @@ class _ProfilePageState extends PageState<ProfilePage> {
     );
   }
 
-  Widget nameField(RouteState routeState) {
+  Widget nameField(bool enabled) {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 450),
       child: TextFormField(
-        enabled: enabled(routeState),
+        enabled: enabled,
         controller: nameCtrl,
         autocorrect: false,
         maxLength: 150,
@@ -246,9 +248,9 @@ class _ProfilePageState extends PageState<ProfilePage> {
     );
   }
 
-  Widget summaryField(RouteState routeState) {
+  Widget summaryField(bool enabled) {
     return TextFormField(
-      enabled: enabled(routeState),
+      enabled: enabled,
       controller: summaryCtrl,
       autocorrect: false,
       maxLength: 500,
@@ -261,6 +263,16 @@ class _ProfilePageState extends PageState<ProfilePage> {
       onFieldSubmitted: (_) {
         // .requestFocus();
       },
+    );
+  }
+
+  Widget linksField(bool enabled) {
+    final icons = AppIcons.brandIconsMap;
+    return BrandIconSelectWidget(
+      enabled: enabled,
+      icons: icons,
+      selected: null,
+      onChanged: (_) {},
     );
   }
 

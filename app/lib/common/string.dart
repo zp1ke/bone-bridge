@@ -2,13 +2,14 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:encrypt/encrypt.dart';
+import 'package:string_similarity/string_similarity.dart';
 import 'package:uuid/uuid.dart';
 
 String randomUID() {
   return const Uuid().v4().replaceAll('-', '').substring(0, 20);
 }
 
-extension CryptoString on String {
+extension AppString on String {
   String encrypt({required String plainKey}) {
     final iv = IV.fromUtf8(plainKey);
     return _encrypterOf(plainKey).encrypt(this, iv: iv).base64;
@@ -23,6 +24,10 @@ extension CryptoString on String {
     final bytesToHash = utf8.encode(trim().toLowerCase());
     final sha256Digest = crypto.sha256.convert(bytesToHash);
     return sha256Digest.toString();
+  }
+
+  bool hasSimilarityTo(String other) {
+    return similarityTo(other) >= 0.7;
   }
 }
 

@@ -1,8 +1,10 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:simple_icons/simple_icons.dart';
 
 // https://master--628d031b55e942004ac95df1.chromatic.com/?path=/docs/icons-catalog--page
 // https://fonts.google.com/icons
+// https://simpleicons.org/
 class AppIcons {
   AppIcons._();
 
@@ -57,4 +59,7 @@ class AppIcons {
   static const IconData user = FluentIcons.person_info_24_filled;
 
   static const IconData username = FluentIcons.person_24_filled;
+
+  static final Map<IconData, String> brandIconsMap =
+      SimpleIcons.values.map((k, v) => MapEntry(v, k));
 }
