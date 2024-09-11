@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/l10n.dart';
 import '../../../common/locator.dart';
 import '../../../model/profile.dart';
 import '../../../service/profile_service.dart';
+import '../../widget/profile_image.dart';
 
 class PublicProfilePage extends StatefulWidget {
   final String username;
@@ -89,18 +90,11 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
 
   Widget headerCard() {
     final name = profile!.name.isNotEmpty ? profile!.name : profile!.username;
-    const imgRadius = 60.0;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CircleAvatar(
-          radius: imgRadius,
-          backgroundImage: Image.network(
-            Profile.imageUrl(profile: profile, radius: imgRadius),
-            fit: BoxFit.cover,
-          ).image,
-        ),
+        ProfileImageWidget(radius: 60.0, profile: profile),
         Padding(
           padding: const EdgeInsets.only(top: 10),
           child: Text(

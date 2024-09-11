@@ -15,6 +15,7 @@ import '../../common/alert.dart';
 import '../../common/file.dart';
 import '../../common/icon.dart';
 import '../../shell/page_state.dart';
+import '../../widget/profile_image.dart';
 
 @AppPageRoute(path: '/profile', label: 'profile', iconCode: 'profile')
 class ProfilePage extends StatefulWidget {
@@ -203,16 +204,13 @@ class _ProfilePageState extends PageState<ProfilePage> {
   }
 
   Widget imageField(RouteState routeState) {
-    const imgRadius = 40.0;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        CircleAvatar(
-          radius: imgRadius,
-          backgroundImage: Image.network(
-            Profile.imageUrl(username: usernameCtrl.text, radius: imgRadius),
-            fit: BoxFit.cover,
-          ).image,
+        ProfileImageWidget(
+          radius: 40.0,
+          profile: profile,
+          username: usernameCtrl.text,
         ),
         Padding(
           padding: const EdgeInsets.only(left: 10),
@@ -302,7 +300,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
       routeState.fetching = true;
 
       final auth = AuthState.of(context).auth!;
-      final imageKey = Profile.imageKey(auth);
+      final imageKey = Profile.imageKey(auth.id);
       await getService<StorageService>().saveFile(
         auth,
         key: imageKey,

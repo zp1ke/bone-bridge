@@ -116,6 +116,10 @@ class AppWriteProfile extends Profile {
   @override
   final String id;
 
+  @JsonKey(name: 'user_id')
+  @override
+  String userId;
+
   @override
   bool get isNew => id.isEmpty;
 
@@ -134,6 +138,7 @@ class AppWriteProfile extends Profile {
 
   AppWriteProfile({
     required this.id,
+    required this.userId,
     required this.username,
     required this.isPublic,
     this.name = '',
@@ -163,6 +168,7 @@ class AppWriteProfile extends Profile {
   }) =>
       AppWriteProfile(
         id: id,
+        userId: userId,
         username: username ?? this.username,
         isPublic: isPublic ?? this.isPublic,
         name: name ?? this.name,

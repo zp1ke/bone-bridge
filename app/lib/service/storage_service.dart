@@ -9,4 +9,6 @@ abstract class StorageService {
     required String name,
     required Uint8List bytes,
   });
+
+  Future<Uint8List?> getFile({required String key});
 }

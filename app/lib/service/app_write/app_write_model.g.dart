@@ -63,6 +63,7 @@ Map<String, dynamic> _$AppWriteTodoToJson(AppWriteTodo instance) =>
 AppWriteProfile _$AppWriteProfileFromJson(Map<String, dynamic> json) =>
     AppWriteProfile(
       id: json['id'] as String,
+      userId: json['user_id'] as String,
       username: json['username'] as String,
       isPublic: json['is_public'] as bool,
       name: json['name'] as String? ?? '',
@@ -71,6 +72,7 @@ AppWriteProfile _$AppWriteProfileFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$AppWriteProfileToJson(AppWriteProfile instance) =>
     <String, dynamic>{
+      'user_id': instance.userId,
       'username': instance.username,
       'is_public': instance.isPublic,
       'name': instance.name,

@@ -180,7 +180,7 @@ class AppWriteService
 
   @override
   Profile createProfile() {
-    return AppWriteProfile(id: '', username: '', isPublic: false);
+    return AppWriteProfile(id: '', userId: '', username: '', isPublic: false);
   }
 
   @override
@@ -191,8 +191,8 @@ class AppWriteService
 
     final databases = Databases(_client);
     Document document;
+    profile.userId = auth.id;
     final profileMap = profile.toJson();
-    profileMap[_userIdKey] = auth.id;
     if (profile.isNew) {
       document = await databases.createDocument(
         databaseId: config.profilesDbId,
@@ -253,11 +253,21 @@ class AppWriteService
       permissions: permissionsOf(auth),
     );
   }
+
+  @override
+  Future<Uint8List?> getFile({required String key}) async {
+    final storage = Storage(_client);
+    try {
+      final bytes = await storage.getFileDownload(
+          bucketId: config.storageBucket, fileId: key);
+      return bytes;
+    } catch (_) {}
+    return null;
+  }
 }
 
 List<String> permissionsOf(Auth auth) => [
-      Permission.read(Role.guests()),
-      Permission.read(Role.users()),
+      Permission.read(Role.any()),
       Permission.update(Role.user(auth.id)),
       Permission.delete(Role.user(auth.id)),
     ];

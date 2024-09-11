@@ -1,8 +1,9 @@
 import '../common/string.dart';
-import '../state/auth.dart';
 
 abstract class Profile {
   String get id;
+
+  String get userId;
 
   bool get isNew;
 
@@ -31,8 +32,8 @@ abstract class Profile {
     String? summary,
   });
 
-  static String imageKey(Auth auth) {
-    return '${auth.id}-image';
+  static String imageKey(String id) {
+    return '$id-image';
   }
 
   static String imageUrl({
