@@ -32,6 +32,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
   final summaryCtrl = TextEditingController();
   final summaryFocus = FocusNode();
   final formKey = GlobalKey<FormState>();
+  final leadingPadding = 42.0;
 
   var active = false;
   Profile? profile;
@@ -117,7 +118,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
       key: formKey,
       autovalidateMode: formAutovalidateMode,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+        padding: const EdgeInsets.only(top: 8, left: 10, right: 16),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,6 +184,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        SizedBox(width: leadingPadding),
         Text(
           L10n.of(context).profileIsPublic,
           textAlign: TextAlign.start,
@@ -207,6 +209,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
+        SizedBox(width: leadingPadding),
         ProfileImageWidget(
           radius: 40.0,
           profile: profile,

@@ -57,9 +57,13 @@ class ProfileImageWidget extends StatelessWidget {
   Widget _bytesImage(Uint8List bytes) {
     return CircleAvatar(
       radius: radius,
-      child: Image.memory(
-        bytes,
-        fit: BoxFit.cover,
+      child: ClipOval(
+        child: Image.memory(
+          bytes,
+          width: radius * 2,
+          height: radius * 2,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
