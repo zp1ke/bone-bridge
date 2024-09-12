@@ -27,7 +27,7 @@ extension AppString on String {
   }
 
   bool hasSimilarityTo(String other) {
-    return similarityTo(other) >= 0.7;
+    return similarityTo(other) >= 0.45;
   }
 }
 

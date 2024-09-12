@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 
 import '../../common/string.dart';
+import '../common/icon.dart';
 
 class BrandIconSelectWidget extends StatelessWidget {
   final bool enabled;
@@ -27,19 +28,26 @@ class BrandIconSelectWidget extends StatelessWidget {
         showSelectedItems: selected != null,
         showSearchBox: true,
         searchDelay: const Duration(milliseconds: 500),
-        itemBuilder: (context, value, isSelected) {
-          return Icon(
-            value,
-            color: isSelected ? Theme.of(context).colorScheme.primary : null,
-          );
-        },
+        searchFieldProps: TextFieldProps(
+          autofocus: true,
+          decoration: InputDecoration(
+            hintText: l10n.selectIcon,
+            enabled: enabled,
+          ),
+          maxLength: 50,
+          textInputAction: TextInputAction.search,
+        ),
+        itemBuilder: itemBuilder,
       ),
+      dropdownBuilder: selected != null
+          ? (context, value) => itemBuilder(context, value!, true)
+          : null,
       items: icons.keys.toList(),
       selectedItem: selected,
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
           labelText: l10n.selectIcon,
-          hintText: l10n.selectIcon,
+          icon: const Icon(AppIcons.add),
         ),
       ),
       filterFn: (value, text) {
@@ -56,6 +64,30 @@ class BrandIconSelectWidget extends StatelessWidget {
               }
             }
           : null,
+    );
+  }
+
+  Widget itemBuilder(BuildContext context, IconData value, bool isSelected) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            value,
+            color: isSelected ? Theme.of(context).colorScheme.primary : null,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Text(
+              icons[value] ?? '',
+              style: TextStyle(
+                fontWeight: value == selected ? FontWeight.w600 : null,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

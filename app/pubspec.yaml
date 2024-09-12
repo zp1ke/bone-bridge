@@ -43,6 +43,7 @@ dev_dependencies:
     sdk: flutter
   build_runner: any
   chopper_generator: ^8.0.2
+  flutter_launcher_icons: ^0.13.1
   flutter_lints: ^4.0.0
   generators:
     path: ../generators/
