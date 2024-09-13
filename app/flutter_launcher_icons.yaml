@@ -1,15 +1,12 @@
 flutter_launcher_icons:
-  adaptive_icon_background: '#798088'
-  adaptive_icon_foreground: assets/icons/icon-fg.png
-  adaptive_icon_monochrome: assets/icons/icon-mc.png
-  android: 'ic_launcher'
+  android: false
   image_path: assets/icons/icon.png
   ios: false
   macos:
     generate: false
   web:
     generate: true
-    background_color: '#d7cecf'
-    theme_color: '#798088'
+    background_color: '#CFDDEA'
+    theme_color: '#0C4782'
   windows:
     generate: true
