@@ -13,7 +13,7 @@ import 'state/route.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  _setupLicense();
+  _setupLicenses();
   setupPlatform();
   setupServices();
 
@@ -30,9 +30,15 @@ Future main() async {
   );
 }
 
-void _setupLicense() {
+void _setupLicenses() {
   LicenseRegistry.addLicense(() async* {
-    final license = await rootBundle.loadString('assets/license.txt');
-    yield LicenseEntryWithLineBreaks([' Bone Bridge app'], license);
+    final map = <String, String>{
+      'assets/license.txt': ' Bone Bridge app',
+      'assets/fonts/lato/OFL.txt': 'google_fonts',
+    };
+    for (var entry in map.entries) {
+      final license = await rootBundle.loadString(entry.key);
+      yield LicenseEntryWithLineBreaks([entry.value], license);
+    }
   });
 }

@@ -2,6 +2,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
 const _scheme = FlexScheme.hippieBlue;
+const fontFamily = 'Lato';
 const _surfaceMode = FlexSurfaceMode.levelSurfacesLowScaffold;
 final _visualDensity = FlexColorScheme.comfortablePlatformDensity;
 const _pageTransitionsTheme = PageTransitionsTheme(
@@ -28,7 +29,7 @@ final appTheme = AppTheme(
     useMaterial3: true,
     swapLegacyOnMaterial3: true,
     pageTransitionsTheme: _pageTransitionsTheme,
-    // fontFamily: GoogleFonts.notoSans().fontFamily,
+    fontFamily: fontFamily,
   ),
   dark: FlexThemeData.dark(
     scheme: _scheme,
@@ -45,7 +46,7 @@ final appTheme = AppTheme(
     useMaterial3: true,
     swapLegacyOnMaterial3: true,
     pageTransitionsTheme: _pageTransitionsTheme,
-    // fontFamily: GoogleFonts.notoSans().fontFamily,
+    fontFamily: fontFamily,
   ),
 );
 
