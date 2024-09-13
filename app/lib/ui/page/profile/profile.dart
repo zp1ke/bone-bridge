@@ -217,13 +217,14 @@ class _ProfilePageState extends PageState<ProfilePage> {
           profile: profile,
           username: usernameCtrl.text,
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: TextButton(
-            onPressed: enabled ? uploadImage : null,
-            child: Text(L10n.of(context).uploadImage),
+        if (hasService<StorageService>())
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: TextButton(
+              onPressed: enabled ? uploadImage : null,
+              child: Text(L10n.of(context).uploadImage),
+            ),
           ),
-        ),
       ],
     );
   }

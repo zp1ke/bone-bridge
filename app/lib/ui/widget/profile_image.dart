@@ -35,9 +35,12 @@ class ProfileImageWidget extends StatelessWidget {
   }
 
   Future<Uint8List?> _imageLoader(AuthState authState) async {
-    final storageService = getService<StorageService>();
-    final imageKey = Profile.imageKey(profile?.userId ?? authState.auth!.id);
-    return storageService.getFile(key: imageKey);
+    if (hasService<StorageService>()) {
+      final storageService = getService<StorageService>();
+      final imageKey = Profile.imageKey(profile?.userId ?? authState.auth!.id);
+      return storageService.getFile(key: imageKey);
+    }
+    return Future.value(null);
   }
 
   Widget _iconImage() {

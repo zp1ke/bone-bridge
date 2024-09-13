@@ -39,21 +39,27 @@ class _AppLayoutState extends State<AppLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveWidget(
-      small: (context) => body(
-        context,
-        hasDrawer: true,
-        hasFab: true,
+    return BackButtonListener(
+      child: ResponsiveWidget(
+        small: (context) => body(
+          context,
+          hasDrawer: true,
+          hasFab: true,
+        ),
+        medium: (context) => body(
+          context,
+          menuExpandedSize: 240,
+          hasAddAction: true,
+        ),
+        large: (context) => body(
+          context,
+          hasAddAction: true,
+        ),
       ),
-      medium: (context) => body(
-        context,
-        menuExpandedSize: 240,
-        hasAddAction: true,
-      ),
-      large: (context) => body(
-        context,
-        hasAddAction: true,
-      ),
+      onBackButtonPressed: () {
+        RouteState.of(context).route = null;
+        return Future.value(false);
+      },
     );
   }
 
