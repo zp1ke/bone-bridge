@@ -15,8 +15,8 @@ import '../../common/alert.dart';
 import '../../common/file.dart';
 import '../../common/icon.dart';
 import '../../shell/page_state.dart';
-import '../../widget/brand_icon_select.dart';
 import '../../widget/profile_image.dart';
+import 'profile_links.dart';
 
 @AppPageRoute(path: '/profile', label: 'profile', iconCode: 'profile')
 class ProfilePage extends StatefulWidget {
@@ -268,12 +268,12 @@ class _ProfilePageState extends PageState<ProfilePage> {
   }
 
   Widget linksField(bool enabled) {
-    final icons = AppIcons.brandIconsMap;
-    return BrandIconSelectWidget(
-      enabled: enabled,
-      icons: icons,
-      selected: null,
-      onChanged: (_) {},
+    return Padding(
+      padding: const EdgeInsets.only(left: 40),
+      child: ProfileLinksWidget(enabled: enabled, links: {
+        'https://todo-1.com': AppIcons.brandIconsMap.keys.first,
+        'https://todo-2.com': AppIcons.brandIconsMap.keys.last,
+      }),
     );
   }
 

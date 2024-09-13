@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 
 import '../../common/string.dart';
-import '../common/icon.dart';
 
 class BrandIconSelectWidget extends StatelessWidget {
   final bool enabled;
@@ -39,6 +38,9 @@ class BrandIconSelectWidget extends StatelessWidget {
         ),
         itemBuilder: itemBuilder,
       ),
+      compareFn: (iconData1, iconData2) {
+        return iconData1 == iconData2;
+      },
       dropdownBuilder: selected != null
           ? (context, value) => itemBuilder(context, value!, true)
           : null,
@@ -46,8 +48,7 @@ class BrandIconSelectWidget extends StatelessWidget {
       selectedItem: selected,
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
-          labelText: l10n.selectIcon,
-          icon: const Icon(AppIcons.add),
+          labelText: selected == null ? l10n.selectIcon : null,
         ),
       ),
       filterFn: (value, text) {
@@ -69,7 +70,7 @@ class BrandIconSelectWidget extends StatelessWidget {
 
   Widget itemBuilder(BuildContext context, IconData value, bool isSelected) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
