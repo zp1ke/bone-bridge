@@ -2,39 +2,43 @@
 <html>
 
 <head>
-  <!--
-    https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-    `FLUTTER_BASE_HREF` = the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="$FLUTTER_BASE_HREF">
+    <!--
+      https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+      `FLUTTER_BASE_HREF` = the `--base-href` argument provided to `flutter build`.
+    -->
+    <base href="$FLUTTER_BASE_HREF">
 
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Flutter layout app">
+    <meta charset="UTF-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="description" content="Flutter layout app">
 
-  <meta name="mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
 
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="bone_bridge">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="bone_bridge">
+    <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>Bone Bridge</title>
-  <link rel="manifest" href="manifest.json">
+    <!-- Lato font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+          rel="stylesheet">
 
-  <link href='http://fonts.googleapis.com/css?family=Ubuntu&subset=cyrillic,latin' rel='stylesheet' type='text/css' />
-  <link href='splash.css' rel='stylesheet' type='text/css' />
+    <title>Bone Bridge</title>
+    <link rel="manifest" href="manifest.json">
+    <link href='splash.css' rel='stylesheet' type='text/css'/>
 </head>
 
 <body>
-  <div id="splash-row">
+<div id="splash-row">
     <h1 id="splash-heading" contenteditable="true">Bone Bridge</h1>
     <h4 id="splash-strapline" contenteditable="true">Loading...</h4>
-  </div>
-  <script src="flutter_bootstrap.js" async></script>
+</div>
+<script src="flutter_bootstrap.js" async></script>
 </body>
 
 </html>
