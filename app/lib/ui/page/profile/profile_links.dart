@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/locator.dart';
 import '../../../model/profile.dart';
+import '../../../service/profile_service.dart';
 import '../../common/icon.dart';
 import '../../widget/brand_icon_select.dart';
 
@@ -110,11 +112,14 @@ class _ProfileLinkEditState extends State<_ProfileLinkEdit> {
   void save() {
     if (iconData != null && linkController.text.length > 3) {
       // TODO: proper validation
-      final link = ProfileLink(
-        id: widget.link?.id ?? '',
-        link: linkController.text,
-        iconData: iconData!,
-      );
+      final link = widget.link?.copyWith(
+            link: linkController.text,
+            iconData: iconData,
+          ) ??
+          getService<ProfileService>().createProfileLink(
+            link: linkController.text,
+            iconData: iconData!,
+          );
       widget.onSaved(link);
       setState(() {
         canSave = false;

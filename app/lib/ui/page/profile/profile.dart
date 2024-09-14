@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 import '../../../app/route_path.dart';
 import '../../../common/locator.dart';
-import '../../../common/string.dart';
 import '../../../config.dart';
 import '../../../model/profile.dart';
 import '../../../service/profile_service.dart';
@@ -70,6 +69,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
       isPublic = profile!.isPublic;
       nameCtrl.text = profile!.name;
       summaryCtrl.text = profile!.summary;
+      links.addAll(profile!.links);
     }
   }
 
@@ -272,7 +272,6 @@ class _ProfilePageState extends PageState<ProfilePage> {
   }
 
   Widget linksField(bool enabled) {
-    const emptyIconData = AppIcons.emptyIcon;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
@@ -284,16 +283,9 @@ class _ProfilePageState extends PageState<ProfilePage> {
         enabled: enabled,
         links: links,
         onSaved: (link) {
-          if (link.link.length > 3 && link.iconData != emptyIconData) {
-            final profileLink = ProfileLink(
-              id: link.id.isNotEmpty ? link.id : randomUID(),
-              link: link.link,
-              iconData: link.iconData,
-            );
-            setState(() {
-              links.add(profileLink);
-            });
-          }
+          setState(() {
+            links.add(link);
+          });
         },
       ),
     );
@@ -364,6 +356,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
         isPublic: isPublic,
         name: nameCtrl.text,
         summary: summaryCtrl.text,
+        links: links,
       );
       profile = await profileService.saveProfile(auth, profile!);
       processing = false;

@@ -1,6 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../../common/logger.dart';
 import '../../common/string.dart';
@@ -180,7 +181,13 @@ class AppWriteService
 
   @override
   Profile createProfile() {
-    return AppWriteProfile(id: '', userId: '', username: '', isPublic: false);
+    return AppWriteProfile(
+      id: '',
+      userId: '',
+      username: '',
+      isPublic: false,
+      links: {},
+    );
   }
 
   @override
@@ -263,6 +270,14 @@ class AppWriteService
       return bytes;
     } catch (_) {}
     return null;
+  }
+
+  @override
+  ProfileLink createProfileLink({
+    required String link,
+    required IconData iconData,
+  }) {
+    return AppWriteProfileLink(id: randomUID(), link: link, iconData: iconData);
   }
 }
 

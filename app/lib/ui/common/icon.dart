@@ -12,8 +12,6 @@ class AppIcons {
 
   static const IconData add = FluentIcons.add_24_filled;
 
-  static const IconData emptyIcon = Icons.unfold_more_double;
-
   static const IconData hidePassword = FluentIcons.eye_off_24_filled;
 
   static const IconData home = FluentIcons.home_24_filled;

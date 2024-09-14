@@ -68,6 +68,9 @@ AppWriteProfile _$AppWriteProfileFromJson(Map<String, dynamic> json) =>
       isPublic: json['is_public'] as bool,
       name: json['name'] as String? ?? '',
       summary: json['summary'] as String? ?? '',
+      links: (json['links'] as List<dynamic>)
+          .map((e) => AppWriteProfileLink.fromJson(e as Map<String, dynamic>))
+          .toSet(),
     );
 
 Map<String, dynamic> _$AppWriteProfileToJson(AppWriteProfile instance) =>
@@ -77,4 +80,18 @@ Map<String, dynamic> _$AppWriteProfileToJson(AppWriteProfile instance) =>
       'is_public': instance.isPublic,
       'name': instance.name,
       'summary': instance.summary,
+      'links': instance.links.toList(),
+    };
+
+AppWriteProfileLink _$AppWriteProfileLinkFromJson(Map<String, dynamic> json) =>
+    AppWriteProfileLink(
+      link: json['link'] as String,
+      iconData: const IconDataConverter().fromJson(json['iconData'] as String),
+    );
+
+Map<String, dynamic> _$AppWriteProfileLinkToJson(
+        AppWriteProfileLink instance) =>
+    <String, dynamic>{
+      'link': instance.link,
+      'iconData': const IconDataConverter().toJson(instance.iconData),
     };

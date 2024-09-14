@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:appwrite/models.dart' as models;
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../common/string.dart';
 import '../../model/profile.dart';
 import '../../model/todo.dart';
 import '../../model/user.dart';
@@ -136,6 +138,9 @@ class AppWriteProfile extends Profile {
   @override
   String summary;
 
+  @override
+  final Set<AppWriteProfileLink> links;
+
   AppWriteProfile({
     required this.id,
     required this.userId,
@@ -143,10 +148,18 @@ class AppWriteProfile extends Profile {
     required this.isPublic,
     this.name = '',
     this.summary = '',
+    required this.links,
   });
 
-  factory AppWriteProfile.fromJson(Map<String, dynamic> json) =>
-      _$AppWriteProfileFromJson(json);
+  factory AppWriteProfile.fromJson(Map<String, dynamic> json) {
+    final map = Map.of(json);
+    var linksKey = 'links';
+    if (map[linksKey] is List) {
+      map[linksKey] =
+          (json[linksKey] as List).map((item) => jsonDecode(item)).toList();
+    }
+    return _$AppWriteProfileFromJson(map);
+  }
 
   factory AppWriteProfile.fromDocument(models.Document document) {
     final map = document.data;
@@ -154,7 +167,12 @@ class AppWriteProfile extends Profile {
     return AppWriteProfile.fromJson(map);
   }
 
-  Map<String, dynamic> toJson() => _$AppWriteProfileToJson(this);
+  Map<String, dynamic> toJson() {
+    final map = _$AppWriteProfileToJson(this);
+    map['links'] =
+        links.map((link) => jsonEncode(link.toJson())).toList(growable: false);
+    return map;
+  }
 
   @override
   String get asJson => jsonEncode(toJson());
@@ -165,6 +183,7 @@ class AppWriteProfile extends Profile {
     bool? isPublic,
     String? name,
     String? summary,
+    Set<ProfileLink>? links,
   }) =>
       AppWriteProfile(
         id: id,
@@ -173,5 +192,110 @@ class AppWriteProfile extends Profile {
         isPublic: isPublic ?? this.isPublic,
         name: name ?? this.name,
         summary: summary ?? this.summary,
+        links: links?.map((link) => link as AppWriteProfileLink).toSet() ??
+            this.links,
       );
+
+  @override
+  void addLink(ProfileLink link) {
+    if (link is! AppWriteProfileLink) {
+      throw UnimplementedError();
+    }
+  }
+}
+
+@JsonSerializable()
+class AppWriteProfileLink extends ProfileLink {
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  @override
+  final String id;
+
+  @override
+  final String link;
+
+  @IconDataConverter()
+  @override
+  final IconData iconData;
+
+  AppWriteProfileLink({
+    String? id,
+    required this.link,
+    required this.iconData,
+  }) : id = id ?? randomUID();
+
+  factory AppWriteProfileLink.fromJson(Map<String, dynamic> json) =>
+      _$AppWriteProfileLinkFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AppWriteProfileLinkToJson(this);
+
+  @override
+  ProfileLink copyWith({
+    String? link,
+    IconData? iconData,
+  }) =>
+      AppWriteProfileLink(
+        id: id,
+        link: link ?? this.link,
+        iconData: iconData ?? this.iconData,
+      );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! ProfileLink || runtimeType != other.runtimeType) {
+      return false;
+    }
+    return id == other.id && link == other.link && iconData == other.iconData;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^ link.hashCode ^ iconData.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'ProfileLink{link: $link, iconData: ${iconData.codePoint}}';
+  }
+}
+
+class ProfileLinkConverter
+    implements JsonConverter<AppWriteProfileLink, Map<String, dynamic>> {
+  const ProfileLinkConverter();
+
+  @override
+  AppWriteProfileLink fromJson(Map<String, dynamic> json) {
+    return AppWriteProfileLink.fromJson(json);
+  }
+
+  @override
+  Map<String, dynamic> toJson(AppWriteProfileLink value) => value.toJson();
+}
+
+class IconDataConverter implements JsonConverter<IconData, String> {
+  static const codePointKey = 'codePoint';
+  static const fontFamilyKey = 'fontFamily';
+  static const fontPackageKey = 'fontPackage';
+
+  const IconDataConverter();
+
+  @override
+  IconData fromJson(String json) {
+    final map = jsonDecode(json);
+    final codePoint = map[codePointKey] as num;
+    return IconData(
+      codePoint.toInt(),
+      fontFamily: map[fontFamilyKey] as String?,
+      fontPackage: map[fontFamilyKey] as String?,
+    );
+  }
+
+  @override
+  String toJson(IconData value) => jsonEncode(<String, Object>{
+        codePointKey: value.codePoint,
+        fontFamilyKey: value.fontFamily ?? '',
+        fontPackageKey: value.fontPackage ?? '',
+      });
 }

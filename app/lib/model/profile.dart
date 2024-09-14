@@ -25,6 +25,10 @@ abstract class Profile {
 
   set summary(String value);
 
+  Set<ProfileLink> get links;
+
+  void addLink(ProfileLink link);
+
   String get asJson;
 
   Profile copyWith({
@@ -32,6 +36,7 @@ abstract class Profile {
     bool? isPublic,
     String? name,
     String? summary,
+    Set<ProfileLink>? links,
   });
 
   static String imageKey(String id) {
@@ -51,31 +56,15 @@ abstract class Profile {
   }
 }
 
-class ProfileLink {
-  final String id;
-  final String link;
-  final IconData iconData;
+abstract class ProfileLink {
+  String get id;
 
-  ProfileLink({
-    required this.id,
-    required this.link,
-    required this.iconData,
+  String get link;
+
+  IconData get iconData;
+
+  ProfileLink copyWith({
+    String? link,
+    IconData? iconData,
   });
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) {
-      return true;
-    }
-    if (other is! ProfileLink || runtimeType != other.runtimeType) {
-      return false;
-    }
-    if (id.isNotEmpty) {
-      return id == other.id;
-    }
-    return link == other.link && iconData == other.iconData;
-  }
-
-  @override
-  int get hashCode => id.hashCode;
 }
