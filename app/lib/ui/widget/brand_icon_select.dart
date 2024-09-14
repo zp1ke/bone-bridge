@@ -37,17 +37,18 @@ class BrandIconSelectWidget extends StatelessWidget {
           textInputAction: TextInputAction.search,
         ),
         itemBuilder: itemBuilder,
+        fit: FlexFit.loose,
       ),
       compareFn: (iconData1, iconData2) {
         return iconData1 == iconData2;
       },
       dropdownBuilder: selected != null
-          ? (context, value) => itemBuilder(context, value!, true)
+          ? (context, value) => itemBuilder(context, value!, !enabled, true)
           : null,
-      items: icons.keys.toList(),
+      items: (_, __) => icons.keys.toList(),
       selectedItem: selected,
-      dropdownDecoratorProps: DropDownDecoratorProps(
-        dropdownSearchDecoration: InputDecoration(
+      decoratorProps: DropDownDecoratorProps(
+        decoration: InputDecoration(
           labelText: selected == null ? l10n.selectIcon : null,
         ),
       ),
@@ -68,7 +69,12 @@ class BrandIconSelectWidget extends StatelessWidget {
     );
   }
 
-  Widget itemBuilder(BuildContext context, IconData value, bool isSelected) {
+  Widget itemBuilder(
+    BuildContext context,
+    IconData value,
+    bool isDisabled,
+    bool isSelected,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Row(
