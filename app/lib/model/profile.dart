@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../common/string.dart';
 
 abstract class Profile {
@@ -47,4 +49,33 @@ abstract class Profile {
     }
     return 'https://dummyjson.com/icon/$key/${radius * 2}';
   }
+}
+
+class ProfileLink {
+  final String id;
+  final String link;
+  final IconData iconData;
+
+  ProfileLink({
+    required this.id,
+    required this.link,
+    required this.iconData,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other is! ProfileLink || runtimeType != other.runtimeType) {
+      return false;
+    }
+    if (id.isNotEmpty) {
+      return id == other.id;
+    }
+    return link == other.link && iconData == other.iconData;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }

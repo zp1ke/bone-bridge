@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../app/route_path.dart';
 import '../../../common/locator.dart';
+import '../../../common/string.dart';
 import '../../../config.dart';
 import '../../../model/profile.dart';
 import '../../../service/profile_service.dart';
@@ -27,13 +28,16 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends PageState<ProfilePage> {
+  static const leadingPadding = 42.0;
+
+  final formKey = GlobalKey<FormState>();
   final usernameCtrl = TextEditingController();
   final nameCtrl = TextEditingController();
   final nameFocus = FocusNode();
   final summaryCtrl = TextEditingController();
   final summaryFocus = FocusNode();
-  final formKey = GlobalKey<FormState>();
-  final leadingPadding = 42.0;
+
+  final links = <ProfileLink>{};
 
   var active = false;
   Profile? profile;
@@ -186,7 +190,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SizedBox(width: leadingPadding),
+        const SizedBox(width: leadingPadding),
         Text(
           L10n.of(context).profileIsPublic,
           textAlign: TextAlign.start,
@@ -211,7 +215,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(width: leadingPadding),
+        const SizedBox(width: leadingPadding),
         ProfileImageWidget(
           radius: 40.0,
           profile: profile,
@@ -268,12 +272,30 @@ class _ProfilePageState extends PageState<ProfilePage> {
   }
 
   Widget linksField(bool enabled) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 40),
-      child: ProfileLinksWidget(enabled: enabled, links: {
-        'https://todo-1.com': AppIcons.brandIconsMap.keys.first,
-        'https://todo-2.com': AppIcons.brandIconsMap.keys.last,
-      }),
+    const emptyIconData = AppIcons.emptyIcon;
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      decoration: BoxDecoration(
+        border: Border.symmetric(
+          horizontal: BorderSide(color: Theme.of(context).dividerColor),
+        ),
+      ),
+      child: ProfileLinksWidget(
+        enabled: enabled,
+        links: links,
+        onSaved: (link) {
+          if (link.link.length > 3 && link.iconData != emptyIconData) {
+            final profileLink = ProfileLink(
+              id: link.id.isNotEmpty ? link.id : randomUID(),
+              link: link.link,
+              iconData: link.iconData,
+            );
+            setState(() {
+              links.add(profileLink);
+            });
+          }
+        },
+      ),
     );
   }
 
