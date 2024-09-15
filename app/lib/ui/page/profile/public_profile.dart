@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/l10n.dart';
 import '../../../common/locator.dart';
 import '../../../model/profile.dart';
 import '../../../service/profile_service.dart';
+import '../../common/alert.dart';
 import '../../widget/profile_image.dart';
 
 class PublicProfilePage extends StatefulWidget {
@@ -116,6 +117,24 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w300,
               ),
+            ),
+          ),
+        if (profile!.links.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: profile!.links.map((link) {
+                return Tooltip(
+                  message: link.link,
+                  waitDuration: const Duration(seconds: 1),
+                  child: IconButton(
+                    onPressed: () => urlLaunch(link.link),
+                    icon: Icon(link.iconData),
+                  ),
+                );
+              }).toList(growable: false),
             ),
           ),
       ],

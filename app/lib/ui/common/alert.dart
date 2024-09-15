@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/l10n.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void showError(BuildContext context, String text) {
   final color = Theme.of(context).colorScheme.onErrorContainer;
@@ -55,4 +56,14 @@ Future<bool> shareContent(
     {required String subject, required String content}) async {
   final result = await Share.share(content, subject: subject);
   return Future.value(result.status == ShareResultStatus.success);
+}
+
+Future urlLaunch(String url) async {
+  try {
+    final uri = Uri.parse(url);
+    final canLaunch = await canLaunchUrl(uri);
+    if (canLaunch) {
+      return launchUrl(uri);
+    }
+  } catch (_) {}
 }
