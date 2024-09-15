@@ -16,7 +16,7 @@ import '../../common/file.dart';
 import '../../common/icon.dart';
 import '../../shell/page_state.dart';
 import '../../widget/profile_image.dart';
-import 'profile_links.dart';
+import 'profile_link_edit.dart';
 
 @AppPageRoute(path: '/profile', label: 'profile', iconCode: 'profile')
 class ProfilePage extends StatefulWidget {
@@ -70,6 +70,7 @@ class _ProfilePageState extends PageState<ProfilePage> {
       nameCtrl.text = profile!.name;
       summaryCtrl.text = profile!.summary;
       links.addAll(profile!.links);
+      setState(() {});
     }
   }
 
@@ -279,14 +280,34 @@ class _ProfilePageState extends PageState<ProfilePage> {
           horizontal: BorderSide(color: Theme.of(context).dividerColor),
         ),
       ),
-      child: ProfileLinksWidget(
-        enabled: enabled,
-        links: links,
-        onSaved: (link) {
-          setState(() {
-            links.add(link);
-          });
-        },
+      child: Column(
+        children: [
+          ...links.map(
+            (item) {
+              return ProfileLinkEdit(
+                key: ValueKey(item.id),
+                enabled: enabled,
+                link: item,
+                onSaved: (link) {
+                  links.remove(item);
+                  setState(() {
+                    links.add(link);
+                  });
+                },
+              );
+            },
+          ),
+          ProfileLinkEdit(
+            key: const ValueKey('-'),
+            enabled: enabled,
+            cleanOnSave: true,
+            onSaved: (link) {
+              setState(() {
+                links.add(link);
+              });
+            },
+          ),
+        ],
       ),
     );
   }

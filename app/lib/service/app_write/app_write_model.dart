@@ -288,7 +288,7 @@ class IconDataConverter implements JsonConverter<IconData, String> {
     return IconData(
       codePoint.toInt(),
       fontFamily: map[fontFamilyKey] as String?,
-      fontPackage: map[fontFamilyKey] as String?,
+      fontPackage: map[fontPackageKey] as String?,
     );
   }
 

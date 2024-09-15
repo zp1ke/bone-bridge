@@ -6,41 +6,17 @@ import '../../../service/profile_service.dart';
 import '../../common/icon.dart';
 import '../../widget/brand_icon_select.dart';
 
-class ProfileLinksWidget extends StatelessWidget {
-  final bool enabled;
-  final Set<ProfileLink> links;
-  final Function(ProfileLink) onSaved;
-
-  const ProfileLinksWidget({
-    super.key,
-    required this.enabled,
-    required this.links,
-    required this.onSaved,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ...links.map((item) => _ProfileLinkEdit(
-              enabled: enabled,
-              link: item,
-              onSaved: onSaved,
-            )),
-        _ProfileLinkEdit(enabled: enabled, onSaved: onSaved),
-      ],
-    );
-  }
-}
-
-class _ProfileLinkEdit extends StatefulWidget {
+class ProfileLinkEdit extends StatefulWidget {
   final bool enabled;
   final ProfileLink? link;
+  final bool cleanOnSave;
   final Function(ProfileLink) onSaved;
 
-  const _ProfileLinkEdit({
+  const ProfileLinkEdit({
+    super.key,
     required this.enabled,
     this.link,
+    this.cleanOnSave = false,
     required this.onSaved,
   });
 
@@ -48,7 +24,7 @@ class _ProfileLinkEdit extends StatefulWidget {
   State<StatefulWidget> createState() => _ProfileLinkEditState();
 }
 
-class _ProfileLinkEditState extends State<_ProfileLinkEdit> {
+class _ProfileLinkEditState extends State<ProfileLinkEdit> {
   final linkController = TextEditingController();
 
   IconData? iconData;
@@ -121,6 +97,10 @@ class _ProfileLinkEditState extends State<_ProfileLinkEdit> {
             iconData: iconData!,
           );
       widget.onSaved(link);
+      if (widget.cleanOnSave) {
+        linkController.text = '';
+        iconData = null;
+      }
       setState(() {
         canSave = false;
       });
