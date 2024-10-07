@@ -111,6 +111,7 @@ class AppWriteTodo extends Todo {
 
 @JsonSerializable()
 class AppWriteProfile extends Profile {
+  static const userIdKey = 'user_id';
   static const usernameKey = 'username';
   static const isPublicKey = 'is_public';
 
@@ -118,7 +119,7 @@ class AppWriteProfile extends Profile {
   @override
   final String id;
 
-  @JsonKey(name: 'user_id')
+  @JsonKey(name: userIdKey)
   @override
   String userId;
 
@@ -154,9 +155,20 @@ class AppWriteProfile extends Profile {
   factory AppWriteProfile.fromJson(Map<String, dynamic> json) {
     final map = Map.of(json);
     var linksKey = 'links';
-    if (map[linksKey] is List) {
+    final defaultsMap = <String, Object>{
+      usernameKey: map[userIdKey]!,
+      isPublicKey: false,
+    };
+    defaultsMap.forEach((key, value) {
+      if (map[key] == null) {
+        map[key] = value;
+      }
+    });
+    if (json[linksKey] is List) {
       map[linksKey] =
           (json[linksKey] as List).map((item) => jsonDecode(item)).toList();
+    } else {
+      map[linksKey] = [];
     }
     return _$AppWriteProfileFromJson(map);
   }
