@@ -45,3 +45,6 @@ app.*.map.json
 #Custom
 /l10n_errors.txt
 /config.json
+/firebase.json
+/android/app/google-services.json
+
