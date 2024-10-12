@@ -1,0 +1,22 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "bone-bridge-2024",
+          "appId": "1:992241143961:android:8aad254f69aff5d315a808",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/service/firebase/firebase_options.dart": {
+          "projectId": "bone-bridge-2024",
+          "configurations": {
+            "android": "1:992241143961:android:8aad254f69aff5d315a808",
+            "web": "1:992241143961:web:82c9d595ee6ec2d615a808"
+          }
+        }
+      }
+    }
+  }
+}

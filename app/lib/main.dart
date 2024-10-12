@@ -15,7 +15,7 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   _setupLicenses();
   setupPlatform();
-  setupServices();
+  await setupServices();
 
   final authState = await AuthState.create();
 

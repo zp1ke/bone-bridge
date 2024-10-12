@@ -17,5 +17,4 @@
     }
   },
   "postCreateCommand": "sh ./.devcontainer/postCreateCommand.sh"
-  // "remoteUser": "root"
 }

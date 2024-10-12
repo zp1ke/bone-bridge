@@ -4,9 +4,6 @@ Flutter showcase app.
 
 ## Configuration
 
-Non configured TODOs backend will fallback to [dummyjson backend](https://dummyjson.com/docs).
-Non configured Profiles or Storage backend will not enable these features.
-
 Create *config.json* file.
 
 To change default pagination sizes:
@@ -24,6 +21,26 @@ To change web base url:
   "webBaseUrl": "https://domain"
 }
 ```
+
+To user [firebase](https://firebase.google.com/):
+
+```json
+{
+  "firebaseWebApiKey": "TODO",
+  "firebaseWebAppId": "TODO",
+  "firebaseAndroidApiKey": "TODO",
+  "firebaseAndroidAppId": "TODO",
+  "firebaseMessagingSenderId": "TODO",
+  "firebaseProjectId": "TODO",
+  "firebaseAuthDomain": "TODO",
+  "firebaseStorageBucket": "TODO"
+}
+```
+
+### Other backends
+
+Non configured TODOs backend will fallback to [dummyjson backend](https://dummyjson.com/docs).
+Non configured Profiles or Storage backend will not enable these features.
 
 To use authentication with [appwrite backend](https://appwrite.io/docs):
 

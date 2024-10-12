@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "992241143961",
+    "project_id": "bone-bridge-2024",
+    "storage_bucket": "bone-bridge-2024.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992241143961:android:8aad254f69aff5d315a808",
+        "android_client_info": {
+          "package_name": "com.zp1ke.flutter.bone_bridge"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhOaw0Udj7iTG8REl7xB1yUNNt_7FTLNc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

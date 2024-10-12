@@ -22,4 +22,19 @@ class AppConfig {
       String.fromEnvironment('appwriteProfilesLotID');
   static const appwriteStorageBucket =
       String.fromEnvironment('appwriteStorageBucket');
+
+  // firebase
+  static const firebaseWebApiKey = String.fromEnvironment('firebaseWebApiKey');
+  static const firebaseWebAppId = String.fromEnvironment('firebaseWebAppId');
+  static const firebaseAndroidApiKey =
+      String.fromEnvironment('firebaseAndroidApiKey');
+  static const firebaseAndroidAppId =
+      String.fromEnvironment('firebaseAndroidAppId');
+  static const firebaseMessagingSenderId =
+      String.fromEnvironment('firebaseMessagingSenderId');
+  static const firebaseProjectId = String.fromEnvironment('firebaseProjectId');
+  static const firebaseAuthDomain =
+      String.fromEnvironment('firebaseAuthDomain');
+  static const firebaseStorageBucket =
+      String.fromEnvironment('firebaseStorageBucket');
 }

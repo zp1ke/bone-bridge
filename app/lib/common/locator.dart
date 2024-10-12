@@ -4,6 +4,8 @@ import '../service/app_write/app_write_service.dart';
 import '../service/app_write/appwrite_config.dart';
 import '../service/auth_service.dart';
 import '../service/dummy_json/dummy_json_service.dart';
+import '../service/firebase/firebase_config.dart';
+import '../service/firebase/firebase_service.dart';
 import '../service/preferences_service.dart';
 import '../service/profile_service.dart';
 import '../service/shared_preferences/shared_preferences_service.dart';
@@ -13,31 +15,43 @@ import 'logger.dart';
 
 final _getIt = GetIt.instance;
 
-void setupServices() {
+Future<void> setupServices() async {
+  // firebase
+  FirebaseService? firebaseService;
+  if (FirebaseConfig.isValid) {
+    firebaseService = await FirebaseService.create();
+  }
+
   // app-write
   AppWriteService? appWriteService;
   final appWriteConfig = AppWriteConfig.create();
   if (appWriteConfig.isValid) {
     appWriteService = AppWriteService(appWriteConfig);
   }
+
   // dummy-json
   final dummyJsonService = DummyJsonService();
+
   // auth-service
-  final AuthService authService = appWriteService ?? dummyJsonService;
+  final AuthService authService =
+      firebaseService ?? appWriteService ?? dummyJsonService;
   logDebug(
     'AuthService: ${authService.runtimeType}',
     name: 'common/locator',
   );
   _getIt.registerSingleton<AuthService>(authService);
+
   // todos-service
-  final TodoService todoService = (appWriteService?.canHandleTodos ?? false)
-      ? appWriteService!
-      : dummyJsonService;
+  final TodoService todoService = firebaseService ??
+      ((appWriteService?.canHandleTodos ?? false)
+          ? appWriteService!
+          : dummyJsonService);
   logDebug(
     'TodoService: ${todoService.runtimeType}',
     name: 'common/locator',
   );
   _getIt.registerSingleton<TodoService>(todoService);
+
   // preferences-service
   _getIt.registerLazySingleton<PreferencesService>(() {
     final preferencesService = SharedPreferencesService();
@@ -47,9 +61,10 @@ void setupServices() {
     );
     return preferencesService;
   });
+
   // profiles-service
-  final ProfileService? profileService =
-      (appWriteService?.canHandleProfiles ?? false) ? appWriteService! : null;
+  final ProfileService? profileService = firebaseService ??
+      ((appWriteService?.canHandleProfiles ?? false) ? appWriteService! : null);
   logDebug(
     'ProfileService: ${profileService?.runtimeType}',
     name: 'common/locator',
@@ -57,9 +72,10 @@ void setupServices() {
   if (profileService != null) {
     _getIt.registerSingleton<ProfileService>(profileService);
   }
+
   // storage-service
-  final StorageService? storageService =
-      (appWriteService?.canHandleStorage ?? false) ? appWriteService! : null;
+  final StorageService? storageService = firebaseService ??
+      ((appWriteService?.canHandleStorage ?? false) ? appWriteService! : null);
   logDebug(
     'StorageService: ${storageService?.runtimeType}',
     name: 'common/locator',
