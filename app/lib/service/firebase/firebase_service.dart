@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import '../../common/logger.dart';
 import '../../model/data_page.dart';
+import '../../model/http_error.dart';
 import '../../model/profile.dart';
 import '../../model/todo.dart';
 import '../../state/auth.dart';
@@ -13,6 +15,7 @@ import '../profile_service.dart';
 import '../storage_service.dart';
 import '../todo_service.dart';
 import 'firebase_config.dart';
+import 'firebase_model.dart';
 
 class FirebaseService
     implements AuthService, TodoService, ProfileService, StorageService {
@@ -37,39 +40,47 @@ class FirebaseService
         email: credentials.username,
         password: credentials.password,
       );
+      return FirebaseAppAuth.fromUserCredential(credential);
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
-    } catch (e) {
-      print(e);
+      logError(
+        'Could not authenticate firebase user',
+        name: '/service/firebase/firebase_service',
+        error: e,
+      );
+      throw HttpError(statusCode: 401, message: e.message);
     }
   }
 
   @override
+  Future<Auth?> setupAuth(Map<String, dynamic> authMap) {
+    if (FirebaseAuth.instance.currentUser != null) {
+      return Future.value(
+          FirebaseAppAuth.fromUser(FirebaseAuth.instance.currentUser!));
+    }
+    return Future.value(null);
+  }
+
+  @override
   Future clear() {
-    // TODO: implement clear
-    throw UnimplementedError();
+    return FirebaseAuth.instance.signOut();
   }
 
   @override
   Profile createProfile() {
-    // TODO: implement createProfile
-    throw UnimplementedError();
+    final user = FirebaseAuth.instance.currentUser!;
+    return FirebaseAppProfile(
+      id: '',
+      userId: user.uid,
+      username: user.email ?? '',
+      isPublic: false,
+      links: {},
+    );
   }
 
   @override
   ProfileLink createProfileLink(
       {required String link, required IconData iconData}) {
     // TODO: implement createProfileLink
-    throw UnimplementedError();
-  }
-
-  @override
-  Todo createTodo() {
-    // TODO: implement createTodo
     throw UnimplementedError();
   }
 
@@ -86,9 +97,26 @@ class FirebaseService
   }
 
   @override
+  Future<Profile> saveProfile(Auth auth, Profile profile) {
+    // TODO: implement saveProfile
+    throw UnimplementedError();
+  }
+
+  @override
+  Todo createTodo() {
+    return FirebaseAppTodo(id: '', description: '');
+  }
+
+  @override
   Future<DataPage<Todo>> fetchTodos(Auth auth,
       {required int page, required int pageSize}) {
     // TODO: implement fetchTodos
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Todo> saveTodo(Auth auth, Todo todo) {
+    // TODO: implement saveTodo
     throw UnimplementedError();
   }
 
@@ -102,24 +130,6 @@ class FirebaseService
   Future saveFile(Auth auth,
       {required String key, required String name, required Uint8List bytes}) {
     // TODO: implement saveFile
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Profile> saveProfile(Auth auth, Profile profile) {
-    // TODO: implement saveProfile
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Todo> saveTodo(Auth auth, Todo todo) {
-    // TODO: implement saveTodo
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Auth?> setupAuth(Map<String, dynamic> authMap) {
-    // TODO: implement setupAuth
     throw UnimplementedError();
   }
 }

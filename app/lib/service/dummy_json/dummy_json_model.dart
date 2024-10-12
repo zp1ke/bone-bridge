@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../model/http_error.dart';
 import '../../model/todo.dart';
 import '../../model/user.dart';
 import '../../state/auth.dart';
@@ -104,16 +103,4 @@ class DummyJsonTodo extends Todo {
       _$DummyJsonTodoFromJson(json);
 
   Map<String, dynamic> toJson() => _$DummyJsonTodoToJson(this);
-}
-
-class DummyJsonHttpError extends HttpError {
-  @override
-  final int statusCode;
-  @override
-  final String? message;
-
-  DummyJsonHttpError({
-    required this.statusCode,
-    required this.message,
-  });
 }

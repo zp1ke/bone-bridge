@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:chopper/chopper.dart';
 
 import '../../model/data_page.dart';
+import '../../model/http_error.dart';
 import '../../model/todo.dart';
 import '../../state/auth.dart';
 import '../auth_service.dart';
@@ -122,8 +123,7 @@ class DummyJsonService implements AuthService, TodoService {
     if (response.error is String) {
       errorMessage = jsonDecode(response.error as String)['message'];
     }
-    return DummyJsonHttpError(
-        statusCode: response.statusCode, message: errorMessage);
+    return HttpError(statusCode: response.statusCode, message: errorMessage);
   }
 }
 

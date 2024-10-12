@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:appwrite/models.dart' as models;
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -11,10 +11,10 @@ import '../../model/user.dart';
 import '../../state/auth.dart';
 import '../../model/icon_data_converter.dart';
 
-part 'app_write_model.g.dart';
+part 'firebase_model.g.dart';
 
 @JsonSerializable()
-class AppWriteUser extends User {
+class FirebaseAppUser extends User {
   @override
   final String id;
 
@@ -33,7 +33,7 @@ class AppWriteUser extends User {
   @override
   final String? image;
 
-  AppWriteUser({
+  FirebaseAppUser({
     required this.id,
     required this.email,
     required this.username,
@@ -42,20 +42,20 @@ class AppWriteUser extends User {
     this.image,
   });
 
-  Map<String, dynamic> toJson() => _$AppWriteUserToJson(this);
+  Map<String, dynamic> toJson() => _$FirebaseAppUserToJson(this);
 
   @override
   String get asJson => jsonEncode(toJson());
 }
 
 @JsonSerializable()
-class AppWriteAuth extends AppWriteUser implements Auth {
+class FirebaseAppAuth extends FirebaseAppUser implements Auth {
   @override
   final String token;
   @override
   final String refreshToken;
 
-  AppWriteAuth({
+  FirebaseAppAuth({
     required super.id,
     required super.email,
     required super.username,
@@ -66,18 +66,33 @@ class AppWriteAuth extends AppWriteUser implements Auth {
     required this.refreshToken,
   });
 
-  factory AppWriteAuth.fromJson(Map<String, dynamic> json) =>
-      _$AppWriteAuthFromJson(json);
+  factory FirebaseAppAuth.fromUserCredential(
+          firebase.UserCredential credential) =>
+      FirebaseAppAuth(
+        id: credential.user!.uid,
+        email: credential.user!.email ?? '',
+        username: credential.user!.email ?? '',
+        token: credential.credential!.accessToken ?? '',
+        refreshToken: '',
+      );
+
+  factory FirebaseAppAuth.fromUser(firebase.User user) => FirebaseAppAuth(
+        id: user.uid,
+        email: user.email ?? '',
+        username: user.email ?? '',
+        token: user.uid,
+        refreshToken: '',
+      );
 
   @override
-  Map<String, dynamic> toJson() => _$AppWriteAuthToJson(this);
+  Map<String, dynamic> toJson() => _$FirebaseAppAuthToJson(this);
 
   @override
   String get asJson => jsonEncode(toJson());
 }
 
 @JsonSerializable()
-class AppWriteTodo extends Todo {
+class FirebaseAppTodo extends Todo {
   @JsonKey(includeToJson: false)
   @override
   final String id;
@@ -92,26 +107,26 @@ class AppWriteTodo extends Todo {
   @override
   bool isCompleted;
 
-  AppWriteTodo({
+  FirebaseAppTodo({
     required this.id,
     required this.description,
     this.isCompleted = false,
   });
 
-  factory AppWriteTodo.fromJson(Map<String, dynamic> json) =>
-      _$AppWriteTodoFromJson(json);
+  factory FirebaseAppTodo.fromJson(Map<String, dynamic> json) =>
+      _$FirebaseAppTodoFromJson(json);
 
-  factory AppWriteTodo.fromDocument(models.Document document) {
-    final map = document.data;
-    map['id'] = document.$id;
-    return AppWriteTodo.fromJson(map);
+  factory FirebaseAppTodo.fromDocument(Object document) {
+    // final map = document.data;
+    // map['id'] = document.$id;
+    return FirebaseAppTodo.fromJson({});
   }
 
-  Map<String, dynamic> toJson() => _$AppWriteTodoToJson(this);
+  Map<String, dynamic> toJson() => _$FirebaseAppTodoToJson(this);
 }
 
 @JsonSerializable()
-class AppWriteProfile extends Profile {
+class FirebaseAppProfile extends Profile {
   static const userIdKey = 'user_id';
   static const usernameKey = 'username';
   static const isPublicKey = 'is_public';
@@ -141,9 +156,9 @@ class AppWriteProfile extends Profile {
   String summary;
 
   @override
-  final Set<AppWriteProfileLink> links;
+  final Set<FirebaseProfileLink> links;
 
-  AppWriteProfile({
+  FirebaseAppProfile({
     required this.id,
     required this.userId,
     required this.username,
@@ -153,7 +168,7 @@ class AppWriteProfile extends Profile {
     required this.links,
   });
 
-  factory AppWriteProfile.fromJson(Map<String, dynamic> json) {
+  factory FirebaseAppProfile.fromJson(Map<String, dynamic> json) {
     final map = Map.of(json);
     var linksKey = 'links';
     final defaultsMap = <String, Object>{
@@ -171,17 +186,17 @@ class AppWriteProfile extends Profile {
     } else {
       map[linksKey] = [];
     }
-    return _$AppWriteProfileFromJson(map);
+    return _$FirebaseAppProfileFromJson(map);
   }
 
-  factory AppWriteProfile.fromDocument(models.Document document) {
-    final map = document.data;
-    map['id'] = document.$id;
-    return AppWriteProfile.fromJson(map);
+  factory FirebaseAppProfile.fromDocument(Object document) {
+    // final map = document.data;
+    // map['id'] = document.$id;
+    return FirebaseAppProfile.fromJson({});
   }
 
   Map<String, dynamic> toJson() {
-    final map = _$AppWriteProfileToJson(this);
+    final map = _$FirebaseAppProfileToJson(this);
     map['links'] =
         links.map((link) => jsonEncode(link.toJson())).toList(growable: false);
     return map;
@@ -198,27 +213,27 @@ class AppWriteProfile extends Profile {
     String? summary,
     Set<ProfileLink>? links,
   }) =>
-      AppWriteProfile(
+      FirebaseAppProfile(
         id: id,
         userId: userId,
         username: username ?? this.username,
         isPublic: isPublic ?? this.isPublic,
         name: name ?? this.name,
         summary: summary ?? this.summary,
-        links: links?.map((link) => link as AppWriteProfileLink).toSet() ??
+        links: links?.map((link) => link as FirebaseProfileLink).toSet() ??
             this.links,
       );
 
   @override
   void addLink(ProfileLink link) {
-    if (link is! AppWriteProfileLink) {
+    if (link is! FirebaseProfileLink) {
       throw UnimplementedError();
     }
   }
 }
 
 @JsonSerializable()
-class AppWriteProfileLink extends ProfileLink {
+class FirebaseProfileLink extends ProfileLink {
   @JsonKey(includeToJson: false, includeFromJson: false)
   @override
   final String id;
@@ -230,23 +245,23 @@ class AppWriteProfileLink extends ProfileLink {
   @override
   final IconData iconData;
 
-  AppWriteProfileLink({
+  FirebaseProfileLink({
     String? id,
     required this.link,
     required this.iconData,
   }) : id = id ?? randomUID();
 
-  factory AppWriteProfileLink.fromJson(Map<String, dynamic> json) =>
-      _$AppWriteProfileLinkFromJson(json);
+  factory FirebaseProfileLink.fromJson(Map<String, dynamic> json) =>
+      _$FirebaseProfileLinkFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AppWriteProfileLinkToJson(this);
+  Map<String, dynamic> toJson() => _$FirebaseProfileLinkToJson(this);
 
   @override
   ProfileLink copyWith({
     String? link,
     IconData? iconData,
   }) =>
-      AppWriteProfileLink(
+      FirebaseProfileLink(
         id: id,
         link: link ?? this.link,
         iconData: iconData ?? this.iconData,
@@ -270,19 +285,19 @@ class AppWriteProfileLink extends ProfileLink {
 
   @override
   String toString() {
-    return 'ProfileLink{link: $link, iconData: ${iconData.codePoint}}';
+    return 'FirebaseProfileLink{link: $link, iconData: ${iconData.codePoint}}';
   }
 }
 
 class ProfileLinkConverter
-    implements JsonConverter<AppWriteProfileLink, Map<String, dynamic>> {
+    implements JsonConverter<FirebaseProfileLink, Map<String, dynamic>> {
   const ProfileLinkConverter();
 
   @override
-  AppWriteProfileLink fromJson(Map<String, dynamic> json) {
-    return AppWriteProfileLink.fromJson(json);
+  FirebaseProfileLink fromJson(Map<String, dynamic> json) {
+    return FirebaseProfileLink.fromJson(json);
   }
 
   @override
-  Map<String, dynamic> toJson(AppWriteProfileLink value) => value.toJson();
+  Map<String, dynamic> toJson(FirebaseProfileLink value) => value.toJson();
 }

@@ -1,9 +1,10 @@
-abstract class HttpError {
-  int get statusCode;
+class HttpError {
+  final int statusCode;
 
-  String? get message;
+  final String? message;
 
-  bool get isBadRequest {
-    return statusCode == 400;
-  }
+  HttpError({
+    required this.statusCode,
+    required this.message,
+  });
 }

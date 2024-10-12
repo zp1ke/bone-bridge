@@ -22,7 +22,12 @@ To change web base url:
 }
 ```
 
-To user [firebase](https://firebase.google.com/):
+### [Firebase](https://firebase.google.com/)
+
+Copy `firebase.json` file.
+Copy `google-services.json` file to `android/app` folder.
+
+In `config.json`:
 
 ```json
 {
