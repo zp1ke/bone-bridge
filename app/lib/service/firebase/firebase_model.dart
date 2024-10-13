@@ -67,14 +67,19 @@ class FirebaseAppAuth extends FirebaseAppUser implements Auth {
   });
 
   factory FirebaseAppAuth.fromUserCredential(
-          firebase.UserCredential credential) =>
-      FirebaseAppAuth(
-        id: credential.user!.uid,
-        email: credential.user!.email ?? '',
-        username: credential.user!.email ?? '',
-        token: credential.credential!.accessToken ?? '',
-        refreshToken: '',
-      );
+      firebase.UserCredential userCredential) {
+    final user = userCredential.user!;
+    return FirebaseAppAuth(
+      id: user.uid,
+      email: user.email ?? '',
+      username: user.email ?? '',
+      firstName: user.displayName?.firstName,
+      lastName: user.displayName?.lastName,
+      image: user.photoURL,
+      token: userCredential.credential?.accessToken ?? '',
+      refreshToken: user.refreshToken ?? '',
+    );
+  }
 
   factory FirebaseAppAuth.fromUser(firebase.User user) => FirebaseAppAuth(
         id: user.uid,

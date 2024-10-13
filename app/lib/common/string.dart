@@ -29,6 +29,14 @@ extension AppString on String {
   bool hasSimilarityTo(String other) {
     return similarityTo(other) >= 0.45;
   }
+
+  String get firstName {
+    return split(' ').first;
+  }
+
+  String get lastName {
+    return substring(firstName.length);
+  }
 }
 
 Encrypter _encrypterOf(String plainKey) {

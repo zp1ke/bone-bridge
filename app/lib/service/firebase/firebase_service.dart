@@ -36,11 +36,11 @@ class FirebaseService
     }
 
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: credentials.username,
         password: credentials.password,
       );
-      return FirebaseAppAuth.fromUserCredential(credential);
+      return FirebaseAppAuth.fromUserCredential(user);
     } on FirebaseAuthException catch (e) {
       logError(
         'Could not authenticate firebase user',
@@ -48,6 +48,13 @@ class FirebaseService
         error: e,
       );
       throw HttpError(statusCode: 401, message: e.message);
+    } catch (e) {
+      logError(
+        'Unexpected error',
+        name: '/service/firebase/firebase_service',
+        error: e,
+      );
+      throw HttpError(statusCode: 500, message: '');
     }
   }
 
