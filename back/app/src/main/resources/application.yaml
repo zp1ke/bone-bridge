@@ -1,6 +1,12 @@
 spring:
   application:
     name: bone-bridge.back
+  liquibase:
+    change-log: classpath:db/changelog.yaml
+    enabled: true
+  output:
+    ansi:
+      enabled: always
   profiles:
     default: dev
 
