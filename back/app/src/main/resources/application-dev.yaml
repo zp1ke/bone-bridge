@@ -8,6 +8,7 @@ spring:
 logging:
   level:
     org.springframework.web: INFO
+    org.springframework.orm.jpa: DEBUG
 
 server:
   port: 8080

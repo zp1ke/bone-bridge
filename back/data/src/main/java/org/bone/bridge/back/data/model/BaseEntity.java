@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.bone.bridge.back.utilities.StringUtils;
 import org.bone.bridge.back.utilities.model.StringConfig;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,7 +14,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Getter
 @Setter
 @MappedSuperclass
-public class BaseEntity {
+@SuperBuilder(toBuilder = true)
+public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false)
