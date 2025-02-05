@@ -7,5 +7,5 @@ ______                        ______      _     _
                                                    __/ |
                                                   |___/
 ${AnsiColor.BLUE} :: ${application.title} ${application.version} :: ${AnsiColor.BLUE}
-${AnsiColor.RED} :: Powered by Spring Boot ${spring-boot.formatted-version} :: ${AnsiColor.RED}
+${AnsiColor.RED} :: Powered by Spring Boot${spring-boot.formatted-version} :: ${AnsiColor.RED}
 ${AnsiColor.DEFAULT}

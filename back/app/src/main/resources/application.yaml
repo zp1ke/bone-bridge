@@ -4,6 +4,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+    open-in-view: false
   liquibase:
     change-log: classpath:db/changelog.yaml
     enabled: true
