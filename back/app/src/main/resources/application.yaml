@@ -1,11 +1,6 @@
 spring:
   application:
     name: bone-bridge.back
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/bone-bridge
-    username: postgres
-    password: postgres
   jpa:
     hibernate:
       ddl-auto: validate
@@ -30,12 +25,3 @@ management:
       enabled: true
     health:
       enabled: true
-
-logging:
-  level:
-    org.springframework.web: INFO
-
-server:
-  port: 8080
-  servlet:
-    contextPath: /
