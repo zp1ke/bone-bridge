@@ -1,0 +1,4 @@
+plugins {
+    id 'back.java-common'
+    id 'java-library'
+}

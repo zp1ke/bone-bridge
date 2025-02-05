@@ -1,0 +1,29 @@
+plugins {
+  id 'back.java-spring'
+}
+
+dependencies {
+  annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+  annotationProcessor 'org.projectlombok:lombok'
+
+  compileOnly 'org.projectlombok:lombok'
+
+  developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+  implementation project(':utilities')
+  implementation project(':products')
+  implementation 'org.springframework.boot:spring-boot-starter-actuator'
+  implementation 'org.springframework.boot:spring-boot-starter-security'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation 'org.springframework.security:spring-security-test'
+
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+springBoot {
+  buildInfo {
+    properties {}
+  }
+}

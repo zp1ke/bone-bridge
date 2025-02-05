@@ -1,0 +1,5 @@
+config server
+
+https://dzone.com/articles/integrate-spring-boot-with-jooq-liquibase-and-testcontainers
+
+https://sergeylappo.github.io/posts/gradle-jooq-flyway-testcontainers/

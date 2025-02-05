@@ -1,0 +1,59 @@
+all auditable (createdAt - unmodifiable)
+
+- logs module
+ - logs
+    - entity (organization, user, member, etc...)
+    - changes (key, oldValue, newValue)
+
+----------------------------------------------------------
+
+all auditable (
+    createdBy - unmodifiable,
+    updatedBy,
+    updatedAt,
+    createdWay (android, web, admin, moduleX, etc...):VERSION
+)
+all with status (enabled, disabled)
+all with code (unmodifiable)
+
+- app module
+ - users
+    - code
+ - organizations
+    - code
+    - country (none, ecuador)
+ - members
+    - user
+    - modules (all, member, product, contact, estimates, sales, invoices)
+    - roles (all, view, create, update, delete)
+    - is holder
+
+- product module
+ - taxes (country default, else editable)
+ - products
+    - organization
+    - taxes
+
+- contact module
+ - contacts
+    - organization
+
+- estimates module
+ - estimates
+    - products
+    - contact
+
+- sales module
+ - sales
+    - products
+    - contact
+
+- invoices module
+ - parseable generator (xml)
+ - readable generator (pdf)
+ - tributary
+    - sri
+    - https://github.com/phax/ph-ubl
+
+- ui
+ - https://invoice-generator.com/
