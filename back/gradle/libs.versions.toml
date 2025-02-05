@@ -1,5 +1,7 @@
 [versions]
+preliquibase = "1.6.0"
 
 [libraries]
+preliquibase = { module = "net.lbruun.springboot:preliquibase-spring-boot-starter", version.ref = "preliquibase" }
 
 [plugins]

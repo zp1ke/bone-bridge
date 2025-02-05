@@ -1,9 +1,18 @@
 spring:
   application:
     name: bone-bridge.back
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/bone-bridge
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: validate
   liquibase:
     change-log: classpath:db/changelog.yaml
     enabled: true
+    liquibase-schema: liquibase
   output:
     ansi:
       enabled: always
