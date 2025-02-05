@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: 001
+      id: P001
       author: zp1ke
       changes:
         - createTable:
-            tableName: organizations
+            tableName: products
             columns:
               - column:
                   name: id
