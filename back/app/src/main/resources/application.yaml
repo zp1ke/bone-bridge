@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: bone-bridge.back
+  profiles:
+    default: dev
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: info,health
+  endpoint:
+    info:
+      enabled: true
+    health:
+      enabled: true
+
+logging:
+  level:
+    org.springframework.web: INFO
+
+server:
+  port: 8080
+  servlet:
+    contextPath: /
