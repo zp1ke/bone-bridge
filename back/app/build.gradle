@@ -11,11 +11,12 @@ dependencies {
   developmentOnly libs.spring.devtools
 
   implementation project(':utilities')
+  implementation project(':data')
   implementation project(':products')
   implementation libs.preliquibase
   implementation libs.liquibase
   implementation libs.spring.actuator
-  implementation libs.spring.jooq
+  implementation libs.spring.jpa
   implementation libs.spring.security
   implementation libs.spring.web
 

@@ -1,16 +1,17 @@
 [versions]
+lombok = "1.18.36"
 preliquibase = "1.6.0"
 
 [libraries]
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 liquibase = { module = "org.liquibase:liquibase-core" }
-lombok = { module = "org.projectlombok:lombok" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 postgresql = { module = "org.postgresql:postgresql" }
 preliquibase = { module = "net.lbruun.springboot:preliquibase-spring-boot-starter", version.ref = "preliquibase" }
 spring-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-config-processor = { module = "org.springframework.boot:spring-boot-configuration-processor" }
 spring-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
-spring-jooq = { module = "org.springframework.boot:spring-boot-starter-jooq" }
+spring-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
 spring-security = { module = "org.springframework.boot:spring-boot-starter-security" }
 spring-security-test = { module = "org.springframework.security:spring-security-test" }
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test" }

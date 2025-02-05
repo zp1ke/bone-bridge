@@ -1,4 +1,4 @@
-package org.bone.bridge.back.app.domain;
+package org.bone.bridge.back.products.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,10 +8,10 @@ import lombok.Setter;
 import org.bone.bridge.back.data.model.BaseEntity;
 
 @Entity
-@Table(name = "organizations")
+@Table(name = "products")
 @Getter
 @Setter
-public class Organization extends BaseEntity {
+public class Product extends BaseEntity {
     @Column(nullable = false)
     private String name;
 }

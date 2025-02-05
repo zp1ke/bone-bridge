@@ -1,6 +1,9 @@
 plugins {
-    id 'back.java-library'
+  id 'back.java-library'
 }
 
 dependencies {
+  annotationProcessor libs.lombok
+
+  compileOnly libs.lombok
 }

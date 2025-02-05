@@ -4,4 +4,4 @@ plugins {
 
 rootProject.name = 'back'
 
-include('utilities', 'products', 'app')
+include('utilities', 'data', 'products', 'app')

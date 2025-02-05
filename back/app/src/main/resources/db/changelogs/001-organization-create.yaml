@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: int
+                  type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -18,3 +18,39 @@ databaseChangeLog:
                   type: varchar(50)
                   constraints:
                     nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - createIndex:
+            columns:
+              - column:
+                  name: code
+            indexName: organizations_unq_code
+            tableName: organizations
+            unique: true
+        - createIndex:
+            columns:
+              - column:
+                  descending: true
+                  name: created_at
+            indexName: organizations_idx_created_at
+            tableName: organizations
+        - createIndex:
+            columns:
+              - column:
+                  descending: true
+                  name: updated_at
+            indexName: organizations_idx_updated_at
+            tableName: organizations

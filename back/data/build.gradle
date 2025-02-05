@@ -9,16 +9,9 @@ dependencies {
   compileOnly libs.lombok
 
   implementation project(':utilities')
-  implementation project(':data')
-  implementation libs.liquibase
   implementation libs.spring.jpa
-  implementation libs.spring.web
 
   testImplementation libs.spring.test
-  testImplementation libs.spring.testcontainers
-  testImplementation libs.testcontainers.junit
-  testImplementation libs.testcontainers.postgresql
 
   testRuntimeOnly libs.junit.platform.launcher
-  testRuntimeOnly libs.postgresql
 }
