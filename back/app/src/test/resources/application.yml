@@ -1,3 +1,8 @@
 server:
   servlet:
     contextPath: /
+
+logging:
+  level:
+    org.springframework.web: WARN
+    org.springframework.orm.jpa: WARN

@@ -5,7 +5,9 @@ import org.bone.bridge.back.app.dto.OrganizationDto;
 import org.bone.bridge.back.app.dto.UserProfile;
 import org.bone.bridge.back.app.model.UserAuth;
 import org.bone.bridge.back.app.service.OrganizationService;
+import org.bone.bridge.back.config.Constants;
 import org.bone.bridge.back.config.service.UserConfigService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(value = Constants.USERS_PATH)
 @RequiredArgsConstructor
 public class UserController {
     private final UserConfigService userConfigService;
 
     private final OrganizationService organizationService;
 
-    @GetMapping("/profile")
+    @GetMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserProfile> profile(@AuthenticationPrincipal UserAuth userAuth) {
         var user = userAuth.getUser();
         var organizations = organizationService

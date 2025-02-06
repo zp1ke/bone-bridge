@@ -85,7 +85,7 @@ public class AuthFilter extends OncePerRequestFilter {
 
     @Nullable
     private String authToken(@NonNull HttpServletRequest request) {
-        var authorization = request.getHeader("Authorization");
+        var authorization = request.getHeader(Constants.AUTH_HEADER);
         if (authorization != null) {
             var parts = authorization.trim().split(" ");
             return parts[parts.length - 1];
