@@ -11,7 +11,6 @@ dependencies {
   developmentOnly libs.spring.devtools
 
   implementation project(':utils')
-  implementation project(':data')
   implementation project(':config')
   implementation project(':products')
   implementation libs.preliquibase

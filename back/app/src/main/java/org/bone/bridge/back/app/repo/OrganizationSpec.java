@@ -2,7 +2,7 @@ package org.bone.bridge.back.app.repo;
 
 import java.time.OffsetDateTime;
 import org.bone.bridge.back.app.domain.Organization;
-import org.bone.bridge.back.data.repo.BaseSpec;
+import org.bone.bridge.back.config.repo.BaseSpec;
 import org.springframework.data.jpa.domain.Specification;
 
 public class OrganizationSpec {

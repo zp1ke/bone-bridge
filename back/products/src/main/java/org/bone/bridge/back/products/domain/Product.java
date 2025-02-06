@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.bone.bridge.back.data.model.BaseEntity;
+import org.bone.bridge.back.config.model.BaseEntity;
 
 @Entity
 @Table(name = "products")

@@ -1,7 +1,7 @@
-package org.bone.bridge.back.data.repo;
+package org.bone.bridge.back.config.repo;
 
 import java.time.OffsetDateTime;
-import org.bone.bridge.back.data.model.BaseEntity;
+import org.bone.bridge.back.config.model.BaseEntity;
 import org.springframework.data.jpa.domain.Specification;
 
 public class BaseSpec {

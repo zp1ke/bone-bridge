@@ -1,4 +1,4 @@
-package org.bone.bridge.back.data.model;
+package org.bone.bridge.back.config.model;
 
 import jakarta.persistence.*;
 import java.time.OffsetDateTime;

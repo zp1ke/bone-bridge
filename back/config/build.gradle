@@ -9,7 +9,6 @@ dependencies {
   compileOnly libs.lombok
 
   implementation project(':utils')
-  implementation project(':data')
   implementation libs.liquibase
   implementation libs.spring.jpa
 
