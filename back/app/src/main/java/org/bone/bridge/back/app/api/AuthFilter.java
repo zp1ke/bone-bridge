@@ -31,6 +31,15 @@ public class AuthFilter extends OncePerRequestFilter {
 
     final OrganizationService organizationService;
 
+    @Nullable
+    public static String organizationCodeFromPath(@NonNull String path) {
+        var matcher = ORGANIZATION_PATTERN.matcher(path);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return null;
+    }
+
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
@@ -70,15 +79,6 @@ public class AuthFilter extends OncePerRequestFilter {
                 return organization;
             }
             throw new AccountException();
-        }
-        return null;
-    }
-
-    @Nullable
-    public static String organizationCodeFromPath(@NonNull String path) {
-        var matcher = ORGANIZATION_PATTERN.matcher(path);
-        if (matcher.find()) {
-            return matcher.group(1);
         }
         return null;
     }
