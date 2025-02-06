@@ -5,7 +5,7 @@ import org.bone.bridge.back.app.dto.OrganizationDto;
 import org.bone.bridge.back.app.dto.UserProfile;
 import org.bone.bridge.back.app.model.UserAuth;
 import org.bone.bridge.back.app.service.OrganizationService;
-import org.bone.bridge.back.app.service.UserService;
+import org.bone.bridge.back.config.service.UserConfigService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
+    private final UserConfigService userConfigService;
 
     private final OrganizationService organizationService;
 
@@ -30,7 +30,7 @@ public class UserController {
         var userProfile = UserProfile.builder()
             .name(user.getName())
             .email(user.getEmail())
-            .maxOrganizations(userService.userMaxOrganizations(user))
+            .maxOrganizations(userConfigService.userMaxOrganizations(user.getUid()))
             .organizations(organizations)
             .build();
         return ResponseEntity.ok(userProfile);

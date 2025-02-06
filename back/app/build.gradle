@@ -12,6 +12,7 @@ dependencies {
 
   implementation project(':utils')
   implementation project(':data')
+  implementation project(':config')
   implementation project(':products')
   implementation libs.preliquibase
   implementation libs.liquibase

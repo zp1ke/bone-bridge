@@ -13,4 +13,4 @@ logging:
 server:
   port: 8080
   servlet:
-    contextPath: /
+    contextPath: /api

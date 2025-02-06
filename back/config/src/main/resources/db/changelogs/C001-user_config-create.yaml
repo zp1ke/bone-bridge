@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 002
+      id: C001
       author: zp1ke
       changes:
         - createTable:
@@ -35,6 +35,11 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: max_organizations
+                  type: smallint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: max_products
                   type: smallint
                   constraints:
                     nullable: false

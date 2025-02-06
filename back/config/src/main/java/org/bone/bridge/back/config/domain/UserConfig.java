@@ -1,4 +1,4 @@
-package org.bone.bridge.back.app.domain;
+package org.bone.bridge.back.config.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,4 +19,7 @@ public class UserConfig extends BaseEntity {
 
     @Column(name = "max_organizations", nullable = false)
     private Short maxOrganizations;
+
+    @Column(name = "max_products", nullable = false)
+    private Short maxProducts;
 }

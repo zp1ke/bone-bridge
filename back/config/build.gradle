@@ -10,10 +10,8 @@ dependencies {
 
   implementation project(':utils')
   implementation project(':data')
-  implementation project(':config')
   implementation libs.liquibase
   implementation libs.spring.jpa
-  implementation libs.spring.web
 
   testImplementation libs.spring.test
   testImplementation libs.spring.testcontainers

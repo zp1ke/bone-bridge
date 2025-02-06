@@ -14,6 +14,7 @@ import org.bone.bridge.back.app.model.User;
 import org.bone.bridge.back.app.model.UserAuth;
 import org.bone.bridge.back.app.service.OrganizationService;
 import org.bone.bridge.back.app.service.UserService;
+import org.bone.bridge.back.config.Constants;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +24,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 @RequiredArgsConstructor
 public class AuthFilter extends OncePerRequestFilter {
-    private static final Pattern ORGANIZATION_PATTERN = Pattern.compile("/organizations/(\\w+)(/.*)?");
+    private static final Pattern ORGANIZATION_PATTERN = Pattern
+        .compile(Constants.ORGANIZATIONS_PATH + "/(\\w+)(/.*)?");
 
     final UserService userService;
 

@@ -1,7 +1,7 @@
-package org.bone.bridge.back.app.repo;
+package org.bone.bridge.back.config.repo;
 
 import java.util.Optional;
-import org.bone.bridge.back.app.domain.UserConfig;
+import org.bone.bridge.back.config.domain.UserConfig;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
