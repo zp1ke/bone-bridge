@@ -1,6 +1,7 @@
 package org.bone.bridge.back.app.api;
 
 import org.bone.bridge.back.app.config.Security;
+import org.bone.bridge.back.app.service.OrganizationService;
 import org.bone.bridge.back.app.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class AppControllerTests {
 
     @MockitoBean
     UserService userService;
+
+    @MockitoBean
+    OrganizationService organizationService;
 
     @Test
     public void helloShouldReturnOk() throws Exception {

@@ -22,7 +22,8 @@ public class OrganizationRepoTests {
     @Test
     public void testSaveOrganization() {
         var data = Organization.builder()
-            .code("TEST")
+            .code("Test")
+            .userId("Test")
             .name("Test Organization")
             .build();
         var organization = organizationRepo.save(data);
@@ -34,7 +35,8 @@ public class OrganizationRepoTests {
     @Test
     public void testFindOrganizationsCreatedBetween() {
         var organization = organizationRepo.save(Organization.builder()
-            .code("TEST")
+            .code("Test")
+            .userId("Test")
             .name("Test Organization")
             .build());
 

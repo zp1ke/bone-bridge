@@ -9,14 +9,14 @@ import lombok.experimental.SuperBuilder;
 import org.bone.bridge.back.data.model.BaseEntity;
 
 @Entity
-@Table(name = "organizations")
+@Table(name = "user_configs")
 @Getter
 @Setter
 @SuperBuilder(toBuilder = true)
-public class Organization extends BaseEntity {
-    @Column(nullable = false)
-    private String name;
-
+public class UserConfig extends BaseEntity {
     @Column(name = "user_id", nullable = false)
     private String userId;
+
+    @Column(name = "max_organizations", nullable = false)
+    private Short maxOrganizations;
 }

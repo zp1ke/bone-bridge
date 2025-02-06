@@ -1,6 +1,7 @@
 package org.bone.bridge.back.app.config;
 
 import org.bone.bridge.back.app.api.AuthFilter;
+import org.bone.bridge.back.app.service.OrganizationService;
 import org.bone.bridge.back.app.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +15,10 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @Configuration
 public class Security {
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, UserService userService) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   UserService userService,
+                                                   OrganizationService organizationService) throws Exception {
+        var authFilter = new AuthFilter(userService, organizationService);
         http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests((authorize) ->
@@ -22,7 +26,7 @@ public class Security {
                     .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                     .requestMatchers(antMatcher(HttpMethod.GET, "/api/**/hello")).permitAll()
                     .anyRequest().authenticated()
-            ).addFilterBefore(new AuthFilter(userService), UsernamePasswordAuthenticationFilter.class);
+            ).addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }
