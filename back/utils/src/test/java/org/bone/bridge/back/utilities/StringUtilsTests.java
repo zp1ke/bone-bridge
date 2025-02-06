@@ -28,7 +28,32 @@ public class StringUtilsTests {
 
     @Test
     public void isBlank_ShouldReturnFalse_WhenValueIsNotEmpty() {
-        assertTrue(!StringUtils.isBlank("value"));
+        assertFalse(StringUtils.isBlank("value"));
+    }
+
+    @Test
+    public void isNotBlank_ShouldReturnFalse_WhenValueIsNull() {
+        assertFalse(StringUtils.isNotBlank(null));
+    }
+
+    @Test
+    public void isNotBlank_ShouldReturnFalse_WhenValueIsEmpty() {
+        assertFalse(StringUtils.isNotBlank(""));
+    }
+
+    @Test
+    public void isNotBlank_ShouldReturnFalse_WhenValueIsBlank() {
+        assertFalse(StringUtils.isNotBlank(" "));
+    }
+
+    @Test
+    public void isNotBlank_ShouldReturnFalse_WhenValueIsOnlySpaces() {
+        assertFalse(StringUtils.isNotBlank("   "));
+    }
+
+    @Test
+    public void isNotBlank_ShouldReturnTrue_WhenValueIsNotEmpty() {
+        assertTrue(StringUtils.isNotBlank("value"));
     }
 
     @Test

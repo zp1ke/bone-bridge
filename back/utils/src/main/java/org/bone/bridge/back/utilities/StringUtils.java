@@ -7,6 +7,10 @@ public class StringUtils {
         return value == null || value.trim().isBlank();
     }
 
+    public static boolean isNotBlank(String value) {
+        return value != null && !value.trim().isBlank();
+    }
+
     public static String randomString(StringConfig config) {
         var builder = new StringBuilder();
         if (config.getLowercaseLetters() > 0) {
