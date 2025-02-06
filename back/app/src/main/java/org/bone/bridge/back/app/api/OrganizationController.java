@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/organizations")
@@ -29,11 +30,13 @@ public class OrganizationController {
         var maxOrganizations = userService.userMaxOrganizations(user);
         var organizationsCount = organizationService.countOrganizationsOfUser(user);
         if (organizationsCount >= maxOrganizations) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error.user_max_organizations_reached");
         }
+        var code = organizationService.availableCode(user, request.getCode());
         var organization = organizationService
             .save(Organization.builder()
                 .userId(user.getUid())
+                .code(code)
                 .name(request.getName())
                 .build());
         return ResponseEntity

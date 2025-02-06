@@ -12,7 +12,11 @@ public class AuthFilterTests {
         var paths = List.of(
             "/organizations/" + code,
             "/organizations/" + code + "/",
-            "/organizations/" + code + "/members"
+            "/organizations/" + code + "/members",
+            "api/organizations/" + code,
+            "/api/organizations/" + code,
+            "/api/organizations/" + code + "/",
+            "/api/organizations/" + code + "/members"
         );
         for (var path : paths) {
             var result = AuthFilter.organizationCodeFromPath(path);
@@ -25,6 +29,8 @@ public class AuthFilterTests {
         var paths = List.of(
             "/organizations",
             "/organizations/",
+            "other/organizations/",
+            "/other/organizations/",
             "/members/nothing/here"
         );
         for (var path : paths) {

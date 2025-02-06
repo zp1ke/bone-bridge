@@ -12,4 +12,6 @@ public interface OrganizationRepo extends JpaRepository<Organization, Long>, Jpa
     List<Organization> findAllByUserId(String userId);
 
     Optional<Organization> findOneByUserIdAndCode(String userId, String code);
+
+    boolean existsByUserIdAndCode(String userId, String code);
 }

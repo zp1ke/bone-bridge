@@ -32,4 +32,10 @@ public class OrganizationService {
     public Organization organizationOfUserByCode(@NonNull User user, @NonNull String code) {
         return organizationRepo.findOneByUserIdAndCode(user.getUid(), code).orElse(null);
     }
+
+    @Nullable
+    public String availableCode(@NonNull User user, @NonNull String code) {
+        var codeExists = organizationRepo.existsByUserIdAndCode(user.getUid(), code);
+        return codeExists ? null : code;
+    }
 }
