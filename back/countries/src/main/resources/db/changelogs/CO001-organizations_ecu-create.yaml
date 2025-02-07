@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: 001
+      id: CO001
       author: zp1ke
       changes:
         - createTable:
-            tableName: organizations
+            tableName: organizations_ecu
             columns:
               - column:
                   name: id
@@ -29,7 +29,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: user_id
+                  name: organization_code
                   type: varchar(50)
                   constraints:
                     nullable: false
@@ -41,6 +41,16 @@ databaseChangeLog:
               - column:
                   name: email
                   type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: legal_id
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: legal_id_type
+                  type: varchar(50)
                   constraints:
                     nullable: false
               - column:
@@ -56,27 +66,28 @@ databaseChangeLog:
         - createIndex:
             columns:
               - column:
-                  name: code
-            indexName: organizations_unq_code
-            tableName: organizations
+                  name: organization_code
+            indexName: organizations_ecu_unq_organization_code
+            tableName: organizations_ecu
             unique: true
         - createIndex:
             columns:
               - column:
-                  name: user_id
-            indexName: organizations_idx_user_id
-            tableName: organizations
+                  name: legal_id
+            indexName: organizations_ecu_idx_legal_id
+            tableName: organizations_ecu
+            unique: true
         - createIndex:
             columns:
               - column:
                   descending: true
                   name: created_at
-            indexName: organizations_idx_created_at
-            tableName: organizations
+            indexName: organizations_ecu_idx_created_at
+            tableName: organizations_ecu
         - createIndex:
             columns:
               - column:
                   descending: true
                   name: updated_at
-            indexName: organizations_idx_updated_at
-            tableName: organizations
+            indexName: organizations_ecu_idx_updated_at
+            tableName: organizations_ecu

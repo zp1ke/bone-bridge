@@ -20,11 +20,12 @@ public class OrganizationRepoTests {
     OrganizationRepo organizationRepo;
 
     @Test
-    public void testSaveOrganization() {
+    void testSaveOrganization() {
         var data = Organization.builder()
             .code("Test")
             .userId("Test")
             .name("Test Organization")
+            .email("test@mail.com")
             .build();
         var organization = organizationRepo.save(data);
         assertNotNull(organization.getId());
@@ -33,11 +34,12 @@ public class OrganizationRepoTests {
     }
 
     @Test
-    public void testFindOrganizationsCreatedBetween() {
+    void testFindOrganizationsCreatedBetween() {
         var organization = organizationRepo.save(Organization.builder()
             .code("Test")
             .userId("Test")
             .name("Test Organization")
+            .email("test@mail.com")
             .build());
 
         var now = OffsetDateTime.now();

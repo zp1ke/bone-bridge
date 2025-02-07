@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 import org.bone.bridge.back.config.model.BaseEntity;
 
 @Entity
-@Table(name = "user_configs")
+@Table(name = "TODO")
 @Getter
 @Setter
 @SuperBuilder(toBuilder = true)

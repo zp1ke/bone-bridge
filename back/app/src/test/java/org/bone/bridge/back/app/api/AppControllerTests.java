@@ -28,7 +28,7 @@ public class AppControllerTests {
     OrganizationService organizationService;
 
     @Test
-    public void helloShouldReturnOk() throws Exception {
+    void helloShouldReturnOk() throws Exception {
         mockMvc
             .perform(get(Constants.HELLO_PATH))
             .andExpect(status().isOk());

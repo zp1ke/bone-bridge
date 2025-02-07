@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class AuthFilterTests {
     @Test
-    public void organizationCodeFromPath_whenPathIsOrganizationsCode_returnsCode() {
+    void organizationCodeFromPath_whenPathIsOrganizationsCode_returnsCode() {
         var code = "123";
         var paths = List.of(
             Constants.ORGANIZATIONS_PATH + "/" + code,
@@ -26,7 +26,7 @@ public class AuthFilterTests {
     }
 
     @Test
-    public void organizationCodeFromPath_whenPathIsNotOrganizationsCode_returnsNull() {
+    void organizationCodeFromPath_whenPathIsNotOrganizationsCode_returnsNull() {
         var paths = List.of(
             Constants.ORGANIZATIONS_PATH,
             Constants.ORGANIZATIONS_PATH + "/",

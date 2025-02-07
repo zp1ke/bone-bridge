@@ -1,0 +1,4 @@
+spring:
+  liquibase:
+    change-log: classpath:db/countries-changelog.yaml
+    enabled: true

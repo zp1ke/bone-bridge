@@ -1,5 +1,6 @@
 package org.bone.bridge.back.app.api;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.bone.bridge.back.app.domain.Organization;
 import org.bone.bridge.back.app.dto.OrganizationDto;
@@ -26,7 +27,7 @@ public class OrganizationController {
 
     @PostMapping
     public ResponseEntity<OrganizationDto> create(@AuthenticationPrincipal UserAuth userAuth,
-                                                  @RequestBody OrganizationDto request) {
+                                                  @Valid @RequestBody OrganizationDto request) {
         var user = userAuth.getUser();
         var maxOrganizations = userConfigService.userMaxOrganizations(user.getUid());
         var organizationsCount = organizationService.countOrganizationsOfUser(user);

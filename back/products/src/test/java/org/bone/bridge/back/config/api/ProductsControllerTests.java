@@ -17,7 +17,7 @@ public class ProductsControllerTests {
     private MockMvc mockMvc;
 
     @Test
-    public void helloShouldReturnOk() throws Exception {
+    void helloShouldReturnOk() throws Exception {
         var url = Constants.PRODUCTS_PATH + Constants.HELLO_PATH;
         mockMvc
             .perform(get(url))

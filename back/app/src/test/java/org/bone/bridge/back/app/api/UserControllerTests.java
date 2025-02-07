@@ -36,14 +36,14 @@ public class UserControllerTests {
     OrganizationService organizationService;
 
     @Test
-    public void profile_whenUserNotAuthenticated_thenReturnsForbidden() throws Exception {
+    void profile_whenUserNotAuthenticated_thenReturnsForbidden() throws Exception {
         mockMvc
             .perform(get(Constants.USERS_PATH + "/profile"))
             .andExpect(status().isForbidden());
     }
 
     @Test
-    public void profile_whenUserAuthenticated_thenReturnsUserProfile() throws Exception {
+    void profile_whenUserAuthenticated_thenReturnsUserProfile() throws Exception {
         var user = User.builder()
             .uid("uid")
             .name("name")

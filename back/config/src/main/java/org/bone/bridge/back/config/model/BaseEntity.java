@@ -1,6 +1,7 @@
 package org.bone.bridge.back.config.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import java.time.OffsetDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public abstract class BaseEntity {
     @Setter(AccessLevel.NONE)
     private Long id;
 
+    @Size(min = 3, max = 50)
     @Column(updatable = false, nullable = false, length = 50)
     private String code;
 

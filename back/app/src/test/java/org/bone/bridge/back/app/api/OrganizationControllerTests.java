@@ -39,14 +39,14 @@ public class OrganizationControllerTests {
     OrganizationService organizationService;
 
     @Test
-    public void create_whenUserNotAuthenticated_thenReturnsForbidden() throws Exception {
+    void create_whenUserNotAuthenticated_thenReturnsForbidden() throws Exception {
         mockMvc
             .perform(post(Constants.ORGANIZATIONS_PATH))
             .andExpect(status().isForbidden());
     }
 
     @Test
-    public void create_whenUserAuthenticatedAndMaxOrganizationsReached_thenReturnsBadRequest() throws Exception {
+    void create_whenUserAuthenticatedAndMaxOrganizationsReached_thenReturnsBadRequest() throws Exception {
         var user = User.builder()
             .uid("uid")
             .name("name")
@@ -67,7 +67,7 @@ public class OrganizationControllerTests {
     }
 
     @Test
-    public void create_whenUserAuthenticatedAndMaxOrganizationsNotReached_thenReturnsCreated() throws Exception {
+    void create_whenUserAuthenticatedAndMaxOrganizationsNotReached_thenReturnsCreated() throws Exception {
         var user = User.builder()
             .uid("uid")
             .name("name")

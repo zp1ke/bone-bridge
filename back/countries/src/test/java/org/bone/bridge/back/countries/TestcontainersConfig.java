@@ -1,4 +1,4 @@
-package org.bone.bridge.back.module;
+package org.bone.bridge.back.countries;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
