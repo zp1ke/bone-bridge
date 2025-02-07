@@ -11,7 +11,7 @@
 
    (specific country data)
    - get org by code
-   - update org by code
+   x update org by code
    - get prod by code
    - update prod by code
 

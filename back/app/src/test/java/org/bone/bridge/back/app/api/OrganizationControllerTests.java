@@ -7,6 +7,7 @@ import org.bone.bridge.back.app.service.OrganizationService;
 import org.bone.bridge.back.app.service.UserService;
 import org.bone.bridge.back.config.Constants;
 import org.bone.bridge.back.config.service.UserConfigService;
+import org.bone.bridge.back.countries.service.CountryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -37,6 +38,9 @@ public class OrganizationControllerTests {
 
     @MockitoBean
     OrganizationService organizationService;
+
+    @MockitoBean
+    CountryService countryService;
 
     @Test
     void create_whenUserNotAuthenticated_thenReturnsForbidden() throws Exception {

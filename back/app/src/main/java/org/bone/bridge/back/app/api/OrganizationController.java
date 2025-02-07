@@ -8,13 +8,11 @@ import org.bone.bridge.back.app.model.UserAuth;
 import org.bone.bridge.back.app.service.OrganizationService;
 import org.bone.bridge.back.config.Constants;
 import org.bone.bridge.back.config.service.UserConfigService;
+import org.bone.bridge.back.countries.service.CountryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
@@ -24,6 +22,8 @@ public class OrganizationController {
     private final UserConfigService userConfigService;
 
     private final OrganizationService organizationService;
+
+    private final CountryService countryService;
 
     @PostMapping
     public ResponseEntity<OrganizationDto> create(@AuthenticationPrincipal UserAuth userAuth,
@@ -40,9 +40,39 @@ public class OrganizationController {
                 .userId(user.getUid())
                 .code(code)
                 .name(request.getName())
+                .email(request.getEmail())
+                .phone(request.getPhone())
+                .address(request.getAddress())
                 .build());
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(OrganizationDto.from(organization));
+    }
+
+    @PostMapping("/{code}")
+    public ResponseEntity<OrganizationDto> update(@AuthenticationPrincipal UserAuth userAuth,
+                                                  @PathVariable String code,
+                                                  @Valid @RequestBody OrganizationDto request) {
+        var user = userAuth.getUser();
+        var organization = organizationService.organizationOfUserByCode(user, code);
+        if (organization == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "error.organization_not_found");
+        }
+        organization = organizationService
+            .save(organization.toBuilder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .phone(request.getPhone())
+                .address(request.getAddress())
+                .build());
+
+        var countryData = request.getCountryData();
+        if (request.getCountry() != null && countryData != null) {
+            countryData = countryService.saveOrganization(request.getCountry(), countryData);
+        }
+
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(OrganizationDto.from(organization, request.getCountry(), countryData));
     }
 }
