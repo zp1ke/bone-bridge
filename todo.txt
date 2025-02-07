@@ -1,3 +1,20 @@
+- config module
+   - get user config
+
+- countries module
+ - document generator (pdf)
+ - document parseable generator (xml)
+    - sri
+    - https://github.com/phax/ph-ubl
+
+   - countries (enum)
+
+   (specific country data)
+   - get org by code
+   - update org by code
+   - get prod by code
+   - update prod by code
+
 - app module
  - users
     - code
@@ -8,7 +25,7 @@
     - code
 
    x POST /organizations (create)
-   - PUT /organizations/code (update)
+   - PUT /organizations/CODE (update)
 
  - members
     - user
@@ -17,23 +34,19 @@
     - roles (all, view, create, update, delete)
     - is holder
 
-- countries module
- - parseable generator (xml)
- - readable generator (pdf)
- - tributary
-    - https://github.com/phax/ph-ubl
-
-   - code
-   - name
-
-   - GET /organizations/code/countries/countryCode
-   - POST /organizations/code/countries/countryCode (update) specific country data
+   - GET /organizations/CODE/members (list)
+   - POST /organizations/CODE/members (create)
+   - PUT /organizations/CODE/members/memberCODE (update)
+   - DELETE /organizations/CODE/members/memberCODE (hard || disable)
 
 - product module
  - products
     - organization
 
-   - POST /organizations/code (create)
+   - GET /organizations/CODE/products (list)
+   - POST /organizations/CODE/products (create)
+   - PUT /organizations/CODE/products/productCODE (update)
+   - DELETE /organizations/CODE/products/productCODE (hard || disable)
 
 - contact module
  - contacts
