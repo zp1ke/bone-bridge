@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.bone.bridge.back.app.domain.Organization;
 import org.bone.bridge.back.countries.model.Country;
+import org.bone.bridge.back.countries.model.OrganizationData;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -19,7 +20,7 @@ public class OrganizationDto {
 
     private final Country country;
 
-    private final Object countryData;
+    private final OrganizationData countryData;
 
     @Email
     @Size(min = 3, max = 255)
@@ -39,7 +40,7 @@ public class OrganizationDto {
     @NonNull
     public static OrganizationDto from(@NonNull Organization organization,
                                        @Nullable Country country,
-                                       @Nullable Object countryData) {
+                                       @Nullable OrganizationData countryData) {
         return OrganizationDto.builder()
             .code(organization.getCode())
             .name(organization.getName())

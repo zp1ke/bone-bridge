@@ -11,7 +11,7 @@
 
    (specific country data)
    - get org by code
-   x update org by code
+   X update org by code
    - get prod by code
    - update prod by code
 
@@ -19,13 +19,13 @@
  - users
     - code
 
-   x GET /users/profile
+   X GET /users/profile
 
  - organizations
     - code
 
-   x POST /organizations (create)
-   - PUT /organizations/CODE (update)
+   X POST /organizations (create)
+   / PUT /organizations/CODE (update)
 
  - members
     - user
