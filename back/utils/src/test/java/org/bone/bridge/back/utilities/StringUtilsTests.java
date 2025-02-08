@@ -1,7 +1,8 @@
 package org.bone.bridge.back.utilities;
 
 import java.util.List;
-import org.bone.bridge.back.utilities.model.StringConfig;
+import org.bone.bridge.back.utils.StringUtils;
+import org.bone.bridge.back.utils.model.StringConfig;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

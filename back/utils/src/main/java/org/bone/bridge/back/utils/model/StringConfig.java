@@ -1,4 +1,4 @@
-package org.bone.bridge.back.utilities.model;
+package org.bone.bridge.back.utils.model;
 
 import lombok.Builder;
 import lombok.Getter;

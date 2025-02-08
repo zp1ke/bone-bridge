@@ -2,7 +2,7 @@ package org.bone.bridge.back.app.vendor.impl;
 
 import org.bone.bridge.back.app.model.User;
 import org.bone.bridge.back.app.vendor.UserHandler;
-import org.bone.bridge.back.utilities.StringUtils;
+import org.bone.bridge.back.utils.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;

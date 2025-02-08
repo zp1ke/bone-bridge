@@ -24,10 +24,9 @@ public class OrganizationEcuService {
             throw new ConstraintViolationException("error.invalidData", violations);
         }
         var byOrganizationCode = organizationEcuRepo.findOneByOrganizationCode(data.getOrganizationCode());
-        if (byOrganizationCode.isPresent()) {
-            return update(byOrganizationCode.get(), data);
-        }
-        return create(data);
+        return byOrganizationCode
+            .map(organizationEcu -> update(organizationEcu, data))
+            .orElseGet(() -> create(data));
     }
 
     @NonNull

@@ -7,8 +7,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.bone.bridge.back.utilities.StringUtils;
-import org.bone.bridge.back.utilities.model.StringConfig;
+import org.bone.bridge.back.utils.StringUtils;
+import org.bone.bridge.back.utils.model.StringConfig;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

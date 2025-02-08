@@ -1,6 +1,6 @@
-package org.bone.bridge.back.utilities;
+package org.bone.bridge.back.utils;
 
-import org.bone.bridge.back.utilities.model.StringConfig;
+import org.bone.bridge.back.utils.model.StringConfig;
 
 public class StringUtils {
     public static boolean isBlank(String value) {
