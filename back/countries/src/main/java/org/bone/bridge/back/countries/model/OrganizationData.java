@@ -1,15 +1,27 @@
 package org.bone.bridge.back.countries.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import java.util.Objects;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.bone.bridge.back.countries.model.ecu.OrganizationEcuData;
 
 @Getter
 @Setter
 @SuperBuilder
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "country")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = OrganizationEcuData.class, name = "ECU")
+})
+@NoArgsConstructor
 public abstract class OrganizationData {
     @Size(min = 3, max = 50)
     private String organizationCode;

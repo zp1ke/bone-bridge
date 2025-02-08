@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.util.Objects;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.bone.bridge.back.countries.domain.OrganizationEcu;
@@ -13,6 +14,7 @@ import org.springframework.lang.NonNull;
 @Getter
 @Setter
 @SuperBuilder
+@NoArgsConstructor
 public class OrganizationEcuData extends OrganizationData {
     @Size(min = 3, max = 50)
     private String legalId;

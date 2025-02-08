@@ -10,9 +10,11 @@ dependencies {
 
   implementation project(':utils')
   implementation project(':config')
-  implementation libs.spring.validator
+  implementation libs.jackson.annotation
+  implementation libs.jackson.databind
   implementation libs.liquibase
   implementation libs.spring.jpa
+  implementation libs.spring.validator
 
   testImplementation libs.spring.test
   testImplementation libs.spring.testcontainers
