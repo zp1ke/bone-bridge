@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import org.bone.bridge.back.app.domain.Organization;
-import org.bone.bridge.back.countries.model.Country;
 import org.bone.bridge.back.countries.model.OrganizationData;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -17,8 +16,6 @@ public class OrganizationDto {
 
     @Size(min = 3, max = 255)
     private final String name;
-
-    private final Country country;
 
     private final OrganizationData countryData;
 
@@ -34,12 +31,11 @@ public class OrganizationDto {
 
     @NonNull
     public static OrganizationDto from(@NonNull Organization organization) {
-        return from(organization, null, null);
+        return from(organization, null);
     }
 
     @NonNull
     public static OrganizationDto from(@NonNull Organization organization,
-                                       @Nullable Country country,
                                        @Nullable OrganizationData countryData) {
         return OrganizationDto.builder()
             .code(organization.getCode())
@@ -47,7 +43,6 @@ public class OrganizationDto {
             .email(organization.getEmail())
             .phone(organization.getPhone())
             .address(organization.getAddress())
-            .country(country)
             .countryData(countryData)
             .build();
     }

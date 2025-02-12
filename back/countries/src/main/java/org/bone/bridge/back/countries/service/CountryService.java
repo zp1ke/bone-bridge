@@ -3,7 +3,6 @@ package org.bone.bridge.back.countries.service;
 import jakarta.validation.ConstraintViolationException;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import org.bone.bridge.back.countries.model.Country;
 import org.bone.bridge.back.countries.model.OrganizationData;
 import org.bone.bridge.back.countries.model.ecu.OrganizationEcuData;
 import org.springframework.lang.NonNull;
@@ -15,10 +14,10 @@ public class CountryService {
     private final OrganizationEcuService organizationEcuService;
 
     @NonNull
-    public OrganizationData saveOrganization(@NonNull Country country,
+    public OrganizationData saveOrganization(@NonNull String code,
                                              @NonNull OrganizationData data) throws ConstraintViolationException {
-        if (Country.ECU.equals(country) && data instanceof OrganizationEcuData ecuData) {
-            return organizationEcuService.save(ecuData);
+        if (data instanceof OrganizationEcuData ecuData) {
+            return organizationEcuService.save(code, ecuData);
         }
         throw new ConstraintViolationException("error.invalidData", Set.of());
     }

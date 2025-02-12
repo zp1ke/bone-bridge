@@ -25,7 +25,6 @@ public class OrganizationEcuData extends OrganizationData {
     @NonNull
     public static OrganizationEcuData from(@NonNull OrganizationEcu organization) {
         return OrganizationEcuData.builder()
-            .organizationCode(organization.getOrganizationCode())
             .name(organization.getName())
             .email(organization.getEmail())
             .legalId(organization.getLegalId())

@@ -18,23 +18,26 @@ public class OrganizationEcuService {
     private final Validator validator;
 
     @NonNull
-    public OrganizationEcuData save(@NonNull OrganizationEcuData data) throws ConstraintViolationException {
+    public OrganizationEcuData save(@NonNull String organizationCode,
+                                    @NonNull OrganizationEcuData data) throws ConstraintViolationException {
         var violations = validator.validate(data);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException("error.invalidData", violations);
         }
-        var byOrganizationCode = organizationEcuRepo.findOneByOrganizationCode(data.getOrganizationCode());
+        var byOrganizationCode = organizationEcuRepo.findOneByOrganizationCode(organizationCode);
         return byOrganizationCode
             .map(organizationEcu -> update(organizationEcu, data))
-            .orElseGet(() -> create(data));
+            .orElseGet(() -> create(organizationCode, data));
     }
 
     @NonNull
-    private OrganizationEcuData create(@NonNull OrganizationEcuData data) {
+    private OrganizationEcuData create(@NonNull String organizationCode,
+                                       @NonNull OrganizationEcuData data) {
         if (organizationEcuRepo.existsByLegalId(data.getLegalId())) {
             throw new ConstraintViolationException("error.legalIdAlreadyExists", Set.of());
         }
-        return save(OrganizationEcu.builder(), data);
+        var builder = OrganizationEcu.builder().organizationCode(organizationCode);
+        return save(builder, data);
     }
 
     @NonNull

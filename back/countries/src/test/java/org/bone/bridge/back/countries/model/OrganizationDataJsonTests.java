@@ -13,7 +13,6 @@ public class OrganizationDataJsonTests {
     @Test
     public void testDeserializationToEcu() throws Exception {
         var organizationData = OrganizationEcuData.builder()
-            .organizationCode("ORG")
             .name("Organization")
             .email("org@mail.com")
             .phone("123456789")
@@ -24,7 +23,6 @@ public class OrganizationDataJsonTests {
         var json = String.format("""
                 {
                     "country": "ECU",
-                    "organizationCode": "%s",
                     "name": "%s",
                     "email": "%s",
                     "phone": "%s",
@@ -32,7 +30,7 @@ public class OrganizationDataJsonTests {
                     "legalId": "%s",
                     "legalIdType": "%s"
                 }
-                """, organizationData.getOrganizationCode(),
+                """,
             organizationData.getName(),
             organizationData.getEmail(),
             organizationData.getPhone(),

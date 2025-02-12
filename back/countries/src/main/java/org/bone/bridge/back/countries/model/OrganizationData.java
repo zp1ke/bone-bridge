@@ -23,9 +23,6 @@ import org.bone.bridge.back.countries.model.ecu.OrganizationEcuData;
 })
 @NoArgsConstructor
 public abstract class OrganizationData {
-    @Size(min = 3, max = 50)
-    private String organizationCode;
-
     @Size(min = 3, max = 255)
     private String name;
 
@@ -43,8 +40,7 @@ public abstract class OrganizationData {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         OrganizationData that = (OrganizationData) o;
-        return Objects.equals(organizationCode, that.organizationCode) &&
-            Objects.equals(name, that.name) &&
+        return Objects.equals(name, that.name) &&
             Objects.equals(email, that.email) &&
             Objects.equals(phone, that.phone) &&
             Objects.equals(address, that.address);
@@ -52,6 +48,6 @@ public abstract class OrganizationData {
 
     @Override
     public int hashCode() {
-        return Objects.hash(organizationCode, name, email, phone, address);
+        return Objects.hash(name, email, phone, address);
     }
 }

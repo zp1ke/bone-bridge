@@ -33,14 +33,14 @@ public class OrganizationEcuServiceTests {
     @Test
     void testWhenCreateOrganizationEcuDataThenReturnOrganizationEcuData() throws ConstraintViolationException {
         var data = OrganizationEcuData.builder()
-            .organizationCode("organizationCode")
             .name("name")
             .email("email")
             .legalId("legalId")
             .legalIdType(LegalIdType.DNI)
             .build();
+        var organizationCode = "organizationCode";
         var organization = OrganizationEcu.builder()
-            .organizationCode(data.getOrganizationCode())
+            .organizationCode(organizationCode)
             .name(data.getName())
             .email(data.getEmail())
             .legalId(data.getLegalId())
@@ -48,25 +48,25 @@ public class OrganizationEcuServiceTests {
             .build();
 
         when(validator.validate(data)).thenReturn(Set.of());
-        when(organizationEcuRepo.findOneByOrganizationCode(data.getOrganizationCode())).thenReturn(Optional.empty());
+        when(organizationEcuRepo.findOneByOrganizationCode(organizationCode)).thenReturn(Optional.empty());
         when(organizationEcuRepo.existsByLegalId(data.getLegalId())).thenReturn(false);
         when(organizationEcuRepo.save(any())).thenReturn(organization);
 
-        var result = organizationEcuService.save(data);
+        var result = organizationEcuService.save(organizationCode, data);
         assertEquals(data, result);
     }
 
     @Test
     void testWhenUpdateOrganizationEcuDataThenReturnOrganizationEcuData() throws ConstraintViolationException {
         var data = OrganizationEcuData.builder()
-            .organizationCode("organizationCode")
             .name("name")
             .email("email")
             .legalId("legalId")
             .legalIdType(LegalIdType.DNI)
             .build();
+        var organizationCode = "organizationCode";
         var organization = OrganizationEcu.builder()
-            .organizationCode(data.getOrganizationCode())
+            .organizationCode(organizationCode)
             .name(data.getName())
             .email(data.getEmail())
             .legalId(data.getLegalId())
@@ -74,18 +74,18 @@ public class OrganizationEcuServiceTests {
             .build();
 
         when(validator.validate(data)).thenReturn(Set.of());
-        when(organizationEcuRepo.findOneByOrganizationCode(data.getOrganizationCode())).thenReturn(Optional.of(organization));
-        when(organizationEcuRepo.existsByLegalIdAndOrganizationCodeIsNot(data.getLegalId(), data.getOrganizationCode())).thenReturn(false);
+        when(organizationEcuRepo.findOneByOrganizationCode(organizationCode)).thenReturn(Optional.of(organization));
+        when(organizationEcuRepo.existsByLegalIdAndOrganizationCodeIsNot(data.getLegalId(), organizationCode)).thenReturn(false);
         when(organizationEcuRepo.save(any())).thenReturn(organization);
 
-        var result = organizationEcuService.save(data);
+        var result = organizationEcuService.save(organizationCode, data);
         assertEquals(data, result);
     }
 
     @Test
     void testWhenCreateExistingLegalIdOrganizationEcuDataThenThrowConstraintViolationException() {
+        var organizationCode = "organizationCode";
         var data = OrganizationEcuData.builder()
-            .organizationCode("organizationCode")
             .name("name")
             .email("email")
             .legalId("legalId")
@@ -93,11 +93,11 @@ public class OrganizationEcuServiceTests {
             .build();
 
         when(validator.validate(data)).thenReturn(Set.of());
-        when(organizationEcuRepo.findOneByOrganizationCode(data.getOrganizationCode())).thenReturn(Optional.empty());
+        when(organizationEcuRepo.findOneByOrganizationCode(organizationCode)).thenReturn(Optional.empty());
         when(organizationEcuRepo.existsByLegalId(data.getLegalId())).thenReturn(true);
 
         try {
-            organizationEcuService.save(data);
+            organizationEcuService.save(organizationCode, data);
             fail("ConstraintViolationException was not thrown");
         } catch (ConstraintViolationException e) {
             assertEquals("error.legalIdAlreadyExists", e.getMessage());
@@ -106,15 +106,15 @@ public class OrganizationEcuServiceTests {
 
     @Test
     void testWhenUpdateExistingLegalIdOrganizationEcuDataThenThrowConstraintViolationException() {
+        var organizationCode = "organizationCode";
         var data = OrganizationEcuData.builder()
-            .organizationCode("organizationCode")
             .name("name")
             .email("email")
             .legalId("legalId")
             .legalIdType(LegalIdType.DNI)
             .build();
         var organization = OrganizationEcu.builder()
-            .organizationCode(data.getOrganizationCode())
+            .organizationCode(organizationCode)
             .name(data.getName())
             .email(data.getEmail())
             .legalId(data.getLegalId() + "0")
@@ -122,11 +122,11 @@ public class OrganizationEcuServiceTests {
             .build();
 
         when(validator.validate(data)).thenReturn(Set.of());
-        when(organizationEcuRepo.findOneByOrganizationCode(data.getOrganizationCode())).thenReturn(Optional.of(organization));
-        when(organizationEcuRepo.existsByLegalIdAndOrganizationCodeIsNot(data.getLegalId(), data.getOrganizationCode())).thenReturn(true);
+        when(organizationEcuRepo.findOneByOrganizationCode(organizationCode)).thenReturn(Optional.of(organization));
+        when(organizationEcuRepo.existsByLegalIdAndOrganizationCodeIsNot(data.getLegalId(), organizationCode)).thenReturn(true);
 
         try {
-            organizationEcuService.save(data);
+            organizationEcuService.save(organizationCode, data);
             fail("ConstraintViolationException was not thrown");
         } catch (ConstraintViolationException e) {
             assertEquals("error.legalIdAlreadyExists", e.getMessage());
