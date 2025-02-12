@@ -1,9 +1,11 @@
 package org.bone.bridge.back.config.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.Size;
 import java.time.OffsetDateTime;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -16,13 +18,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Setter
 @MappedSuperclass
 @SuperBuilder(toBuilder = true)
-public abstract class BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(updatable = false, nullable = false)
-    @Setter(AccessLevel.NONE)
-    private Long id;
-
+public abstract class BaseEntity extends CoreEntity {
     @Size(min = 3, max = 50)
     @Column(updatable = false, nullable = false, length = 50)
     private String code;

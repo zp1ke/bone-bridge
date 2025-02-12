@@ -12,10 +12,7 @@ import org.bone.bridge.back.countries.service.CountryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
@@ -48,18 +45,18 @@ public class OrganizationController {
         }
     }
 
-    @PostMapping("/{code}")
+    @PutMapping("/{code}")
     public ResponseEntity<OrganizationDto> update(@AuthenticationPrincipal UserAuth userAuth,
                                                   @Valid @RequestBody OrganizationDto request) {
         var organization = userAuth.getOrganization();
 
-        organization = organizationService
-            .save(organization.toBuilder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .phone(request.getPhone())
-                .address(request.getAddress())
-                .build());
+        organization = organization.toBuilder()
+            .name(request.getName())
+            .email(request.getEmail())
+            .phone(request.getPhone())
+            .address(request.getAddress())
+            .build();
+        organization = organizationService.save(organization);
 
         var countryData = request.getCountryData();
         if (countryData != null) {

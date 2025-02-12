@@ -1,0 +1,65 @@
+databaseChangeLog:
+  - changeSet:
+      id: P002
+      author: zp1ke
+      changes:
+        - createTable:
+            tableName: products_taxes
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: organization_code
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tax_type
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: country
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: percentage
+                  type: decimal(4, 4)
+                  constraints:
+                    nullable: false
+        - createIndex:
+            columns:
+              - column:
+                  name: organization_code
+            indexName: products_taxes_idx_organization_code
+            tableName: products_taxes
+        - createIndex:
+            columns:
+              - column:
+                  name: product_id
+            indexName: products_taxes_idx_product_id
+            tableName: products_taxes
+        - createIndex:
+            columns:
+              - column:
+                  name: country
+            indexName: products_taxes_idx_country
+            tableName: products_taxes
+        - addForeignKeyConstraint:
+            baseColumnNames: product_id
+            baseTableName: products_taxes
+            constraintName: products_taxes_fk_product
+            referencedColumnNames: id
+            referencedTableName: products
+            validate: true

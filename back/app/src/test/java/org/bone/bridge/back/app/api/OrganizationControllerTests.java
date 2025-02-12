@@ -22,6 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -121,7 +122,7 @@ public class OrganizationControllerTests {
 
         mockMvc
             .perform(
-                post(Constants.ORGANIZATIONS_PATH + "/code")
+                put(Constants.ORGANIZATIONS_PATH + "/code")
                     .header(Constants.AUTH_HEADER, "token")
                     .content("{ \"name\": \"name\", \"email\": \"domain@email.com\" }")
                     .contentType(MediaType.APPLICATION_JSON))
@@ -168,7 +169,7 @@ public class OrganizationControllerTests {
             countryData.getLegalIdType().name(), countryData.getLegalId(), countryData.getName(), countryData.getEmail());
         mockMvc
             .perform(
-                post(Constants.ORGANIZATIONS_PATH + "/code")
+                put(Constants.ORGANIZATIONS_PATH + "/code")
                     .header(Constants.AUTH_HEADER, "token")
                     .content(request)
                     .contentType(MediaType.APPLICATION_JSON))

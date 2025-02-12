@@ -44,8 +44,8 @@
     - organization
 
    - GET /organizations/CODE/products (list)
-   / POST /organizations/CODE/products (create)
-   - PUT /organizations/CODE/products/productCODE (update)
+   X POST /organizations/CODE/products (create)
+   / PUT /organizations/CODE/products/productCODE (update)
    - DELETE /organizations/CODE/products/productCODE (hard || disable)
 
 - contact module
