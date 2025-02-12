@@ -1,9 +1,9 @@
 package org.bone.bridge.back.app.api;
 
 import lombok.RequiredArgsConstructor;
-import org.bone.bridge.back.app.dto.OrganizationDto;
-import org.bone.bridge.back.app.dto.UserProfile;
 import org.bone.bridge.back.app.model.UserAuth;
+import org.bone.bridge.back.app.model.dto.OrganizationDto;
+import org.bone.bridge.back.app.model.dto.UserProfile;
 import org.bone.bridge.back.app.service.OrganizationService;
 import org.bone.bridge.back.config.Constants;
 import org.bone.bridge.back.config.service.UserConfigService;

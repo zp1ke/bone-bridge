@@ -25,7 +25,6 @@ public class UserConfigService {
                 UserConfig.builder()
                     .userId(userId)
                     .maxOrganizations(Constants.USER_DEFAULT_MAX_ORGANIZATIONS)
-                    .maxProducts(Constants.USER_DEFAULT_MAX_PRODUCTS)
                     .build()));
     }
 }

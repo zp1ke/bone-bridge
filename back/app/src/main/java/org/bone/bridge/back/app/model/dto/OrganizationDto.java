@@ -1,4 +1,4 @@
-package org.bone.bridge.back.app.dto;
+package org.bone.bridge.back.app.model.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;

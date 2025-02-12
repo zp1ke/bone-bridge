@@ -2,10 +2,12 @@ package org.bone.bridge.back.config.api;
 
 import org.bone.bridge.back.config.Constants;
 import org.bone.bridge.back.products.api.ProductsController;
+import org.bone.bridge.back.products.service.ProductService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -13,6 +15,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ProductsController.class)
 @ContextConfiguration(classes = ProductsController.class)
 public class ProductsControllerTests {
+    @MockitoBean
+    ProductService productService;
+
     @Autowired
     private MockMvc mockMvc;
 

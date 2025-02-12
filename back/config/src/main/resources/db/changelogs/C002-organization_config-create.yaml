@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: C001
+      id: C002
       author: zp1ke
       changes:
         - createTable:
-            tableName: users_configs
+            tableName: organizations_configs
             columns:
               - column:
                   name: id
@@ -29,12 +29,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: user_id
+                  name: organization_code
                   type: varchar(50)
                   constraints:
                     nullable: false
               - column:
-                  name: max_organizations
+                  name: max_products
                   type: smallint
                   constraints:
                     nullable: false
@@ -43,33 +43,33 @@ databaseChangeLog:
               - column:
                   name: code
               - column:
-                  name: user_id
-            indexName: users_configs_unq_code_user_id
-            tableName: users_configs
+                  name: organization_code
+            indexName: organizations_configs_unq_code_organization_code
+            tableName: organizations_configs
             unique: true
         - createIndex:
             columns:
               - column:
                   name: code
-            indexName: users_configs_idx_code
-            tableName: users_configs
+            indexName: organizations_configs_idx_code
+            tableName: organizations_configs
         - createIndex:
             columns:
               - column:
-                  name: user_id
-            indexName: users_configs_idx_user_id
-            tableName: users_configs
+                  name: organization_code
+            indexName: organizations_configs_idx_organization_code
+            tableName: organizations_configs
         - createIndex:
             columns:
               - column:
                   descending: true
                   name: created_at
-            indexName: users_configs_idx_created_at
-            tableName: users_configs
+            indexName: organizations_configs_idx_created_at
+            tableName: organizations_configs
         - createIndex:
             columns:
               - column:
                   descending: true
                   name: updated_at
-            indexName: users_configs_idx_updated_at
-            tableName: users_configs
+            indexName: organizations_configs_idx_updated_at
+            tableName: organizations_configs

@@ -29,7 +29,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: user_id
+                  name: organization_code
                   type: varchar(50)
                   constraints:
                     nullable: false
@@ -48,8 +48,8 @@ databaseChangeLog:
               - column:
                   name: code
               - column:
-                  name: user_id
-            indexName: products_unq_code_user_id
+                  name: organization_code
+            indexName: products_unq_code_organization_code
             tableName: products
             unique: true
         - createIndex:
@@ -61,8 +61,8 @@ databaseChangeLog:
         - createIndex:
             columns:
               - column:
-                  name: user_id
-            indexName: products_idx_user_id
+                  name: organization_code
+            indexName: products_idx_organization_code
             tableName: products
         - createIndex:
             columns:

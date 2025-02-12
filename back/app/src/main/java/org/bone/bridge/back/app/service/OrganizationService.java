@@ -18,13 +18,8 @@ public class OrganizationService {
 
     private final UserConfigService userConfigService;
 
-    public short countOrganizationsOfUser(@NonNull User user) {
-        return organizationRepo.countByUserId(user.getUid());
-    }
-
     @NonNull
     public Organization create(@NonNull User user,
-                               @Nullable String code,
                                @NonNull Organization organization) throws InvalidDataException {
         var maxOrganizations = userConfigService.userMaxOrganizations(user.getUid());
         var organizationsCount = countOrganizationsOfUser(user);
@@ -32,13 +27,17 @@ public class OrganizationService {
             throw new InvalidDataException("error.user_max_organizations_reached");
         }
         organization.setUserId(user.getUid());
-        organization.setCode(availableCode(user, code));
+        organization.setCode(availableCode(user, organization.getCode()));
         return organizationRepo.save(organization);
     }
 
     @NonNull
     public Organization save(@NonNull Organization organization) {
         return organizationRepo.save(organization);
+    }
+
+    public int countOrganizationsOfUser(@NonNull User user) {
+        return organizationRepo.countByUserId(user.getUid());
     }
 
     @NonNull

@@ -3,8 +3,8 @@ package org.bone.bridge.back.app.api;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.bone.bridge.back.app.domain.Organization;
-import org.bone.bridge.back.app.dto.OrganizationDto;
 import org.bone.bridge.back.app.model.UserAuth;
+import org.bone.bridge.back.app.model.dto.OrganizationDto;
 import org.bone.bridge.back.app.service.OrganizationService;
 import org.bone.bridge.back.config.Constants;
 import org.bone.bridge.back.config.error.InvalidDataException;
@@ -32,14 +32,14 @@ public class OrganizationController {
         var user = userAuth.getUser();
         try {
             var organization = Organization.builder()
+                .code(request.getCode())
                 .name(request.getName())
                 .email(request.getEmail())
                 .phone(request.getPhone())
                 .address(request.getAddress())
                 .build();
 
-            organization = organizationService
-                .create(user, request.getCode(), organization);
+            organization = organizationService.create(user, organization);
             return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(OrganizationDto.from(organization));

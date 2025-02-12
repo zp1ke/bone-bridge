@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 import org.bone.bridge.back.config.model.BaseEntity;
 
 @Entity
-@Table(name = "user_configs")
+@Table(name = "users_configs")
 @Getter
 @Setter
 @SuperBuilder(toBuilder = true)
@@ -23,8 +23,4 @@ public class UserConfig extends BaseEntity {
     @Min(1)
     @Column(name = "max_organizations", nullable = false)
     private Short maxOrganizations;
-
-    @Min(1)
-    @Column(name = "max_products", nullable = false)
-    private Short maxProducts;
 }

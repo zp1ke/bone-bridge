@@ -62,7 +62,7 @@ public class OrganizationControllerTests {
             .build();
 
         when(userService.userFromAuthToken(anyString())).thenReturn(user);
-        when(organizationService.create(any(), anyString(), any())).thenReturn(organization);
+        when(organizationService.create(any(), any())).thenReturn(organization);
 
         mockMvc
             .perform(

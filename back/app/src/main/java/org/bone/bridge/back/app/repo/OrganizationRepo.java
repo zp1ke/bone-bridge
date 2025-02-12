@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface OrganizationRepo extends JpaRepository<Organization, Long>, JpaSpecificationExecutor<Organization> {
-    short countByUserId(String userId);
+    int countByUserId(String userId);
 
     List<Organization> findAllByUserId(String userId);
 
