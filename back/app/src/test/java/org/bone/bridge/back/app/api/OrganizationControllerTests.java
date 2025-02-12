@@ -6,7 +6,6 @@ import org.bone.bridge.back.app.model.User;
 import org.bone.bridge.back.app.service.OrganizationService;
 import org.bone.bridge.back.app.service.UserService;
 import org.bone.bridge.back.config.Constants;
-import org.bone.bridge.back.config.service.UserConfigService;
 import org.bone.bridge.back.countries.model.Country;
 import org.bone.bridge.back.countries.model.ecu.LegalIdType;
 import org.bone.bridge.back.countries.model.ecu.OrganizationEcuData;
@@ -34,9 +33,6 @@ public class OrganizationControllerTests {
     MockMvc mockMvc;
 
     @MockitoBean
-    UserConfigService userConfigService;
-
-    @MockitoBean
     UserService userService;
 
     @MockitoBean
@@ -53,28 +49,7 @@ public class OrganizationControllerTests {
     }
 
     @Test
-    void create_whenUserAuthenticatedAndMaxOrganizationsReached_thenReturnsBadRequest() throws Exception {
-        var user = User.builder()
-            .uid("uid")
-            .name("name")
-            .email("email")
-            .build();
-
-        when(userService.userFromAuthToken(anyString())).thenReturn(user);
-        when(userConfigService.userMaxOrganizations(user.getUid())).thenReturn((short) 1);
-        when(organizationService.countOrganizationsOfUser(user)).thenReturn((short) 1);
-
-        mockMvc
-            .perform(
-                post(Constants.ORGANIZATIONS_PATH)
-                    .header(Constants.AUTH_HEADER, "token")
-                    .content("{ \"code\": \"code\", \"name\": \"name\" }")
-                    .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void create_whenUserAuthenticatedAndMaxOrganizationsNotReached_thenReturnsCreated() throws Exception {
+    void create_whenUserAuthenticated_thenReturnsCreated() throws Exception {
         var user = User.builder()
             .uid("uid")
             .name("name")
@@ -87,10 +62,7 @@ public class OrganizationControllerTests {
             .build();
 
         when(userService.userFromAuthToken(anyString())).thenReturn(user);
-        when(userConfigService.userMaxOrganizations(user.getUid())).thenReturn((short) 1);
-        when(organizationService.countOrganizationsOfUser(user)).thenReturn((short) 0);
-        when(organizationService.availableCode(user, "code")).thenReturn("code");
-        when(organizationService.save(any())).thenReturn(organization);
+        when(organizationService.create(any(), anyString(), any())).thenReturn(organization);
 
         mockMvc
             .perform(

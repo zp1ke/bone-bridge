@@ -7,7 +7,7 @@ import org.bone.bridge.back.app.dto.OrganizationDto;
 import org.bone.bridge.back.app.model.UserAuth;
 import org.bone.bridge.back.app.service.OrganizationService;
 import org.bone.bridge.back.config.Constants;
-import org.bone.bridge.back.config.service.UserConfigService;
+import org.bone.bridge.back.config.error.InvalidDataException;
 import org.bone.bridge.back.countries.service.CountryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,6 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping(Constants.ORGANIZATIONS_PATH)
 @RequiredArgsConstructor
 public class OrganizationController {
-    private final UserConfigService userConfigService;
-
     private final OrganizationService organizationService;
 
     private final CountryService countryService;
@@ -32,24 +30,22 @@ public class OrganizationController {
     public ResponseEntity<OrganizationDto> create(@AuthenticationPrincipal UserAuth userAuth,
                                                   @Valid @RequestBody OrganizationDto request) {
         var user = userAuth.getUser();
-        var maxOrganizations = userConfigService.userMaxOrganizations(user.getUid());
-        var organizationsCount = organizationService.countOrganizationsOfUser(user);
-        if (organizationsCount >= maxOrganizations) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "error.user_max_organizations_reached");
-        }
-        var code = organizationService.availableCode(user, request.getCode());
-        var organization = organizationService
-            .save(Organization.builder()
-                .userId(user.getUid())
-                .code(code)
+        try {
+            var organization = Organization.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .phone(request.getPhone())
                 .address(request.getAddress())
-                .build());
-        return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(OrganizationDto.from(organization));
+                .build();
+
+            organization = organizationService
+                .create(user, request.getCode(), organization);
+            return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(OrganizationDto.from(organization));
+        } catch (InvalidDataException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @PostMapping("/{code}")

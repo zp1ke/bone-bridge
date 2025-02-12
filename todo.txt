@@ -25,7 +25,7 @@
     - code
 
    X POST /organizations (create)
-   / PUT /organizations/CODE (update)
+   X PUT /organizations/CODE (update)
 
  - members
     - user
@@ -44,7 +44,7 @@
     - organization
 
    - GET /organizations/CODE/products (list)
-   - POST /organizations/CODE/products (create)
+   / POST /organizations/CODE/products (create)
    - PUT /organizations/CODE/products/productCODE (update)
    - DELETE /organizations/CODE/products/productCODE (hard || disable)
 
