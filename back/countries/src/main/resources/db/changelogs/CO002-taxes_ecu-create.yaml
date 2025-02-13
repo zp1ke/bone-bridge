@@ -1,0 +1,93 @@
+databaseChangeLog:
+  - changeSet:
+      id: CO002
+      author: zp1ke
+      changes:
+        - createTable:
+            tableName: taxes_ecu
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: code
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tax_type
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: percentage
+                  type: decimal(4, 4)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: enabled
+                  type: boolean
+                  constraints:
+                    nullable: true
+        - createIndex:
+            columns:
+              - column:
+                  name: tax_type
+              - column:
+                  name: code
+            indexName: taxes_ecu_unq_tax_type_code
+            tableName: taxes_ecu
+            unique: true
+        - createIndex:
+            columns:
+              - column:
+                  name: tax_type
+            indexName: taxes_ecu_idx_tax_type
+            tableName: taxes_ecu
+        - createIndex:
+            columns:
+              - column:
+                  name: tax_type
+              - column:
+                  name: percentage
+            indexName: taxes_ecu_idx_tax_type_percentage
+            tableName: taxes_ecu
+        - createIndex:
+            columns:
+              - column:
+                  name: enabled
+            indexName: taxes_ecu_idx_enabled
+            tableName: taxes_ecu
+        - createIndex:
+            columns:
+              - column:
+                  descending: true
+                  name: created_at
+            indexName: taxes_ecu_idx_created_at
+            tableName: taxes_ecu
+        - createIndex:
+            columns:
+              - column:
+                  descending: true
+                  name: updated_at
+            indexName: taxes_ecu_idx_updated_at
+            tableName: taxes_ecu

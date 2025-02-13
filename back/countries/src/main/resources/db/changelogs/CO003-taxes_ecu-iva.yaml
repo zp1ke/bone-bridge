@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: CO003
+      author: zp1ke
+      changes:
+        - insert:
+            tableName: taxes_ecu
+            columns:
+              - column:
+                  name: code
+                  value: 'iva_0'
+              - column:
+                  name: name
+                  value: 'IVA 0%'
+              - column:
+                  name: tax_type
+                  value: 'VAT'
+              - column:
+                  name: percentage
+                  value: 0.0
+              - column:
+                  name: enabled
+                  value: true
+              - column:
+                  name: created_at
+                  value: 'now()'
+              - column:
+                  name: updated_at
+                  value: 'now()'

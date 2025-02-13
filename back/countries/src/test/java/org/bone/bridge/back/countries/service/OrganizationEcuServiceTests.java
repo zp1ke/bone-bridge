@@ -8,6 +8,7 @@ import org.bone.bridge.back.countries.domain.OrganizationEcu;
 import org.bone.bridge.back.countries.model.ecu.LegalIdType;
 import org.bone.bridge.back.countries.model.ecu.OrganizationEcuData;
 import org.bone.bridge.back.countries.repo.OrganizationEcuRepo;
+import org.bone.bridge.back.countries.service.ecu.OrganizationEcuService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
