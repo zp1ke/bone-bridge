@@ -15,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping(Constants.ORGANIZATIONS_PATH + "/{organizationCode}" + Constants.PRODUCTS_PATH)
 @RequiredArgsConstructor
-public class ProductsController {
+public class ProductController {
     private final ProductService productService;
 
     @PostMapping

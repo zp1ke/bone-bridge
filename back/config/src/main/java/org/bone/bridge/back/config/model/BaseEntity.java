@@ -7,6 +7,7 @@ import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.Size;
 import java.time.OffsetDateTime;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.bone.bridge.back.utils.StringUtils;
@@ -18,6 +19,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Setter
 @MappedSuperclass
 @SuperBuilder(toBuilder = true)
+@NoArgsConstructor
 public abstract class BaseEntity extends CoreEntity {
     @Size(min = 3, max = 50)
     @Column(updatable = false, nullable = false, length = 50)

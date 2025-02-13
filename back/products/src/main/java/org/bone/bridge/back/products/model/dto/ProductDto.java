@@ -24,15 +24,15 @@ public class ProductDto {
     @Min(0)
     private BigDecimal unitPrice;
 
-    private Map<Country, List<ProductTaxDto>> taxes;
+    private Map<Country, List<TaxDto>> taxes;
 
     @NonNull
     public static ProductDto from(@NonNull Product product,
                                   @NonNull Map<Country, List<ProductTax>> taxes) {
-        var dtoTaxes = new HashMap<Country, List<ProductTaxDto>>(taxes.size());
+        var dtoTaxes = new HashMap<Country, List<TaxDto>>(taxes.size());
         for (var entry : taxes.entrySet()) {
             dtoTaxes.put(entry.getKey(), entry.getValue().stream()
-                .map(ProductTaxDto::from)
+                .map(TaxDto::from)
                 .toList());
         }
 

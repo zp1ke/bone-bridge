@@ -1,8 +1,10 @@
 package org.bone.bridge.back.countries.service.ecu;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.bone.bridge.back.config.model.TaxData;
 import org.bone.bridge.back.config.model.TaxType;
 import org.bone.bridge.back.countries.model.Country;
 import org.bone.bridge.back.countries.repo.TaxEcuRepo;
@@ -29,5 +31,13 @@ public class TaxEcuService implements TaxService {
             }
         }
         return false;
+    }
+
+    @Override
+    @NonNull
+    public List<TaxData> taxes(@NonNull TaxType taxType) {
+        return taxEcuRepo.findAllByTaxTypeAndEnabled(taxType, true)
+            .stream().map(tax -> (TaxData) tax)
+            .toList();
     }
 }
