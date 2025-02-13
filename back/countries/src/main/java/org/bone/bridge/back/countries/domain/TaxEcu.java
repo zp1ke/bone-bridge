@@ -17,6 +17,10 @@ import org.bone.bridge.back.config.model.TaxType;
 @Setter
 @SuperBuilder(toBuilder = true)
 public class TaxEcu extends BaseEntity {
+    @Size(min = 3, max = 50)
+    @Column(name = "sri_code", nullable = false)
+    private String sriCode;
+
     @Size(min = 3, max = 255)
     @Column(nullable = false)
     private String name;
