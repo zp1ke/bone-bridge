@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +22,7 @@ import org.bone.bridge.back.countries.model.ecu.OrganizationEcuData;
     @JsonSubTypes.Type(value = OrganizationEcuData.class, name = "ECU")
 })
 @NoArgsConstructor
+@EqualsAndHashCode
 public abstract class OrganizationData {
     @Size(min = 3, max = 255)
     private String name;
@@ -35,19 +36,4 @@ public abstract class OrganizationData {
 
     @Size(max = 500)
     private String address;
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        OrganizationData that = (OrganizationData) o;
-        return Objects.equals(name, that.name) &&
-            Objects.equals(email, that.email) &&
-            Objects.equals(phone, that.phone) &&
-            Objects.equals(address, that.address);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, email, phone, address);
-    }
 }

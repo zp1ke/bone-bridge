@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.bone.bridge.back.config.model.TaxData;
 import org.bone.bridge.back.config.model.TaxType;
@@ -13,6 +14,7 @@ import org.springframework.lang.NonNull;
 
 @Getter
 @Builder
+@EqualsAndHashCode
 public class TaxDto {
     @Size(max = 50)
     private String code;

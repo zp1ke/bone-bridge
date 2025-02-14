@@ -2,7 +2,7 @@ package org.bone.bridge.back.countries.model.ecu;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +15,7 @@ import org.springframework.lang.NonNull;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class OrganizationEcuData extends OrganizationData {
     @Size(min = 3, max = 50)
     private String legalId;
@@ -32,19 +33,5 @@ public class OrganizationEcuData extends OrganizationData {
             .phone(organization.getPhone())
             .address(organization.getAddress())
             .build();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        OrganizationEcuData that = (OrganizationEcuData) o;
-        return Objects.equals(legalId, that.legalId) &&
-            legalIdType == that.legalIdType;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), legalId, legalIdType);
     }
 }

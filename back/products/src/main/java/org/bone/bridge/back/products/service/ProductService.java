@@ -85,6 +85,7 @@ public class ProductService {
                 var countryTaxes = new ArrayList<ProductTax>(countryProductTaxes.size());
                 for (var tax : countryProductTaxes) {
                     var productTax = ProductTax.builder()
+                        .organizationCode(product.getOrganizationCode())
                         .product(product)
                         .country(country)
                         .taxType(tax.getTaxType())
