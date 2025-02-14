@@ -1,10 +1,10 @@
-package org.bone.bridge.back.config.api;
+package org.bone.bridge.back.products.api;
 
 import org.bone.bridge.back.config.Constants;
-import org.bone.bridge.back.config.TestcontainersConfig;
 import org.bone.bridge.back.config.model.TaxType;
 import org.bone.bridge.back.countries.model.Country;
 import org.bone.bridge.back.countries.repo.TaxEcuRepo;
+import org.bone.bridge.back.products.TestcontainersConfig;
 import org.bone.bridge.back.products.model.dto.TaxDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Import(TestcontainersConfig.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TaxControllerTests {
+public class TaxControllerIntegrationTests {
     @Autowired
     TaxEcuRepo taxEcuRepo;
 

@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.bone.bridge.back.config.model.BaseEntity;
@@ -16,6 +17,7 @@ import org.bone.bridge.back.config.model.BaseEntity;
 @Getter
 @Setter
 @SuperBuilder(toBuilder = true)
+@NoArgsConstructor
 public class Product extends BaseEntity {
     @Column(name = "organization_code", nullable = false, length = 50)
     private String organizationCode;

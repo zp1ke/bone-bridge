@@ -6,6 +6,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.bone.bridge.back.config.model.BaseEntity;
@@ -15,6 +16,7 @@ import org.bone.bridge.back.config.model.BaseEntity;
 @Getter
 @Setter
 @SuperBuilder(toBuilder = true)
+@NoArgsConstructor
 public class Organization extends BaseEntity {
     @Size(min = 3, max = 255)
     @Column(nullable = false)

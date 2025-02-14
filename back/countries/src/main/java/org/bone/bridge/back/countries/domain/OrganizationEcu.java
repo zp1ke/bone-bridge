@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.bone.bridge.back.config.model.BaseEntity;
@@ -15,6 +16,7 @@ import org.bone.bridge.back.countries.model.ecu.LegalIdType;
 @Getter
 @Setter
 @SuperBuilder(toBuilder = true)
+@NoArgsConstructor
 public class OrganizationEcu extends BaseEntity {
     @Size(min = 3, max = 50)
     @Column(name = "organization_code", nullable = false, length = 50, unique = true)

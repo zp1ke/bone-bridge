@@ -1,4 +1,4 @@
-package org.bone.bridge.back.config;
+package org.bone.bridge.back.products;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

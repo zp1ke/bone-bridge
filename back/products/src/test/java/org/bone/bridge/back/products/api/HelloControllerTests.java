@@ -1,7 +1,6 @@
-package org.bone.bridge.back.config.api;
+package org.bone.bridge.back.products.api;
 
 import org.bone.bridge.back.config.Constants;
-import org.bone.bridge.back.products.api.HelloController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

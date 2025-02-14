@@ -1,4 +1,4 @@
-package org.bone.bridge.back.config;
+package org.bone.bridge.back.products;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
