@@ -9,9 +9,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(HelloController.class)
-@ContextConfiguration(classes = HelloController.class)
-public class HelloControllerTests {
+@WebMvcTest(ProductHelloController.class)
+@ContextConfiguration(classes = ProductHelloController.class)
+public class ProductHelloControllerTests {
     @Autowired
     private MockMvc mockMvc;
 

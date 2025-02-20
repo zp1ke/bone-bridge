@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(Constants.CONTACTS_PATH)
 @RequiredArgsConstructor
-public class HelloController {
+public class ContactHelloController {
     @Nullable
     private final BuildProperties buildProperties;
 

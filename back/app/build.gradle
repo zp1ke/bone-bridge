@@ -14,6 +14,7 @@ dependencies {
   implementation project(':config')
   implementation project(':countries')
   implementation project(':products')
+  implementation project(':contacts')
   implementation libs.spring.validator
   implementation libs.liquibase
   implementation libs.preliquibase
