@@ -1,0 +1,99 @@
+databaseChangeLog:
+  - changeSet:
+      id: CO004
+      author: zp1ke
+      changes:
+        - createTable:
+            tableName: contacts_ecu
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: code
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: contact_code
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: legal_id
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: legal_id_type
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: address
+                  type: varchar(500)
+                  constraints:
+                    nullable: true
+        - createIndex:
+            columns:
+              - column:
+                  name: contact_code
+            indexName: contacts_ecu_unq_contact_code
+            tableName: contacts_ecu
+            unique: true
+        - createIndex:
+            columns:
+              - column:
+                  name: legal_id
+            indexName: contacts_ecu_unq_legal_id
+            tableName: contacts_ecu
+            unique: true
+        - createIndex:
+            columns:
+              - column:
+                  name: email
+            indexName: contacts_ecu_idx_email
+            tableName: contacts_ecu
+        - createIndex:
+            columns:
+              - column:
+                  descending: true
+                  name: created_at
+            indexName: contacts_ecu_idx_created_at
+            tableName: contacts_ecu
+        - createIndex:
+            columns:
+              - column:
+                  descending: true
+                  name: updated_at
+            indexName: contacts_ecu_idx_updated_at
+            tableName: contacts_ecu
