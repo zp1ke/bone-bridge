@@ -1,0 +1,113 @@
+databaseChangeLog:
+  - changeSet:
+      id: S001
+      author: zp1ke
+      changes:
+        - createTable:
+            tableName: estimates
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: code
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: organization_code
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sequence_number
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: datetime
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: organization
+                  type: jsonb
+                  constraints:
+                    nullable: false
+              - column:
+                  name: contact
+                  type: jsonb
+                  constraints:
+                    nullable: false
+              - column:
+                  name: discount
+                  type: decimal(10, 4)
+        - createIndex:
+            columns:
+              - column:
+                  name: code
+              - column:
+                  name: organization_code
+            indexName: estimates_unq_code_organization_code
+            tableName: estimates
+            unique: true
+        - createIndex:
+            columns:
+              - column:
+                  name: sequence_number
+              - column:
+                  name: organization_code
+            indexName: estimates_unq_sequence_number_organization_code
+            tableName: estimates
+            unique: true
+        - createIndex:
+            columns:
+              - column:
+                  name: code
+            indexName: estimates_idx_code
+            tableName: estimates
+        - createIndex:
+            columns:
+              - column:
+                  name: organization_code
+            indexName: estimates_idx_organization_code
+            tableName: estimates
+        - createIndex:
+            columns:
+              - column:
+                  name: datetime
+            indexName: estimates_idx_datetime
+            tableName: estimates
+        - createIndex:
+            columns:
+              - column:
+                  descending: true
+                  name: created_at
+            indexName: estimates_idx_created_at
+            tableName: estimates
+        - createIndex:
+            columns:
+              - column:
+                  descending: true
+                  name: updated_at
+            indexName: estimates_idx_updated_at
+            tableName: estimates

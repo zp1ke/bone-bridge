@@ -48,7 +48,7 @@
    X PUT /organizations/CODE/products/productCODE (update)
    - DELETE /organizations/CODE/products/productCODE (hard || disable)
 
-- contact module
+X contact module
  - contacts
     - organization
 

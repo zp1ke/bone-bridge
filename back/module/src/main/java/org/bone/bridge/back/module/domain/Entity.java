@@ -1,4 +1,4 @@
-package org.bone.bridge.back.module.domain;
+package org.bone.bridge.back.sales.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
