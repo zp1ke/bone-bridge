@@ -1,11 +1,6 @@
 package org.bone.bridge.back.contacts.api;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 import org.bone.bridge.back.config.Constants;
-import org.bone.bridge.back.config.model.TaxType;
-import org.bone.bridge.back.countries.model.Country;
 import org.bone.bridge.back.contacts.TestcontainersConfig;
 import org.bone.bridge.back.contacts.model.dto.ContactDto;
 import org.bone.bridge.back.contacts.repo.ContactRepo;
@@ -15,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
-import static org.bone.bridge.back.utils.test.Assertions.assertBigDecimalEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Import(TestcontainersConfig.class)

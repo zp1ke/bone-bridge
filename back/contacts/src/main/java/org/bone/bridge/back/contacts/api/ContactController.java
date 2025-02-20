@@ -7,6 +7,7 @@ import org.bone.bridge.back.config.error.InvalidDataException;
 import org.bone.bridge.back.contacts.domain.Contact;
 import org.bone.bridge.back.contacts.model.dto.ContactDto;
 import org.bone.bridge.back.contacts.service.ContactService;
+import org.bone.bridge.back.countries.service.CountryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,8 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class ContactController {
     private final ContactService contactService;
+
+    private final CountryService countryService;
 
     @PostMapping
     public ResponseEntity<ContactDto> create(@PathVariable String organizationCode,
@@ -53,9 +56,14 @@ public class ContactController {
                 .build();
             contact = contactService.save(contact);
 
+            var countryData = request.getCountryData();
+            if (countryData != null) {
+                countryData = countryService.saveContact(contact.getCode(), countryData);
+            }
+
             return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(ContactDto.from(contact));
+                .body(ContactDto.from(contact, countryData));
         } catch (InvalidDataException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
