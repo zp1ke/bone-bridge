@@ -38,6 +38,11 @@ databaseChangeLog:
                   type: smallint
                   constraints:
                     nullable: false
+              - column:
+                  name: max_contacts
+                  type: smallint
+                  constraints:
+                    nullable: false
         - createIndex:
             columns:
               - column:

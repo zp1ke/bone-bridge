@@ -8,7 +8,9 @@ public interface Constants {
     String ORGANIZATIONS_PATH = "/organizations";
     String PRODUCTS_PATH = "/products";
     String TAXES_PATH = "/taxes";
+    String CONTACTS_PATH = "/contacts";
 
     short USER_DEFAULT_MAX_ORGANIZATIONS = 1;
     short ORGANIZATION_DEFAULT_MAX_PRODUCTS = 10;
+    short ORGANIZATION_DEFAULT_MAX_CONTACTS = 10;
 }

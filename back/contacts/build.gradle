@@ -1,0 +1,26 @@
+plugins {
+  id 'back.java-spring'
+}
+
+dependencies {
+  annotationProcessor libs.spring.config.processor
+  annotationProcessor libs.lombok
+
+  compileOnly libs.lombok
+
+  implementation project(':utils')
+  implementation project(':config')
+  implementation project(':countries')
+  implementation libs.spring.validator
+  implementation libs.liquibase
+  implementation libs.spring.jpa
+  implementation libs.spring.web
+
+  testImplementation libs.spring.test
+  testImplementation libs.spring.testcontainers
+  testImplementation libs.testcontainers.junit
+  testImplementation libs.testcontainers.postgresql
+
+  testRuntimeOnly libs.junit.platform.launcher
+  testRuntimeOnly libs.postgresql
+}

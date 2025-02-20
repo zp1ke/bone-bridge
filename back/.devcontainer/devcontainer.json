@@ -1,0 +1,34 @@
+// https://github.com/devcontainers/templates/tree/main/src/java
+{
+  "name": "JDK 21",
+  "image": "mcr.microsoft.com/devcontainers/java:1-21-bullseye",
+
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "none",
+      "installMaven": "false",
+      "installGradle": "false"
+    }
+  },
+
+  "forwardPorts": [
+    8080
+  ],
+
+  "postCreateCommand": "java -version",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "Oracle.oracle-java",
+        "vmware.vscode-spring-boot",
+        "vscjava.vscode-gradle",
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-spring-boot-dashboard"
+      ]
+    }
+  }
+}

@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: CO001
+      id: CN001
       author: zp1ke
       changes:
         - createTable:
-            tableName: organizations_ecu
+            tableName: contacts
             columns:
               - column:
                   name: id
@@ -43,57 +43,44 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     nullable: false
+        - createIndex:
+            columns:
               - column:
-                  name: legal_id
-                  type: varchar(50)
-                  constraints:
-                    nullable: false
+                  name: code
               - column:
-                  name: legal_id_type
-                  type: varchar(50)
-                  constraints:
-                    nullable: false
+                  name: organization_code
+            indexName: contacts_unq_code_organization_code
+            tableName: contacts
+            unique: true
+        - createIndex:
+            columns:
               - column:
-                  name: phone
-                  type: varchar(100)
-                  constraints:
-                    nullable: true
-              - column:
-                  name: address
-                  type: varchar(500)
-                  constraints:
-                    nullable: true
+                  name: code
+            indexName: contacts_idx_code
+            tableName: contacts
         - createIndex:
             columns:
               - column:
                   name: organization_code
-            indexName: organizations_ecu_unq_organization_code
-            tableName: organizations_ecu
-            unique: true
-        - createIndex:
-            columns:
-              - column:
-                  name: legal_id
-            indexName: organizations_ecu_unq_legal_id
-            tableName: organizations_ecu
-            unique: true
+            indexName: contacts_idx_organization_code
+            tableName: contacts
         - createIndex:
             columns:
               - column:
                   name: email
-            indexName: organizations_ecu_idx_email
-            tableName: organizations_ecu
+            indexName: contacts_idx_email
+            tableName: contacts
         - createIndex:
             columns:
               - column:
                   descending: true
                   name: created_at
-            indexName: organizations_ecu_idx_created_at
-            tableName: organizations_ecu
+            indexName: contacts_idx_created_at
+            tableName: contacts
         - createIndex:
             columns:
               - column:
                   descending: true
                   name: updated_at
-            indexName: organizations_ecu_idx_updated_at
-            tableName: organizations_ecu
+            indexName: contacts_idx_updated_at
+            tableName: contacts

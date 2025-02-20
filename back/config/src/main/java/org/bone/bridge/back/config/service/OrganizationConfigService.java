@@ -17,6 +17,11 @@ public class OrganizationConfigService {
         return userConfig.getMaxProducts();
     }
 
+    public short organizationMaxContacts(@NonNull String organizationCode) {
+        var userConfig = organizationConfig(organizationCode);
+        return userConfig.getMaxContacts();
+    }
+
     @NonNull
     private OrganizationConfig organizationConfig(@NonNull String organizationCode) {
         return organizationConfigRepo
@@ -25,6 +30,7 @@ public class OrganizationConfigService {
                 OrganizationConfig.builder()
                     .organizationCode(organizationCode)
                     .maxProducts(Constants.ORGANIZATION_DEFAULT_MAX_PRODUCTS)
+                    .maxContacts(Constants.ORGANIZATION_DEFAULT_MAX_CONTACTS)
                     .build()));
     }
 }
