@@ -6,6 +6,28 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: bone-bridge
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U postgres -d bone-bridge'" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
+
+  app:
+    image: sp1ke.dev/bone-bridge-app:0.0.1
+    profiles:
+      - app
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      PG_HOST: postgres
+      PG_DB_NAME: bone-bridge
+      PG_USERNAME: postgres
+      PG_PASSWORD: postgres
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy

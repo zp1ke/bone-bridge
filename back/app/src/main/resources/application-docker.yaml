@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/bone-bridge
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://${PG_HOST}:${DB_PORT:5432}/${PG_DB_NAME}
+    username: ${PG_USERNAME}
+    password: ${PG_PASSWORD}
 
 logging:
   level:

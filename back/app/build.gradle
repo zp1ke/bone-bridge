@@ -40,3 +40,9 @@ springBoot {
     properties {}
   }
 }
+
+tasks.named("bootBuildImage") {
+  imageName = "sp1ke.dev/bone-bridge-app:${project.version}"
+  environment["SPRING_PROFILES_ACTIVE"] = "docker"
+  environment["SERVER_PORT"] = "8080"
+}
