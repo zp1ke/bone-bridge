@@ -1,0 +1,48 @@
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bone-bridge-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bone-bridge-app
+  template:
+    metadata:
+      labels:
+        app: bone-bridge-app
+    spec:
+      containers:
+        - name: bone-bridge-app
+          image: sp1ke.dev/bone-bridge-app:0.0.1
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/bone-bridge
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: postgres
+            - name: SERVER_PORT
+              value: 8080
+            - name: SERVER_SERVLET_CONTEXT_PATH
+              value: /api
+          imagePullPolicy: Always
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: bone-bridge-app
+spec:
+  selector:
+    app: bone-bridge-app
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer

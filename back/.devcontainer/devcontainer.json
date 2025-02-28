@@ -22,6 +22,7 @@
         "EditorConfig.EditorConfig",
         "GitHub.copilot",
         "GitHub.copilot-chat",
+        "ms-azuretools.vscode-docker",
         "Oracle.oracle-java",
         "vmware.vscode-spring-boot",
         "vscjava.vscode-gradle",
