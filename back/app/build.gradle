@@ -41,7 +41,3 @@ springBoot {
     properties {}
   }
 }
-
-tasks.named("bootBuildImage") {
-  imageName = "sp1ke.dev/bone-bridge-app:${project.version}"
-}

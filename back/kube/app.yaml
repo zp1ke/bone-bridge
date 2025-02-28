@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: bone-bridge-app
-          image: sp1ke.dev/bone-bridge-app:0.0.1
+          image: sp1ke.dev/bone-bridge-app
           ports:
             - containerPort: 8080
           env:

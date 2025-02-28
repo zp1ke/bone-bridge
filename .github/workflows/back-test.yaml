@@ -1,6 +1,7 @@
-name: Test
+name: Back Test
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - back/**

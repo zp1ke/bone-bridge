@@ -17,7 +17,7 @@ services:
       start_period: 5s
 
   app:
-    image: sp1ke.dev/bone-bridge-app:0.0.1
+    image: sp1ke.dev/bone-bridge-app:latest
     profiles:
       - app
     environment:
