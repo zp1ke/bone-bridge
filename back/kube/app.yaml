@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: bone-bridge-app
-          image: zp1ke/bone-bridge-app
+          image: ghcr.io/zp1ke/bone-bridge-app:latest
           ports:
             - containerPort: 8080
           env:

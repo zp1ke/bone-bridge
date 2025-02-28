@@ -17,7 +17,7 @@ services:
       start_period: 5s
 
   app:
-    image: zp1ke/bone-bridge-app:latest
+    image: ghcr.io/zp1ke/bone-bridge-app:latest
     profiles:
       - app
     environment:
