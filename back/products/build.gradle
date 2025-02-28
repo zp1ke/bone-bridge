@@ -16,6 +16,7 @@ dependencies {
   implementation libs.spring.validator
   implementation libs.spring.web
 
+  testImplementation libs.karate.junit
   testImplementation libs.spring.test
   testImplementation libs.spring.testcontainers
   testImplementation libs.testcontainers.junit

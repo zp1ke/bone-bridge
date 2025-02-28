@@ -9,7 +9,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 @Service
-@ConditionalOnProperty(value = "user-handler", havingValue = "dumb", matchIfMissing = true)
+@ConditionalOnProperty(value = "app.users.handler", havingValue = "dumb", matchIfMissing = true)
 public class DumbUserHandler implements UserHandler {
     @Override
     @Nullable
