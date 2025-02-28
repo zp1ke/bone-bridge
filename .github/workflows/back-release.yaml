@@ -50,7 +50,7 @@ jobs:
         id: push
         uses: docker/build-push-action@v6
         with:
-          context: "{{defaultContext}}:back/app"
+          context: "./back/app"
           push: true
           tags: ${{ env.IMAGE_NAME}}:latest,${{ env.IMAGE_NAME}}:${{ env.VERSION }}
 
