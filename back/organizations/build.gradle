@@ -13,18 +13,11 @@ dependencies {
   implementation project(':utils')
   implementation project(':config')
   implementation project(':countries')
-  implementation project(':organizations')
-  implementation project(':products')
-  implementation project(':contacts')
   implementation libs.liquibase
-  implementation libs.preliquibase
-  implementation libs.spring.actuator
   implementation libs.spring.jpa
   implementation libs.spring.security
   implementation libs.spring.validator
   implementation libs.spring.web
-
-  runtimeOnly libs.postgresql
 
   testImplementation libs.spring.security.test
   testImplementation libs.spring.test
@@ -34,14 +27,4 @@ dependencies {
 
   testRuntimeOnly libs.junit.platform.launcher
   testRuntimeOnly libs.postgresql
-}
-
-springBoot {
-  buildInfo {
-    properties {}
-  }
-}
-
-tasks.named("bootBuildImage") {
-  imageName = "sp1ke.dev/bone-bridge-app:${project.version}"
 }

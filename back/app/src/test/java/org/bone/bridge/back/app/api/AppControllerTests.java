@@ -1,9 +1,9 @@
 package org.bone.bridge.back.app.api;
 
 import org.bone.bridge.back.app.config.Security;
-import org.bone.bridge.back.app.service.OrganizationService;
-import org.bone.bridge.back.app.service.UserService;
 import org.bone.bridge.back.config.Constants;
+import org.bone.bridge.back.organizations.service.OrganizationService;
+import org.bone.bridge.back.organizations.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

@@ -1,9 +1,9 @@
 package org.bone.bridge.back.app.config;
 
 import org.bone.bridge.back.app.api.AuthFilter;
-import org.bone.bridge.back.app.service.OrganizationService;
-import org.bone.bridge.back.app.service.UserService;
 import org.bone.bridge.back.config.Constants;
+import org.bone.bridge.back.organizations.service.OrganizationService;
+import org.bone.bridge.back.organizations.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

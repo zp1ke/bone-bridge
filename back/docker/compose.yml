@@ -22,10 +22,11 @@ services:
       - app
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      PG_HOST: postgres
-      PG_DB_NAME: bone-bridge
-      PG_USERNAME: postgres
-      PG_PASSWORD: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/bone-bridge
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SERVER_PORT: 8080
+      SERVER_SERVLET_CONTEXT_PATH: /api
     ports:
       - "8080:8080"
     depends_on:

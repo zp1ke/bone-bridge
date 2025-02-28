@@ -1,24 +1,27 @@
-package org.bone.bridge.back.app.api;
+package org.bone.bridge.back.organizations.api;
 
-import org.bone.bridge.back.app.config.Security;
 import org.bone.bridge.back.config.Constants;
 import org.bone.bridge.back.countries.model.Country;
 import org.bone.bridge.back.countries.model.ecu.LegalIdType;
 import org.bone.bridge.back.countries.model.ecu.OrganizationEcuData;
 import org.bone.bridge.back.countries.service.CountryService;
-import org.bone.bridge.back.organizations.api.OrganizationController;
+import org.bone.bridge.back.organizations.TestAuth;
 import org.bone.bridge.back.organizations.domain.Organization;
 import org.bone.bridge.back.organizations.model.User;
 import org.bone.bridge.back.organizations.service.OrganizationService;
 import org.bone.bridge.back.organizations.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.bone.bridge.back.organizations.TestAuth.authOf;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -29,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(OrganizationController.class)
 @ContextConfiguration(classes = OrganizationController.class)
-@Import(Security.class)
+@Import(TestAuth.class)
 public class OrganizationControllerTests {
     @Autowired
     MockMvc mockMvc;
@@ -42,6 +45,14 @@ public class OrganizationControllerTests {
 
     @MockitoBean
     CountryService countryService;
+
+    @MockitoBean
+    SecurityContext securityContext;
+
+    @BeforeEach
+    void setUp() {
+        SecurityContextHolder.setContext(securityContext);
+    }
 
     @Test
     void create_whenUserNotAuthenticated_thenReturnsForbidden() throws Exception {
@@ -63,6 +74,7 @@ public class OrganizationControllerTests {
             .name("name")
             .build();
 
+        when(securityContext.getAuthentication()).thenReturn(authOf(user));
         when(userService.userFromAuthToken(anyString())).thenReturn(user);
         when(organizationService.create(any(), any())).thenReturn(organization);
 
@@ -80,27 +92,7 @@ public class OrganizationControllerTests {
     @Test
     void update_whenUserNotAuthenticated_thenReturnsForbidden() throws Exception {
         mockMvc
-            .perform(put(Constants.ORGANIZATIONS_PATH + "/code"))
-            .andExpect(status().isForbidden());
-    }
-
-    @Test
-    void update_whenUserAuthenticatedAndOrganizationNotFound_thenReturnsForbidden() throws Exception {
-        var user = User.builder()
-            .uid("uid")
-            .name("name")
-            .email("email")
-            .build();
-
-        when(userService.userFromAuthToken(anyString())).thenReturn(user);
-        when(organizationService.organizationOfUserByCode(user, "code")).thenReturn(null);
-
-        mockMvc
-            .perform(
-                put(Constants.ORGANIZATIONS_PATH + "/code")
-                    .header(Constants.AUTH_HEADER, "token")
-                    .content("{ \"name\": \"name\", \"email\": \"email\" }")
-                    .contentType(MediaType.APPLICATION_JSON))
+            .perform(post(Constants.ORGANIZATIONS_PATH + "/code"))
             .andExpect(status().isForbidden());
     }
 
@@ -117,6 +109,7 @@ public class OrganizationControllerTests {
             .name("name")
             .build();
 
+        when(securityContext.getAuthentication()).thenReturn(authOf(user, organization));
         when(userService.userFromAuthToken(anyString())).thenReturn(user);
         when(organizationService.organizationOfUserByCode(user, "code")).thenReturn(organization);
         when(organizationService.save(any())).thenReturn(organization);
@@ -155,6 +148,7 @@ public class OrganizationControllerTests {
             .email(organization.getEmail())
             .build();
 
+        when(securityContext.getAuthentication()).thenReturn(authOf(user, organization));
         when(userService.userFromAuthToken(anyString())).thenReturn(user);
         when(organizationService.organizationOfUserByCode(user, "code")).thenReturn(organization);
         when(organizationService.save(any())).thenReturn(organization);

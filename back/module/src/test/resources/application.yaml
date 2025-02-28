@@ -1,4 +1,0 @@
-spring:
-  liquibase:
-    change-log: classpath:db/MODULE-changelog.yaml
-    enabled: true

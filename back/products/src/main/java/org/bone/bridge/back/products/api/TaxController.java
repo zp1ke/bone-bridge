@@ -23,7 +23,7 @@ public class TaxController {
     public ResponseEntity<List<TaxDto>> taxes(@PathVariable Country country,
                                               @PathVariable TaxType taxType) {
         var taxes = countryService.taxes(country, taxType).stream()
-            .map(tax -> TaxDto.from(tax))
+            .map(TaxDto::from)
             .toList();
         return ResponseEntity.ok(taxes);
     }
