@@ -62,12 +62,11 @@ jobs:
           push-to-registry: true
 
       - name: Upload Artifacts
-        working-directory: ./back
         uses: actions/upload-artifact@v4
         with:
           name: Releases
           path: |
-            app/build/libs/app-*.jar
+            back/app/build/libs/app-*.jar
 
       - name: Check if Version Tag exists
         run: |
@@ -86,5 +85,5 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "app/build/libs/app-*.jar"
+          artifacts: "back/app/build/libs/app-*.jar"
           tag: ${{ env.VERSION }}
