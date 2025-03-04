@@ -10,31 +10,15 @@ data:
   POSTGRES_PASSWORD: postgres
 ---
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: postgres-volume
-  labels:
-    type: local
-    app: postgres
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: /data/postgres
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgres-volume-claim
   labels:
     app: postgres
 spec:
-  storageClassName: manual
+  storageClassName: local-path
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
@@ -77,7 +61,7 @@ metadata:
   labels:
     app: postgres
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - port: 5432
   selector:
